@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Spotify matches snapshot when valid URL is provided 1`] = `
+<DocumentFragment>
+  <div
+    class="css-ery9uj"
+  >
+    <iframe
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      height="152"
+      loading="lazy"
+      src="https://open.spotify.com/embed/track/123"
+      style="display: block;"
+      title="Spotify Embed"
+      width="100%"
+    />
+  </div>
+</DocumentFragment>
+`;

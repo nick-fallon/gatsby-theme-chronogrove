@@ -1,0 +1,1122 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`DiscogsModal cover image handling handles release with missing cover image 1`] = `
+<DocumentFragment>
+  <div
+    aria-labelledby="modal-title"
+    aria-modal="true"
+    class="css-15rnqx1"
+    role="dialog"
+  >
+    <button
+      aria-label="Close modal"
+      class="css-ugcw57"
+    />
+    <div
+      class="css-5vags0"
+      tabindex="-1"
+    >
+      <button
+        aria-label="Close modal"
+        class="css-1i54b0d"
+      >
+        <svg
+          aria-hidden="true"
+          class="svg-inline--fa fa-xmark"
+          data-icon="xmark"
+          data-prefix="fas"
+          role="img"
+          viewBox="0 0 384 512"
+        >
+          <path
+            d="M55.1 73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L147.2 256 9.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192.5 301.3 329.9 438.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.8 256 375.1 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192.5 210.7 55.1 73.4z"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+      <div
+        class="css-1x44wr8"
+      >
+        <header
+          class="css-14paj2s"
+        >
+          <h2
+            class="css-1tz0sv7"
+            id="modal-title"
+          >
+            Test Album
+          </h2>
+          <p
+            class="css-1idv3d9"
+          >
+            <span
+              class="css-rv0fol"
+            >
+              Test Artist
+            </span>
+            <span
+              aria-hidden="true"
+              class="css-72cs2q"
+            >
+              ·
+            </span>
+            <span
+              class="css-1ackbda"
+            >
+              2023
+            </span>
+          </p>
+        </header>
+        <div
+          class="css-v8sjw2"
+        >
+          <div
+            class="css-byjint"
+          >
+            <div
+              class="css-1vw28dv"
+            >
+              No Image Available
+            </div>
+          </div>
+          <div
+            class="css-18avisv"
+          >
+            <div>
+              <h4
+                class="css-1vvxkz4"
+              >
+                Added to collection
+              </h4>
+              <p
+                class="css-16r4ony"
+              >
+                Jun 15, 2024
+              </p>
+            </div>
+            <div>
+              <h4
+                class="css-1vvxkz4"
+              >
+                Genres
+              </h4>
+              <p
+                class="css-16r4ony"
+              >
+                Rock, Alternative
+              </p>
+            </div>
+            <div>
+              <h4
+                class="css-1vvxkz4"
+              >
+                Styles
+              </h4>
+              <p
+                class="css-16r4ony"
+              >
+                Indie Rock, Alternative Rock
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="css-13u82un"
+        >
+          <h3
+            class="css-1pfzqjk"
+          >
+            Tracklist
+          </h3>
+          <div
+            class="css-1okk1ph"
+          >
+            <div
+              class="css-1v6nlqp"
+            >
+              <div>
+                Position
+              </div>
+              <div
+                class="css-fxq50d"
+              >
+                Title
+              </div>
+              <div>
+                Duration
+              </div>
+            </div>
+            <div
+              class="css-1b3ioh1"
+            >
+              <div
+                class="css-uz5es8"
+              >
+                A1
+              </div>
+              <div
+                class="css-rlb00z"
+              >
+                Pardon Me Sir
+              </div>
+              <div
+                class="css-1ozry76"
+              >
+                3:37
+              </div>
+            </div>
+            <div
+              class="css-1b3ioh1"
+            >
+              <div
+                class="css-uz5es8"
+              >
+                A2
+              </div>
+              <div
+                class="css-rlb00z"
+              >
+                High Time We Went
+              </div>
+              <div
+                class="css-1ozry76"
+              >
+                4:25
+              </div>
+            </div>
+            <div
+              class="css-1b3ioh1"
+            >
+              <div
+                class="css-uz5es8"
+              >
+                B1
+              </div>
+              <div
+                class="css-rlb00z"
+              >
+                Midnight Rider
+              </div>
+              <div
+                class="css-1ozry76"
+              >
+                4:00
+              </div>
+            </div>
+            <div
+              class="css-301xjt"
+            >
+              <div
+                class="css-uz5es8"
+              >
+                B2
+              </div>
+              <div
+                class="css-rlb00z"
+              >
+                Do Right Woman
+              </div>
+              <div
+                class="css-1ozry76"
+              >
+                7:00
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="css-y1fjpx"
+        >
+          <button
+            class="css-60qz6r"
+          >
+            Close
+          </button>
+          <a
+            class="css-1o8r63u"
+            href="https://www.discogs.com/release/12345-Test-Artist-Test-Album"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <svg
+              aria-hidden="true"
+              class="svg-inline--fa fa-up-right-from-square"
+              data-icon="up-right-from-square"
+              data-prefix="fas"
+              role="img"
+              viewBox="0 0 512 512"
+            >
+              <path
+                d="M290.4 19.8C295.4 7.8 307.1 0 320 0L480 0c17.7 0 32 14.3 32 32l0 160c0 12.9-7.8 24.6-19.8 29.6s-25.7 2.2-34.9-6.9L400 157.3 246.6 310.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L354.7 112 297.4 54.6c-9.2-9.2-11.9-22.9-6.9-34.9zM0 176c0-44.2 35.8-80 80-80l80 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-80 0c-8.8 0-16 7.2-16 16l0 256c0 8.8 7.2 16 16 16l256 0c8.8 0 16-7.2 16-16l0-80c0-17.7 14.3-32 32-32s32 14.3 32 32l0 80c0 44.2-35.8 80-80 80L80 512c-44.2 0-80-35.8-80-80L0 176z"
+                fill="currentColor"
+              />
+            </svg>
+            View on Discogs
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`DiscogsModal dark mode renders with dark mode styling 1`] = `
+<DocumentFragment>
+  <div
+    aria-labelledby="modal-title"
+    aria-modal="true"
+    class="css-15rnqx1"
+    role="dialog"
+  >
+    <button
+      aria-label="Close modal"
+      class="css-ugcw57"
+    />
+    <div
+      class="css-1pu1w58"
+      tabindex="-1"
+    >
+      <button
+        aria-label="Close modal"
+        class="css-1fux1zn"
+      >
+        <svg
+          aria-hidden="true"
+          class="svg-inline--fa fa-xmark"
+          data-icon="xmark"
+          data-prefix="fas"
+          role="img"
+          viewBox="0 0 384 512"
+        >
+          <path
+            d="M55.1 73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L147.2 256 9.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192.5 301.3 329.9 438.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.8 256 375.1 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192.5 210.7 55.1 73.4z"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+      <div
+        class="css-1x44wr8"
+      >
+        <header
+          class="css-17b0b2t"
+        >
+          <h2
+            class="css-1tz0sv7"
+            id="modal-title"
+          >
+            Test Album
+          </h2>
+          <p
+            class="css-d9thsp"
+          >
+            <span
+              class="css-dxpzgj"
+            >
+              Test Artist
+            </span>
+            <span
+              aria-hidden="true"
+              class="css-1ekygyk"
+            >
+              ·
+            </span>
+            <span
+              class="css-1ackbda"
+            >
+              2023
+            </span>
+          </p>
+        </header>
+        <div
+          class="css-v8sjw2"
+        >
+          <div
+            class="css-byjint"
+          >
+            <div
+              class="show-loading-animation css-54je37"
+            >
+              <div
+                class="rect-shape"
+                style="background-color: rgb(58, 58, 74); width: 100%; height: 100%; margin-right: 10px; border-radius: 8px;"
+              />
+            </div>
+            <img
+              alt="Test Album album cover"
+              class="css-1f960d3"
+              src="https://example.com/cover.jpg"
+            />
+          </div>
+          <div
+            class="css-18avisv"
+          >
+            <div>
+              <h4
+                class="css-tq71p3"
+              >
+                Added to collection
+              </h4>
+              <p
+                class="css-16r4ony"
+              >
+                Jun 15, 2024
+              </p>
+            </div>
+            <div>
+              <h4
+                class="css-tq71p3"
+              >
+                Genres
+              </h4>
+              <p
+                class="css-16r4ony"
+              >
+                Rock, Alternative
+              </p>
+            </div>
+            <div>
+              <h4
+                class="css-tq71p3"
+              >
+                Styles
+              </h4>
+              <p
+                class="css-16r4ony"
+              >
+                Indie Rock, Alternative Rock
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="css-13u82un"
+        >
+          <h3
+            class="css-1pfzqjk"
+          >
+            Tracklist
+          </h3>
+          <div
+            class="css-18jtjg0"
+          >
+            <div
+              class="css-1ftnur6"
+            >
+              <div>
+                Position
+              </div>
+              <div
+                class="css-fxq50d"
+              >
+                Title
+              </div>
+              <div>
+                Duration
+              </div>
+            </div>
+            <div
+              class="css-rmdist"
+            >
+              <div
+                class="css-x52y0a"
+              >
+                A1
+              </div>
+              <div
+                class="css-1rgb4g5"
+              >
+                Pardon Me Sir
+              </div>
+              <div
+                class="css-gqkw6k"
+              >
+                3:37
+              </div>
+            </div>
+            <div
+              class="css-rmdist"
+            >
+              <div
+                class="css-x52y0a"
+              >
+                A2
+              </div>
+              <div
+                class="css-1rgb4g5"
+              >
+                High Time We Went
+              </div>
+              <div
+                class="css-gqkw6k"
+              >
+                4:25
+              </div>
+            </div>
+            <div
+              class="css-rmdist"
+            >
+              <div
+                class="css-x52y0a"
+              >
+                B1
+              </div>
+              <div
+                class="css-1rgb4g5"
+              >
+                Midnight Rider
+              </div>
+              <div
+                class="css-gqkw6k"
+              >
+                4:00
+              </div>
+            </div>
+            <div
+              class="css-19vbvkk"
+            >
+              <div
+                class="css-x52y0a"
+              >
+                B2
+              </div>
+              <div
+                class="css-1rgb4g5"
+              >
+                Do Right Woman
+              </div>
+              <div
+                class="css-gqkw6k"
+              >
+                7:00
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="css-p1jsrd"
+        >
+          <button
+            class="css-sgh1bq"
+          >
+            Close
+          </button>
+          <a
+            class="css-1o8r63u"
+            href="https://www.discogs.com/release/12345-Test-Artist-Test-Album"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <svg
+              aria-hidden="true"
+              class="svg-inline--fa fa-up-right-from-square"
+              data-icon="up-right-from-square"
+              data-prefix="fas"
+              role="img"
+              viewBox="0 0 512 512"
+            >
+              <path
+                d="M290.4 19.8C295.4 7.8 307.1 0 320 0L480 0c17.7 0 32 14.3 32 32l0 160c0 12.9-7.8 24.6-19.8 29.6s-25.7 2.2-34.9-6.9L400 157.3 246.6 310.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L354.7 112 297.4 54.6c-9.2-9.2-11.9-22.9-6.9-34.9zM0 176c0-44.2 35.8-80 80-80l80 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-80 0c-8.8 0-16 7.2-16 16l0 256c0 8.8 7.2 16 16 16l256 0c8.8 0 16-7.2 16-16l0-80c0-17.7 14.3-32 32-32s32 14.3 32 32l0 80c0 44.2-35.8 80-80 80L80 512c-44.2 0-80-35.8-80-80L0 176z"
+                fill="currentColor"
+              />
+            </svg>
+            View on Discogs
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`DiscogsModal handles release with empty arrays 1`] = `
+<DocumentFragment>
+  <div
+    aria-labelledby="modal-title"
+    aria-modal="true"
+    class="css-15rnqx1"
+    role="dialog"
+  >
+    <button
+      aria-label="Close modal"
+      class="css-ugcw57"
+    />
+    <div
+      class="css-5vags0"
+      tabindex="-1"
+    >
+      <button
+        aria-label="Close modal"
+        class="css-1i54b0d"
+      >
+        <svg
+          aria-hidden="true"
+          class="svg-inline--fa fa-xmark"
+          data-icon="xmark"
+          data-prefix="fas"
+          role="img"
+          viewBox="0 0 384 512"
+        >
+          <path
+            d="M55.1 73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L147.2 256 9.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192.5 301.3 329.9 438.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.8 256 375.1 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192.5 210.7 55.1 73.4z"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+      <div
+        class="css-1x44wr8"
+      >
+        <header
+          class="css-14paj2s"
+        >
+          <h2
+            class="css-1tz0sv7"
+            id="modal-title"
+          >
+            Empty Arrays Album
+          </h2>
+          <p
+            class="css-1idv3d9"
+          >
+            <span
+              class="css-rv0fol"
+            >
+              Unknown Artist
+            </span>
+            <span
+              aria-hidden="true"
+              class="css-72cs2q"
+            >
+              ·
+            </span>
+            <span
+              class="css-1ackbda"
+            >
+              2023
+            </span>
+          </p>
+        </header>
+        <div
+          class="css-v8sjw2"
+        >
+          <div
+            class="css-byjint"
+          >
+            <div
+              class="css-1vw28dv"
+            >
+              No Image Available
+            </div>
+          </div>
+          <div
+            class="css-18avisv"
+          />
+        </div>
+        <div
+          class="css-y1fjpx"
+        >
+          <button
+            class="css-60qz6r"
+          >
+            Close
+          </button>
+          <a
+            class="css-1o8r63u"
+            href="https://www.discogs.com/release/88888-Empty-Arrays-Album"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <svg
+              aria-hidden="true"
+              class="svg-inline--fa fa-up-right-from-square"
+              data-icon="up-right-from-square"
+              data-prefix="fas"
+              role="img"
+              viewBox="0 0 512 512"
+            >
+              <path
+                d="M290.4 19.8C295.4 7.8 307.1 0 320 0L480 0c17.7 0 32 14.3 32 32l0 160c0 12.9-7.8 24.6-19.8 29.6s-25.7 2.2-34.9-6.9L400 157.3 246.6 310.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L354.7 112 297.4 54.6c-9.2-9.2-11.9-22.9-6.9-34.9zM0 176c0-44.2 35.8-80 80-80l80 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-80 0c-8.8 0-16 7.2-16 16l0 256c0 8.8 7.2 16 16 16l256 0c8.8 0 16-7.2 16-16l0-80c0-17.7 14.3-32 32-32s32 14.3 32 32l0 80c0 44.2-35.8 80-80 80L80 512c-44.2 0-80-35.8-80-80L0 176z"
+                fill="currentColor"
+              />
+            </svg>
+            View on Discogs
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`DiscogsModal handles release with missing basicInformation 1`] = `
+<DocumentFragment>
+  <div
+    aria-labelledby="modal-title"
+    aria-modal="true"
+    class="css-15rnqx1"
+    role="dialog"
+  >
+    <button
+      aria-label="Close modal"
+      class="css-ugcw57"
+    />
+    <div
+      class="css-5vags0"
+      tabindex="-1"
+    >
+      <button
+        aria-label="Close modal"
+        class="css-1i54b0d"
+      >
+        <svg
+          aria-hidden="true"
+          class="svg-inline--fa fa-xmark"
+          data-icon="xmark"
+          data-prefix="fas"
+          role="img"
+          viewBox="0 0 384 512"
+        >
+          <path
+            d="M55.1 73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L147.2 256 9.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192.5 301.3 329.9 438.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.8 256 375.1 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192.5 210.7 55.1 73.4z"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+      <div
+        class="css-1x44wr8"
+      >
+        <header
+          class="css-14paj2s"
+        >
+          <h2
+            class="css-1tz0sv7"
+            id="modal-title"
+          >
+            Unknown Title
+          </h2>
+          <p
+            class="css-1idv3d9"
+          >
+            <span
+              class="css-rv0fol"
+            >
+              Unknown Artist
+            </span>
+          </p>
+        </header>
+        <div
+          class="css-v8sjw2"
+        >
+          <div
+            class="css-byjint"
+          >
+            <div
+              class="css-1vw28dv"
+            >
+              No Image Available
+            </div>
+          </div>
+          <div
+            class="css-18avisv"
+          />
+        </div>
+        <div
+          class="css-y1fjpx"
+        >
+          <button
+            class="css-60qz6r"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`DiscogsModal renders modal with complete release data 1`] = `
+<DocumentFragment>
+  <div
+    aria-labelledby="modal-title"
+    aria-modal="true"
+    class="css-15rnqx1"
+    role="dialog"
+  >
+    <button
+      aria-label="Close modal"
+      class="css-ugcw57"
+    />
+    <div
+      class="css-5vags0"
+      tabindex="-1"
+    >
+      <button
+        aria-label="Close modal"
+        class="css-1i54b0d"
+      >
+        <svg
+          aria-hidden="true"
+          class="svg-inline--fa fa-xmark"
+          data-icon="xmark"
+          data-prefix="fas"
+          role="img"
+          viewBox="0 0 384 512"
+        >
+          <path
+            d="M55.1 73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L147.2 256 9.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192.5 301.3 329.9 438.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.8 256 375.1 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192.5 210.7 55.1 73.4z"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+      <div
+        class="css-1x44wr8"
+      >
+        <header
+          class="css-14paj2s"
+        >
+          <h2
+            class="css-1tz0sv7"
+            id="modal-title"
+          >
+            Test Album
+          </h2>
+          <p
+            class="css-1idv3d9"
+          >
+            <span
+              class="css-rv0fol"
+            >
+              Test Artist
+            </span>
+            <span
+              aria-hidden="true"
+              class="css-72cs2q"
+            >
+              ·
+            </span>
+            <span
+              class="css-1ackbda"
+            >
+              2023
+            </span>
+          </p>
+        </header>
+        <div
+          class="css-v8sjw2"
+        >
+          <div
+            class="css-byjint"
+          >
+            <div
+              class="show-loading-animation css-54je37"
+            >
+              <div
+                class="rect-shape"
+                style="background-color: rgb(239, 239, 239); width: 100%; height: 100%; margin-right: 10px; border-radius: 8px;"
+              />
+            </div>
+            <img
+              alt="Test Album album cover"
+              class="css-1f960d3"
+              src="https://example.com/cover.jpg"
+            />
+          </div>
+          <div
+            class="css-18avisv"
+          >
+            <div>
+              <h4
+                class="css-1vvxkz4"
+              >
+                Added to collection
+              </h4>
+              <p
+                class="css-16r4ony"
+              >
+                Jun 15, 2024
+              </p>
+            </div>
+            <div>
+              <h4
+                class="css-1vvxkz4"
+              >
+                Genres
+              </h4>
+              <p
+                class="css-16r4ony"
+              >
+                Rock, Alternative
+              </p>
+            </div>
+            <div>
+              <h4
+                class="css-1vvxkz4"
+              >
+                Styles
+              </h4>
+              <p
+                class="css-16r4ony"
+              >
+                Indie Rock, Alternative Rock
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="css-13u82un"
+        >
+          <h3
+            class="css-1pfzqjk"
+          >
+            Tracklist
+          </h3>
+          <div
+            class="css-1okk1ph"
+          >
+            <div
+              class="css-1v6nlqp"
+            >
+              <div>
+                Position
+              </div>
+              <div
+                class="css-fxq50d"
+              >
+                Title
+              </div>
+              <div>
+                Duration
+              </div>
+            </div>
+            <div
+              class="css-1b3ioh1"
+            >
+              <div
+                class="css-uz5es8"
+              >
+                A1
+              </div>
+              <div
+                class="css-rlb00z"
+              >
+                Pardon Me Sir
+              </div>
+              <div
+                class="css-1ozry76"
+              >
+                3:37
+              </div>
+            </div>
+            <div
+              class="css-1b3ioh1"
+            >
+              <div
+                class="css-uz5es8"
+              >
+                A2
+              </div>
+              <div
+                class="css-rlb00z"
+              >
+                High Time We Went
+              </div>
+              <div
+                class="css-1ozry76"
+              >
+                4:25
+              </div>
+            </div>
+            <div
+              class="css-1b3ioh1"
+            >
+              <div
+                class="css-uz5es8"
+              >
+                B1
+              </div>
+              <div
+                class="css-rlb00z"
+              >
+                Midnight Rider
+              </div>
+              <div
+                class="css-1ozry76"
+              >
+                4:00
+              </div>
+            </div>
+            <div
+              class="css-301xjt"
+            >
+              <div
+                class="css-uz5es8"
+              >
+                B2
+              </div>
+              <div
+                class="css-rlb00z"
+              >
+                Do Right Woman
+              </div>
+              <div
+                class="css-1ozry76"
+              >
+                7:00
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="css-y1fjpx"
+        >
+          <button
+            class="css-60qz6r"
+          >
+            Close
+          </button>
+          <a
+            class="css-1o8r63u"
+            href="https://www.discogs.com/release/12345-Test-Artist-Test-Album"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <svg
+              aria-hidden="true"
+              class="svg-inline--fa fa-up-right-from-square"
+              data-icon="up-right-from-square"
+              data-prefix="fas"
+              role="img"
+              viewBox="0 0 512 512"
+            >
+              <path
+                d="M290.4 19.8C295.4 7.8 307.1 0 320 0L480 0c17.7 0 32 14.3 32 32l0 160c0 12.9-7.8 24.6-19.8 29.6s-25.7 2.2-34.9-6.9L400 157.3 246.6 310.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L354.7 112 297.4 54.6c-9.2-9.2-11.9-22.9-6.9-34.9zM0 176c0-44.2 35.8-80 80-80l80 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-80 0c-8.8 0-16 7.2-16 16l0 256c0 8.8 7.2 16 16 16l256 0c8.8 0 16-7.2 16-16l0-80c0-17.7 14.3-32 32-32s32 14.3 32 32l0 80c0 44.2-35.8 80-80 80L80 512c-44.2 0-80-35.8-80-80L0 176z"
+                fill="currentColor"
+              />
+            </svg>
+            View on Discogs
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`DiscogsModal renders modal with minimal release data 1`] = `
+<DocumentFragment>
+  <div
+    aria-labelledby="modal-title"
+    aria-modal="true"
+    class="css-15rnqx1"
+    role="dialog"
+  >
+    <button
+      aria-label="Close modal"
+      class="css-ugcw57"
+    />
+    <div
+      class="css-5vags0"
+      tabindex="-1"
+    >
+      <button
+        aria-label="Close modal"
+        class="css-1i54b0d"
+      >
+        <svg
+          aria-hidden="true"
+          class="svg-inline--fa fa-xmark"
+          data-icon="xmark"
+          data-prefix="fas"
+          role="img"
+          viewBox="0 0 384 512"
+        >
+          <path
+            d="M55.1 73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L147.2 256 9.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192.5 301.3 329.9 438.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.8 256 375.1 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192.5 210.7 55.1 73.4z"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+      <div
+        class="css-1x44wr8"
+      >
+        <header
+          class="css-14paj2s"
+        >
+          <h2
+            class="css-1tz0sv7"
+            id="modal-title"
+          >
+            Minimal Album
+          </h2>
+          <p
+            class="css-1idv3d9"
+          >
+            <span
+              class="css-rv0fol"
+            >
+              Minimal Artist
+            </span>
+            <span
+              aria-hidden="true"
+              class="css-72cs2q"
+            >
+              ·
+            </span>
+            <span
+              class="css-1ackbda"
+            >
+              2022
+            </span>
+          </p>
+        </header>
+        <div
+          class="css-v8sjw2"
+        >
+          <div
+            class="css-byjint"
+          >
+            <div
+              class="css-1vw28dv"
+            >
+              No Image Available
+            </div>
+          </div>
+          <div
+            class="css-18avisv"
+          />
+        </div>
+        <div
+          class="css-y1fjpx"
+        >
+          <button
+            class="css-60qz6r"
+          >
+            Close
+          </button>
+          <a
+            class="css-1o8r63u"
+            href="https://www.discogs.com/release/67890-Minimal-Artist-Minimal-Album"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <svg
+              aria-hidden="true"
+              class="svg-inline--fa fa-up-right-from-square"
+              data-icon="up-right-from-square"
+              data-prefix="fas"
+              role="img"
+              viewBox="0 0 512 512"
+            >
+              <path
+                d="M290.4 19.8C295.4 7.8 307.1 0 320 0L480 0c17.7 0 32 14.3 32 32l0 160c0 12.9-7.8 24.6-19.8 29.6s-25.7 2.2-34.9-6.9L400 157.3 246.6 310.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L354.7 112 297.4 54.6c-9.2-9.2-11.9-22.9-6.9-34.9zM0 176c0-44.2 35.8-80 80-80l80 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-80 0c-8.8 0-16 7.2-16 16l0 256c0 8.8 7.2 16 16 16l256 0c8.8 0 16-7.2 16-16l0-80c0-17.7 14.3-32 32-32s32 14.3 32 32l0 80c0 44.2-35.8 80-80 80L80 512c-44.2 0-80-35.8-80-80L0 176z"
+                fill="currentColor"
+              />
+            </svg>
+            View on Discogs
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

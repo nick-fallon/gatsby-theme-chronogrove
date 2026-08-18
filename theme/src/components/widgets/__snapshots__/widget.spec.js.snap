@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Widget matches the snapshot 1`] = `
-<section
-  className="css-1nbeq9o"
->
-  Test
-</section>
-`;

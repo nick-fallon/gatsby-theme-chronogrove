@@ -1,5 +1,3351 @@
 # Changelog
 
+## 0.91.12
+
+### `gatsby-theme-chronogrove` — Steam leaderboard card redesign & playtime formatting
+
+- **`steam-game-card.js`**: media zone now uses **`aspect-ratio: 2.15 / 1`** (matching Steam header art) instead of a fixed **200px** height, so `object-fit: cover` no longer crops most of the artwork's edges; title and playtime moved out of the hover-only overlay into an **always-visible caption** below the art; hover/focus now shows an **"Open in Steam"** cue (reusing the existing **`ViewExternal`** icon) over the artwork instead.
+- **`steam-widget.js`**: recently-played loading skeleton updated to the same **`2.15 / 1`** aspect ratio.
+- **`play-time-chart.js`**: total playtime no longer prints a raw 2-decimal float (`757.35h`); new **`formatHoursPlayed`** helper rounds to **one decimal** and thousands-separates via `toLocaleString`, and the unit changed from **`h`** to **`hrs`**, matching Steam's own **`X,XXX.Y hrs`** convention. Applied to the leaderboard card subtitle and the **Total Hours** / **Average** footer stats. The 2-week "recently" figure is unchanged (still the fully spelled-out **`getTimeSpent`** output).
+- **Tests**: **`steam-game-card.spec.js`** updated for the always-visible caption and renamed hover-overlay class; **`steam-widget.spec.js`** and **`play-time-chart.spec.js`** snapshots refreshed.
+- **Version**: **0.91.12**
+
+### `www.chrisvogt.me`, `www.chronogrove.com` (demo)
+
+- Unchanged (theme resolves via `workspace:*`, no site code touched).
+
+### Files changed
+
+- `CHANGELOG.md`
+- `theme/package.json` (version **0.91.12**)
+- `theme/src/components/widgets/steam/steam-game-card.js`, **`steam-game-card.spec.js`**
+- `theme/src/components/widgets/steam/steam-widget.js`
+- `theme/src/components/widgets/steam/play-time-chart.js`
+- `theme/src/components/widgets/steam/__snapshots__/steam-widget.spec.js.snap`, **`play-time-chart.spec.js.snap`**
+
+---
+
+## 0.91.11
+
+### `gatsby-theme-chronogrove` — Mobile layout overflow fixes (Discogs & GitHub widgets)
+
+- **`templates/home.js`**: added `min-width: 0` to the home dashboard's `<main>` grid item. A CSS Grid item's automatic minimum size defaults to its content's intrinsic (min-content) width, so wide flex-row content deep in the tree (the Discogs vinyl carousel's non-shrinking pages) was quietly inflating the whole page's layout viewport past the device width on small screens — forcing the entire page to scroll horizontally even though the carousel itself was visually clipped.
+- **`components/widgets/discogs/vinyl-collection.js`**: reworked the widget header for narrow screens — the "Sort by" control now stacks its label above a full-width `<select>` instead of crowding onto one row, and the view toggle left-aligns with the heading/sort control at the smallest breakpoint instead of being pushed to the right edge. Also fixed the sort `<select>`'s padding, which had overridden theme-ui's built-in space for the dropdown arrow and caused the caret to overlap the selected option text.
+- **`components/widgets/github/pinned-items.js`, `.../renderers/repository.js`**: GitHub Pinned Item cards wouldn't shrink below ~300px on narrow screens (forcing horizontal scroll) because the grid item lacked `min-width: 0` and long `owner/repo` names (no spaces, so no natural wrap point) were treated as unbreakable text; added `overflow-wrap: anywhere` to the repo name heading so long names wrap instead of dictating a minimum card width.
+
+### `@chronogrove/ui`
+
+- **`page-shell-layout.js`**: added `min-width: 0` to the default page shell's `<main>` (defense-in-depth for any other page using the shared layout inside a grid/flex ancestor).
+- **`action-card-layout.js`**: added `min-width: 0` to `actionCardPinnedLayoutSx`, matching the GitHub pinned-card grid-item fix above.
+
+### Versions
+
+- **`gatsby-theme-chronogrove` 0.91.11**; **`@chronogrove/ui` 0.85.8**; **`www.chrisvogt.me`** and **`www.chronogrove.com`** unchanged (theme/ui resolve via `workspace:*`, no site code touched).
+
+### Files changed (high level)
+
+- `CHANGELOG.md`
+- `packages/theme/package.json` (version **0.91.11**)
+- `packages/theme/src/templates/home.js`
+- `packages/theme/src/components/widgets/discogs/vinyl-collection.js`
+- `packages/theme/src/components/widgets/github/pinned-items.js`, `renderers/repository.js`
+- `packages/ui/package.json` (version **0.85.8**)
+- `packages/ui/src/page-shell-layout.js`, `action-card-layout.js`
+
+---
+
+## 0.91.10
+
+### `gatsby-theme-chronogrove` — YouTube embed facade (Lighthouse: reduce unused JS)
+
+- **`shortcodes/youtube.js`**: Music preview embeds (home page + timeline) no longer mount the YouTube iframe eagerly. A lazy-loaded thumbnail (`i.ytimg.com/vi/{id}/hqdefault.jpg`) with a play button stands in until clicked; the real `<Embed>` iframe (with `autoplay=1`) only mounts on click, addressing Lighthouse's "Reduce unused JavaScript" and "third-party embeds ... facade" audits for the `post-card.js` Music widget.
+- **Fallback**: URLs that don't match `/embed/{id}` (unparseable video ID) still render the iframe directly, preserving prior behavior for edge cases.
+- **Tests**: `youtube.spec.js` covers facade rendering, click-to-activate, autoplay URL building (both query-string branches), and the direct-iframe fallback; 100% coverage on the file.
+- **Tracking**: [#645](https://github.com/chrisvogt/gatsby-theme-chronogrove/issues/645).
+
+### `@chronogrove/ui`
+
+- **`lazy-load.js`**: Fixed a missing `import React from 'react'` — the file's JSX relies on the classic runtime when compiled by a consumer using `babel-preset-gatsby` (e.g. the theme package's Jest config), which only surfaced once a theme test exercised `LazyLoad` unmocked for the first time (via the new YouTube facade).
+
+### Versions
+
+- **`gatsby-theme-chronogrove` 0.91.10**; **`@chronogrove/ui` 0.85.7**; **`www.chrisvogt.me`** and **`www.chronogrove.com`** unchanged (theme/ui resolve via `workspace:*`, no site code touched).
+
+### Files changed (high level)
+
+- `CHANGELOG.md`
+- `packages/theme/package.json` (version **0.91.10**)
+- `packages/theme/src/shortcodes/youtube.js`, `youtube.spec.js`, `__snapshots__/youtube.spec.js.snap`
+- `packages/ui/package.json` (version **0.85.7**)
+- `packages/ui/src/lazy-load.js`
+
+---
+
+## 0.91.9
+
+### `gatsby-theme-chronogrove` — Dependency refresh
+
+- **Ranges / lockfile**: Patch bumps only — **`react-error-boundary`** **^6.1.2**, **`zustand`** **^5.0.14** (no source refactors).
+
+### `@chronogrove/ui`
+
+- **Dev dependencies**: **@babel/core**, **@babel/preset-env**, **@babel/preset-react** **^7.29.7**.
+
+### Repository (root)
+
+- **Dev dependencies**: **eslint-plugin-prettier** **^5.5.6**, **Turborepo** **^2.9.16**.
+
+### Versions
+
+- **`gatsby-theme-chronogrove` 0.91.9**; **`@chronogrove/ui` 0.85.6**; **`www.chrisvogt.me` 1.22.8**; **`www.chronogrove.com` 1.9.7**.
+
+### Files changed (high level)
+
+- `CHANGELOG.md`
+- `package.json`, `pnpm-lock.yaml`
+- `packages/theme/package.json` (version **0.91.9**)
+- `packages/ui/package.json` (version **0.85.6**)
+- `websites/www.chrisvogt.me/package.json` (version **1.22.8**), `websites/www.chronogrove.com/package.json` (version **1.9.7**)
+
+---
+
+## 0.91.8
+
+### `gatsby-theme-chronogrove` — PropTypes (Phase 1), shared nullable validators
+
+- **ESLint**: Root `eslint.config.js` enables **`react/prop-types`** (`warn`) for `packages/theme/src` (ignores `*.spec.js`, `testUtils.js`), with a **fixed React version** for ESLint (`settings.react.version`) so `react/version` detection does not warn.
+- **Components**: Broad **`propTypes`** on layout, navigation, SEO, audio player, widgets (GitHub, Spotify, Steam, Goodreads, Discogs, Flickr, Instagram, recent posts, …), shortcodes (YouTube, SoundCloud, Note, …), templates/pages, and MDX-related props—aligned with **runtime `null`** (GraphQL, Zustand, MDX/YAML) where plain `PropTypes.string` would lie.
+- **Deduping**: Theme imports **`nullableString`**, **`nullableObject`**, **`mdxMediaScalar`**, etc. from **`@chronogrove/ui/prop-types-helpers`** instead of repeating `oneOfType`/`oneOf([null])` per file.
+- **Tracking**: Contributes to [#630](https://github.com/chrisvogt/gatsby-theme-chronogrove/issues/630) (incremental TypeScript migration — Phase 1 PropTypes).
+
+### `@chronogrove/ui`
+
+- **ESLint**: **`react/prop-types`** (`warn`) for `packages/ui/src` (ignores `*.spec.js`).
+- **`prop-types`**: Declared dependency; portable components declare **`propTypes`**.
+- **`prop-types-helpers`**: New **`./prop-types-helpers`** export (`nullableString`, `nullableObject`, **`nullableCrossDomainColorMode`**, **`nullableObjectArray`**, …) used by theme and internal Next shell / **`ProfileMetricsBadge`**.
+
+### Repository (root + example)
+
+- **README**: “TypeScript roadmap” / contributor note for PropTypes on touched theme code and pointer to **`eslint.config.js`**.
+- **`examples/chronogrove-next`**: **`prop-types`** dependency and **`propTypes`** on local App Router components (`layout`, `providers`, `home-showcase`).
+
+### Versions
+
+- **`gatsby-theme-chronogrove` 0.91.8**; **`@chronogrove/ui` 0.85.5**; **`www.chrisvogt.me` 1.22.7**; **`www.chronogrove.com` 1.9.6**.
+
+### Files changed (high level)
+
+- `CHANGELOG.md`
+- `eslint.config.js`, `README.md`, `package.json`, `pnpm-lock.yaml`
+- `examples/chronogrove-next/package.json`, `examples/chronogrove-next/app/*.jsx`
+- `packages/theme/package.json` (version **0.91.8**) and broad `packages/theme/src/**/*.js` PropTypes + `@chronogrove/ui/prop-types-helpers` imports
+- `packages/ui/package.json` (version **0.85.5**), `packages/ui/src/prop-types-helpers.js`, `packages/ui/src/**/*.js`
+- `websites/www.chrisvogt.me/package.json` (version **1.22.7**), `websites/www.chronogrove.com/package.json` (version **1.9.6**)
+
+---
+
+## 0.91.7
+
+### `gatsby-theme-chronogrove` — Sonar maintainability (complexity, tests)
+
+- **Home navigation** (`home-navigation.js`): Extracted hash-link click handling and icon resolution from **`HomeNavRailLink`** to satisfy cognitive complexity limits.
+- **Discogs** (`discogs-modal.js`): Focus, keyboard navigation, and body scroll-lock are **`useDiscogsModal*`** hooks; cover and tracklist markup live in **`DiscogsModalCoverSection`** and **`DiscogsModalTracklistSection`**.
+- **Vinyl collection** (`vinyl-collection.js`): Breakpoint index, pagination page list, and grid hover-clear timing use module helpers (**`vinylBreakpointIndexForWidth`**, **`buildVinylCollectionPages`**, **`scheduleVinylGridHoverClear`**) to reduce complexity and nested callbacks.
+- **AI summary** (`ai-summary-synced-at.js`): Firestore-style **`seconds`** handling moved to **`tryFormatAiSummaryFirestoreSeconds`**.
+- **Tests**: Theme and UI color-mode specs clear **`data-theme-ui-color-mode`** with **`delete document.documentElement.dataset.themeUiColorMode`** instead of **`removeAttribute`**.
+- **Versions**: **`gatsby-theme-chronogrove` 0.91.7**; **`www.chrisvogt.me` 1.22.6**; **`@chronogrove/ui`** unchanged (spec-only edits).
+
+### `www.chrisvogt.me`
+
+- **Career path** (`CareerPathVisualization.js`): Label placement and collision adjustment moved to module helpers. **`CareerPathVisualization.spec.js`** builds the D3 mock with a short chain instead of deeply nested **`jest.fn`** wrappers.
+
+### Files changed (high level)
+
+- `CHANGELOG.md`
+- `packages/theme/package.json` (version **0.91.7**)
+- `packages/theme/gatsby-browser.spec.js`, `packages/theme/src/components/root-wrapper.spec.js`
+- `packages/theme/src/components/home-navigation.js`
+- `packages/theme/src/components/widgets/discogs/discogs-modal.js`, `vinyl-collection.js`
+- `packages/theme/src/helpers/ai-summary-synced-at.js`
+- `packages/ui/src/color-mode/browser-sync.spec.js`, `spa-navigation.spec.js`, `use-document-color-mode-surface.spec.js`, `packages/ui/src/gatsby/index.spec.js`
+- `websites/www.chrisvogt.me/package.json` (version **1.22.6**), `components/CareerPathVisualization.js`, `components/CareerPathVisualization.spec.js`
+
+---
+
+## 0.91.6
+
+### `gatsby-theme-chronogrove` — Widget CTAs from metrics profile data (#606)
+
+- **Flickr** (`flickr-widget.js`): **Visit Profile** uses **`profile.displayName`** and **`profile.profileURL`** from the widget payload when present; falls back to **`widgets.flickr.username`** and the canonical Flickr photos URL.
+- **GitHub** (`github-widget.js`): CTA prefers **`user.url`**, **`user.name`**, and **`user.login`** from the API response, with metadata username and constructed **`www.github.com`** URL as fallback.
+- **Goodreads** (`goodreads-widget.js`, `metadata.js`): CTA prefers **`profile.name`** / **`profile.displayName`** and a canonical URL from **`getGoodreadsProfilePageUrl`** (**`profile.profileURL`** first, then legacy **`profile.link`** until [chrisvogt/chronogrove#322](https://github.com/chrisvogt/chronogrove/issues/322)); metadata username URL remains the last fallback.
+- **Docs** (`packages/theme/README.md`): Table documents which **`profile`** / **`user`** fields each widget consumes for CTAs versus site metadata fallbacks.
+- **Tests**: Flickr (metadata vs API profile), GitHub (API `user` fields), Goodreads (**`profileURL`** / **`link`**), **`metadata.spec.js`** for **`getGoodreadsProfilePageUrl`**; Goodreads snapshots updated where the CTA title reflects API **`profile.name`**.
+- **Versions**: **`gatsby-theme-chronogrove` 0.91.6**; **`www.chrisvogt.me` 1.22.5**; **`www.chronogrove.com` 1.9.5** (**`@chronogrove/ui`** unchanged).
+
+### Files changed (high level)
+
+- `CHANGELOG.md`
+- `packages/theme/package.json` (version **0.91.6**)
+- `packages/theme/README.md`
+- `packages/theme/src/selectors/metadata.js`, **`metadata.spec.js`**
+- `packages/theme/src/components/widgets/flickr/flickr-widget.js`, **`flickr-widget.spec.js`**
+- `packages/theme/src/components/widgets/github/github-widget.js`, **`github-widget.spec.js`**
+- `packages/theme/src/components/widgets/goodreads/goodreads-widget.js`, **`goodreads-widget.spec.js`**, **`__snapshots__/goodreads-widget.spec.js.snap`**
+- `websites/www.chrisvogt.me/package.json`, **`websites/www.chronogrove.com/package.json`**
+
+---
+
+## 0.91.5
+
+### Repository layout — `packages/theme`, `websites/*`, theme-local scripts
+
+- **Workspace**: Gatsby theme source moved from repo-root **`theme/`** to **`packages/theme/`** (npm package remains **`gatsby-theme-chronogrove`**). Both Gatsby sites live under **`websites/www.chrisvogt.me/`** and **`websites/www.chronogrove.com/`**. Root **`scripts/postinstall-banner.mjs`** moved to **`packages/theme/scripts/postinstall-banner.mjs`**; root **`postinstall`** runs it from that path.
+- **`pnpm-workspace.yaml`**: **`websites/*`** replaces explicit per-site entries; **`packages/*`** picks up **`packages/theme`**.
+- **`gatsby-node.js`**: Page templates resolve with **`path.join(__dirname, 'src/templates/...')`** so layout no longer depends on site **`cwd`**.
+- **Docs / CI**: Root **`README.md`**, **`CONTRIBUTING.md`**, **`packages/ui/README.md`**, **`docs/dependency-overrides.md`**, demo **`README`**, **`.cursorrules`**, and GitHub Actions path filters updated for the new tree. **Netlify**: publish directory **`websites/www.chrisvogt.me/public`** (or **`public`** when base directory is the site folder).
+- **Published npm packages**: No API or dependency changes for consumers of **`gatsby-theme-chronogrove`** or **`@chronogrove/ui`** from npm; this release aligns repo metadata and patch versions after the move.
+- **Versions**: **`gatsby-theme-chronogrove` 0.91.5**, **`@chronogrove/ui` 0.85.4**, **`www.chrisvogt.me` 1.22.4**, **`www.chronogrove.com` 1.9.4**
+
+### Files changed (high level)
+
+- `pnpm-workspace.yaml`, root `package.json`, `eslint.config.js`
+- `packages/theme/**` (incl. `scripts/postinstall-banner.mjs`, `babel.config.js`, `jest.config.js`, `gatsby-node.js`, specs, `README.md`)
+- `websites/www.chrisvogt.me/**`, `websites/www.chronogrove.com/**`
+- `.github/workflows/ci.yml`, `deploy-chronogrove-website.yml`, `publish.yml`
+- `README.md`, `CONTRIBUTING.md`, `.cursorrules`, `docs/dependency-overrides.md`, `packages/ui/README.md`, `packages/ui/src/color-mode/use-document-color-mode-surface.js`, `packages/ui/src/action-card-layout.js`
+- `pnpm-lock.yaml`
+
+---
+
+## 0.91.4
+
+### `gatsby-theme-chronogrove` — `dataset` for `data-*` DOM writes
+
+- **`instagram-widget.js`**: Album thumbnail markers use **`thumbItem.dataset`** (**`albumStart`**, **`albumEnd`**, **`albumIndex`**) instead of **`setAttribute`**, matching specs and keeping **`global.css`** **`[data-album-*]`** selectors unchanged.
+- **Tests**: **`gatsby-browser.spec.js`**, **`gatsby-ssr.spec.js`**, **`color-mode-debug.spec.js`** seed or assert color mode via **`document.documentElement.dataset.themeUiColorMode`** where appropriate.
+- **Version**: **0.91.4**
+
+### `@chronogrove/ui`
+
+- **`browser-sync.js`**, **`use-document-color-mode-surface.js`**: Apply **`data-theme-ui-color-mode`** with **`htmlElement.dataset.themeUiColorMode`** (aligned with **`resolveThemeUiColorMode`** reads).
+- **`head-inline.js`**: No-flash inline script sets **`htmlElement.dataset.themeUiColorMode`** instead of **`setAttribute`**.
+- **Tests**: **`head-inline.spec.js`**, **`browser-sync.spec.js`**, **`packages/ui/src/gatsby/index.spec.js`**; **`theme/gatsby-ssr.spec.js`** expects the generated script to reference **`dataset.themeUiColorMode`**.
+- **Version**: **0.85.3**
+
+### Files changed
+
+- `CHANGELOG.md`
+- `packages/ui/package.json` (version **0.85.3**)
+- `packages/ui/src/color-mode/browser-sync.js`, **`browser-sync.spec.js`**, **`head-inline.js`**, **`head-inline.spec.js`**, **`use-document-color-mode-surface.js`**
+- `packages/ui/src/gatsby/index.spec.js`
+- `theme/package.json` (version **0.91.4**)
+- `theme/gatsby-browser.spec.js`, **`gatsby-ssr.spec.js`**
+- `theme/src/components/widgets/instagram/instagram-widget.js`
+- `theme/src/helpers/color-mode-debug.spec.js`
+
+---
+
+## 0.91.3
+
+### `gatsby-theme-chronogrove` — Security (S5148), Sonar dataset reads (S7761)
+
+- **`steam-game-card.js`**: Opens the Steam store with **`window.open(..., '_blank', 'noopener,noreferrer')`** so the new tab cannot access **`window.opener`** (reverse tabnabbing).
+- **`color-mode-debug.js`**: Reads **`data-theme-ui-color-mode`** via **`document.documentElement.dataset.themeUiColorMode`** for debug output.
+- **Tests**: **`steam-game-card.spec.js`**, **`play-time-chart.spec.js`** (shared **`findPointerGameCard`** / **`assertSteamStoreTabOpenedWithNoopener`** to satisfy duplication checks), head/widget specs, **`color-mode-debug.spec.js`** (assert debug header reflects **`dataset`** / **`data-attr=none`**), **`browser-sync.spec.js`** (resolve mode when set via **`dataset`**), **`gatsby-browser.spec.js`** (**`expectHtmlDatasetThemeUiColorMode`** helper); **`www.*`** shadow **`blog-head.spec.js`** — dropped redundant **`dataset`** block that mirrored **`toHaveAttribute`** (Sonar duplication).
+- **Version**: **0.91.3**
+
+### `@chronogrove/ui`
+
+- **`browser-sync.js`**: **`resolveThemeUiColorMode`** reads **`data-theme-ui-color-mode`** from **`htmlElement.dataset.themeUiColorMode`** instead of **`getAttribute`**.
+- **Tests**: Color-mode and Gatsby specs assert via **`dataset`**; **`use-document-color-mode-surface.spec.js`** uses **`expectHtmlDatasetThemeUiColorMode`** to reduce duplication.
+- **Version**: **0.85.2**
+
+### `www.chrisvogt.me`
+
+- **Version**: **1.22.3** (tracks theme **0.91.3**).
+
+### `www.chronogrove.com` (demo)
+
+- **Version**: **1.9.3** (tracks theme **0.91.3**).
+
+### Files changed
+
+- `CHANGELOG.md`
+- `packages/ui/package.json` (version **0.85.2**)
+- `packages/ui/src/color-mode/browser-sync.js`, **`browser-sync.spec.js`**, **`spa-navigation.spec.js`**, **`use-document-color-mode-surface.spec.js`**
+- `packages/ui/src/gatsby/index.spec.js`
+- `theme/package.json` (version **0.91.3**)
+- `theme/gatsby-browser.spec.js`
+- `theme/src/helpers/color-mode-debug.js`, **`color-mode-debug.spec.js`**
+- `theme/src/components/root-wrapper.spec.js`
+- `theme/src/components/widgets/steam/steam-game-card.js`, **`steam-game-card.spec.js`**, **`play-time-chart.spec.js`**
+- `theme/src/components/widgets/instagram/instagram-widget.spec.js`
+- `theme/src/pages/blog-head.spec.js`, **`chrisvogt-me-music-page.spec.js`**, **`chrisvogt-me-travel-page.spec.js`**
+- `www.chrisvogt.me/package.json` (version **1.22.3**), **`src/gatsby-theme-chronogrove/pages/blog-head.spec.js`**
+- `www.chronogrove.com/package.json` (version **1.9.3**), **`src/gatsby-theme-chronogrove/pages/blog-head.spec.js`**, **`templates/home-head.spec.js`**
+
+---
+
+## 0.91.2
+
+### `gatsby-theme-chronogrove` — Sonar/widget refactors, safer HTML, Theme UI aliases, `prop-types`
+
+- **`safeHtmlParser.js`**: **`Element`** imported as **`DomElement`** so it is not mistaken for **`React.Element`**; allowlist as **`Set`**; stable **`nextKey`** instead of **`Math.random()`** for parsed nodes; **`renderAnchor`** / **`renderSemanticTag`** helpers; explicit **`undefined`** when a node is not handled in **`replace`**.
+- **`home.js`** / **`media.js`**: Outer layout uses **`Box`** where **`sx`** was applied to a raw **`div`**; hidden **`h-card`** **`u-url`** includes visually clipped canonical text; keyword microformat keys use **`keyword`**; **`MediaTemplate.propTypes`** for **`children`** / **`data`**.
+- **Dependencies**: **`prop-types`** added for **`MediaTemplate`** via **`catalog:`** ( **`pnpm-workspace.yaml`** ) so workspace packages share one pinned version.
+- **`gatsby-node.js`**: **`getThemeUiSingleInstanceAliases`** aliases **`@emotion/react`**, Theme UI packages (**`@theme-ui/*`**, **`gatsby-plugin-theme-ui`**, etc.) to the same install as **`theme-ui`** to avoid **`[useColorMode] requires the ColorModeProvider`** when pnpm resolves duplicates.
+- **Widgets & shortcodes**: Goodreads, Instagram, Recent Posts, Spotify, Steam, GitHub, Flickr — readability and Sonar-oriented fixes with updated specs/snapshots; **`soundcloud`** / **`spotify`** shortcodes and **`spotify`** snapshot tweaks.
+- **Tests**: **`gatsby-node.spec.js`** and widget snapshots aligned with the above.
+- **Version**: **0.91.2**
+
+### `www.chrisvogt.me`
+
+- **Version**: **1.22.2** (tracks theme **0.91.2**).
+
+### `www.chronogrove.com` (demo)
+
+- **Version**: **1.9.2** (tracks theme **0.91.2**).
+
+### Files changed
+
+- `CHANGELOG.md`
+- `pnpm-lock.yaml`
+- `pnpm-workspace.yaml` (**`catalog.prop-types`**)
+- `theme/package.json` (version **0.91.2**, **`prop-types`**: **`catalog:`**)
+- `theme/gatsby-node.js`, **`gatsby-node.spec.js`**
+- `theme/src/helpers/safeHtmlParser.js`
+- `theme/src/templates/home.js`, **`media.js`**, **`__snapshots__/media.spec.js.snap`**
+- `theme/src/shortcodes/soundcloud.js`, **`spotify.js`**, **`__snapshots__/spotify.spec.js.snap`**
+- `theme/src/components/widgets/flickr/` — **`flickr-widget.js`**, **`flickr-widget-item.js`**, snapshots
+- `theme/src/components/widgets/github/` — **`github-widget.js`**, **`contribution-graph.js`**, **`pinned-item-card.js`**, **`pinned-items.js`**, **`renderers/`**, snapshots
+- `theme/src/components/widgets/goodreads/` — **`book-explorer.js`**, **`book-link.js`**, **`goodreads-widget.js`**, **`recently-read-books.js`**, **`user-profile.js`**, **`user-status.js`**, specs and **`goodreads-widget`** snapshot
+- `theme/src/components/widgets/instagram/` — **`instagram-widget.js`**, **`instagram-widget-item.js`**, snapshots
+- `theme/src/components/widgets/recent-posts/` — **`post-card.js`**, **`recent-posts-widget.js`**, **`post-card`** snapshots
+- `theme/src/components/widgets/spotify/` — **`media-item-grid.js`**, **`playlists.js`**, **`spotify-widget.js`**, **`top-tracks.js`**, **`track-preview.js`**, specs/snapshots
+- `theme/src/components/widgets/steam/` — **`play-time-chart.js`**, **`steam-game-card.js`**, **`steam-widget.js`**, snapshots
+- `www.chrisvogt.me/package.json` (version **1.22.2**)
+- `www.chronogrove.com/package.json` (version **1.9.2**)
+
+---
+
+## 0.91.1
+
+### `@chronogrove/ui` — Accessibility polish and Sonar-driven refactors (patch)
+
+- **`widget-call-to-action.js`**: Widget CTA loading spinner wrapped in **`output`** with **`aria-live="polite"`** and **`aria-busy`** (SVG remains the visible spinner).
+- **`metric-card.js`**: Loading placeholder uses **`Box as="output"`** instead of **`role="status"`** on the busy container.
+- **`header.js`**: Redundant **`role="banner"`** removed from **`header`** (native landmark).
+- **`page-shell-layout.js`**: Redundant **`role="main"`** removed from **`main`**; tests query **`main`** without an explicit role.
+- **`image-thumbnails.js`** / **`thumbnail-strip.js`**: More stable React **`key`** values when thumbs reuse URLs or placeholders.
+- **`action-button.js`** / **`pagination-button.js`**: Variant color resolution flattened (no nested ternary).
+- **`cross-domain-color-mode-cookie.js`**: Clearer window resolution and optional chaining in hostname / HTTPS helpers.
+- **`widget-header.js`**: **`metricsToShow`** assignment simplified for readability.
+- **Version**: **0.85.1**
+
+### `gatsby-theme-chronogrove` — Scroll restoration regression, timeline, nav, Discogs, Book3D
+
+- **`gatsby-browser.js`**: **`shouldUpdateScroll`** again always returns **`false`** so **`gatsby-react-router-scroll`** does not restore a stale saved scroll position; **`onRouteUpdateChronogroveNavigation`** continues to **`scrollTo(0, 0)`** and focus skip-nav (restores behavior documented in **0.72.6**).
+- **`post-timeline-index.js`**: Timeline uses semantic **`ul`/`li`**; stamp layout split into smaller pieces; helpers for keys/thumbnails; Sonar-oriented readability fixes.
+- **`home-navigation.js`**: Icon slug → component map and **`HomeNavRailLink`** extraction; single React import stream.
+- **`footer.js`**: Single **`theme-ui`** import.
+- **Discogs**: **`discogs-modal`** uses explicit **`Fragment`** (jsx pragma); **`discogs-widget`** CTA spacing via **`marginInlineStart`** on the arrow; **`vinyl-collection`** list-row hover background when not dragging; **`vinyl-pagination`** control styling cleanup.
+- **`book-3d.js`**: Hidden **`img`** with transparent data-URI fallback for a valid **`src`** when no cover URL; WebGL mount **`aria-hidden`**; **`Box`** from Theme UI for wrappers.
+- **`gatsby-node.js`**: MDX **`createPage`** uses **`path: nodePath`** directly (aligned with **`getNodePath`** output).
+- **Tests / snapshots**: **`gatsby-browser.spec.js`**, **`post-timeline-index.spec.js`**, Discogs widget/pagination snapshots, **`book-3d.spec.js`**.
+- **Version**: **0.91.1**
+
+### `www.chrisvogt.me`
+
+- **Version**: **1.22.1** (tracks theme **0.91.1**).
+
+### `www.chronogrove.com` (demo)
+
+- **Version**: **1.9.1** (tracks theme **0.91.1**).
+
+### Files changed
+
+- `CHANGELOG.md`
+- `packages/ui/package.json` (version **0.85.1**), **`README.md`**
+- `packages/ui/src/action-button.js`, **`pagination-button.js`**, **`cross-domain-color-mode-cookie.js`**, **`header.js`**, **`image-thumbnails.js`**, **`metric-card.js`**, **`page-shell-layout.js`**, **`page-shell-layout.spec.js`**, **`thumbnail-strip.js`**, **`widget-call-to-action.js`**, **`widget-header.js`**, **`__snapshots__/header.spec.js.snap`**
+- `theme/package.json` (version **0.91.1**), **`README.md`**
+- `theme/gatsby-browser.js`, **`gatsby-node.js`**
+- `theme/src/components/blog/post-timeline-index.js`, **`post-timeline-index.spec.js`**
+- `theme/src/components/footer/footer.js`
+- `theme/src/components/home-navigation.js`
+- `theme/src/components/artwork/book-3d.js`, **`book-3d.spec.js`**
+- `theme/src/components/__snapshots__/layout.spec.js.snap`
+- `theme/src/components/widgets/discogs/discogs-modal.js`, **`discogs-widget.js`**, **`vinyl-collection.js`**, **`vinyl-pagination.js`**, **`__snapshots__/discogs-widget.spec.js.snap`**, **`__snapshots__/vinyl-pagination.spec.js.snap`**
+- `theme/src/components/widgets/github/__snapshots__/github-widget.spec.js.snap`
+- `theme/src/components/widgets/goodreads/__snapshots__/goodreads-widget.spec.js.snap`
+- `theme/src/components/widgets/spotify/__snapshots__/spotify-widget.spec.js.snap`
+- `www.chrisvogt.me/package.json` (version **1.22.1**)
+- `www.chronogrove.com/package.json` (version **1.9.1**)
+
+---
+
+## 0.91.0
+
+### `gatsby-theme-chronogrove` — Spotify Top Tracks pagination
+
+- **`top-tracks.js`**: **Top Tracks** supports more API rows (e.g. **24**) by paginating **12 tiles per slide** with the same swipe/drag carousel pattern as Goodreads (`useSwipePagination`) plus shared **`Pagination`** controls; **`interactionDisabled`** on **`MediaItemGrid`** avoids starting playback after a drag.
+- **`media-item-grid.js`**: Optional **`interactionDisabled`** prop (prevents **`onTrackClick`** and still **`preventDefault`** on the anchor).
+- **Tests**: **`top-tracks.spec.js`** — multi-page grid, page clamp when the list shrinks, reset when track identities change; **`media-item-grid.spec.js`** — **`interactionDisabled`**; **`spotify-widget.spec.js`** snapshots updated.
+- **Jest**: Global **`coverageThreshold`** for **statements**, **functions**, and **lines** raised to **98%** (branches remain **90%**).
+- **Version**: **0.91.0**
+
+### `www.chrisvogt.me`
+
+- **Version**: **1.22.0** (tracks theme **0.91.0**).
+
+### `www.chronogrove.com` (demo)
+
+- **Version**: **1.9.0** (tracks theme **0.91.0**).
+
+### Files changed
+
+- `CHANGELOG.md`
+- `theme/jest.config.js` (coverage thresholds)
+- `theme/package.json` (version **0.91.0**)
+- `theme/src/components/widgets/spotify/top-tracks.js`, **`top-tracks.spec.js`**, **`__snapshots__/top-tracks.spec.js.snap`**
+- `theme/src/components/widgets/spotify/media-item-grid.js`, **`media-item-grid.spec.js`**
+- `theme/src/components/widgets/spotify/__snapshots__/spotify-widget.spec.js.snap`
+- `www.chrisvogt.me/package.json` (version **1.22.0**)
+- `www.chronogrove.com/package.json` (version **1.9.0**)
+
+---
+
+## 0.90.1
+
+### `gatsby-theme-chronogrove` — Steam game cards (UI polish)
+
+- **`steam-game-card.js`**: Spotify-style **hover/focus caption** (title and playtime copy hidden until interaction); full-bleed **`object-fit: cover`** artwork at a fixed height (fixes empty bands from `%` height + LazyLoad); **rank badge** stacks above the caption (**`z-index`**) so leaderboard numbers stay visible on the overlay; **`align-self: start`** so grid rows don’t stretch cards; transparent/block button styling for a tight image frame.
+- **`steam-widget.js`**: Recently-played **grid** aligned with Spotify density (**3 → 4 → 4 → 5 → 5** columns); loading skeleton **dropped the obsolete footer strip** under placeholders.
+- **`play-time-chart.js`**: Leaderboard grid uses the **same column scale** as recently-played.
+- **Tests**: **`steam-game-card.spec.js`** — focus/blur vs hover zoom, caption + rank stacking (`z-index`), rank null edge case, dark mode missing-image path.
+- **Version**: **0.90.1**
+
+### `www.chrisvogt.me`
+
+- **Version**: **1.21.1** (tracks theme **0.90.1**).
+
+### `www.chronogrove.com` (demo)
+
+- **Version**: **1.8.1** (tracks theme **0.90.1**).
+
+### Files changed
+
+- `CHANGELOG.md`
+- `theme/package.json` (version **0.90.1**)
+- `theme/src/components/widgets/steam/steam-game-card.js`, **`steam-game-card.spec.js`**
+- `theme/src/components/widgets/steam/steam-widget.js`
+- `theme/src/components/widgets/steam/play-time-chart.js`
+- `theme/src/components/widgets/steam/__snapshots__/steam-widget.spec.js.snap`, **`play-time-chart.spec.js.snap`**
+- `www.chrisvogt.me/package.json` (version **1.21.1**)
+- `www.chronogrove.com/package.json` (version **1.8.1**)
+
+---
+
+## 0.90.0
+
+### `gatsby-theme-chronogrove` — Discogs & Spotify AI summaries
+
+- **`discogs-widget.js`**: Optional **`aiSummary`** under the header (reuses Steam **`AiSummary`** / **`AiSummarySkeleton`**, **`pickAiSummarySyncedAtRaw`**) when the metrics API provides copy.
+- **`spotify-widget.js`**: Same pattern above top tracks / playlists.
+- **Tests / snapshots**: **`discogs-widget.spec.js`**, **`spotify-widget.spec.js`** (loading skeleton, with summary, without summary).
+- **Version**: **0.90.0**
+
+### `www.chrisvogt.me`
+
+- **Version**: **1.21.0** (tracks theme **0.90.0**).
+
+### `www.chronogrove.com` (demo)
+
+- **Version**: **1.8.0** (tracks theme **0.90.0**).
+
+### Files changed
+
+- `CHANGELOG.md`
+- `theme/package.json` (version **0.90.0**)
+- `theme/src/components/widgets/discogs/discogs-widget.js`, **`discogs-widget.spec.js`**, **`__snapshots__/discogs-widget.spec.js.snap`**
+- `theme/src/components/widgets/spotify/spotify-widget.js`, **`spotify-widget.spec.js`**, **`__snapshots__/spotify-widget.spec.js.snap`**
+- `www.chrisvogt.me/package.json` (version **1.21.0**)
+- `www.chronogrove.com/package.json` (version **1.8.0**)
+
+---
+
+## 0.89.0
+
+### `@chronogrove/ui` — AI summary tokens, widget header, action sizing
+
+- **`theme.js`**: **`text.mutedSans`** variant (italic sans meta lines using **`textMuted`**).
+- **`action-button.js`**: **`xlarge`** size for prominent inline actions (e.g. read-more toggles).
+- **`widget-header.js`**: Optional **`sx`** prop merged onto the root header container.
+- **Jest**: Global **`coverageThreshold`** set to **96%** for statements, branches, functions, and lines.
+- **Tests**: **`action-button.spec.js`** (**`xlarge`**); **`theme.spec.js`** snapshot (**`mutedSans`**).
+- **Version**: **0.85.0**
+
+### `gatsby-theme-chronogrove` — Steam/Goodreads AI summary layout
+
+- **`ai-summary.js`**: News-style teaser (first paragraph full; remaining copy clipped with a background-matched gradient); **`Read more` / `Read less`** via theme **`ActionButton`** (**`xlarge`**); Claude attribution plus optional **`aiSummarySyncedAt`** via **`formatAiSummarySyncedLabel`**; streamlined chrome vs. the prior robot/gradient heading.
+- **`ai-summary-skeleton.js`**: Skeleton aligned with the loaded block; optional **`sx`**.
+- **`goodreads-widget.js`**: AI summary directly under the header (**`pickAiSummarySyncedAtRaw`**); header/summary spacing via **`WidgetHeader`** / block **`sx`**.
+- **Helpers**: **`ai-summary-synced-at.js`** (+ spec) for synced-at parsing/formatting.
+- **Jest**: Global **`coverageThreshold`** — statements/lines/functions **96%**, branches **90%**.
+- **Tests / snapshots**: **`ai-summary.spec.js`**, **`steam-widget.spec.js`**, **`goodreads-widget.spec.js`**.
+- **Version**: **0.89.0**
+
+### `www.chrisvogt.me`
+
+- **Version**: **1.20.0** (tracks theme **0.89.0**).
+
+### `www.chronogrove.com` (demo)
+
+- **Version**: **1.7.0** (tracks theme **0.89.0**).
+
+### Files changed
+
+- `CHANGELOG.md`
+- `packages/ui/package.json` (version **0.85.0**)
+- `packages/ui/jest.config.cjs`
+- `packages/ui/src/action-button.js`, `packages/ui/src/action-button.spec.js`
+- `packages/ui/src/theme.js`
+- `packages/ui/src/widget-header.js`
+- `packages/ui/src/__snapshots__/theme.spec.js.snap`
+- `theme/package.json` (version **0.89.0**)
+- `theme/jest.config.js`
+- `theme/src/helpers/ai-summary-synced-at.js`, `theme/src/helpers/ai-summary-synced-at.spec.js`
+- `theme/src/components/widgets/steam/ai-summary.js`, `theme/src/components/widgets/steam/ai-summary.spec.js`
+- `theme/src/components/widgets/steam/ai-summary-skeleton.js`
+- `theme/src/components/widgets/steam/steam-widget.js`
+- `theme/src/components/widgets/goodreads/goodreads-widget.js`
+- `theme/src/gatsby-plugin-theme-ui/__snapshots__/theme.spec.js.snap`
+- `theme/src/components/widgets/steam/__snapshots__/steam-widget.spec.js.snap`
+- `theme/src/components/widgets/goodreads/__snapshots__/goodreads-widget.spec.js.snap`
+- `www.chrisvogt.me/package.json` (version **1.20.0**)
+- `www.chronogrove.com/package.json` (version **1.7.0**)
+
+---
+
+## 0.88.0
+
+### `gatsby-theme-chronogrove` — Music index repertoire promo & timeline slot
+
+- **`PostTimelineIndex`** (`post-timeline-index.js`): Optional **`afterFeatured`** slot rendered between the featured row and stamp list; featured row exposes **`data-bottom-rule`** (`true` | `false`) for whether the muted bottom border is shown (omitted when **`afterFeatured`** is present).
+- **Tests**: **`post-timeline-index.spec.js`** (slot placement + **`data-bottom-rule`**); **`chrisvogt-me-music-repertoire-promo.spec.js`** (**`MusicRepertoirePromo`** / **`ColorModeImage`** light vs dark **`src`**); **`chrisvogt-me-music-page.spec.js`** mock forwards **`afterFeatured`**; **`gatsby-browser.spec.js`** (**`shouldUpdateScroll`** same-pathname branch, **`onClientEntry`** cross-domain color mode); **`flickr-widget.spec.js`** (missing LightGallery instance **`console.error`** path).
+- **Jest**: Global **`coverageThreshold.lines`** raised to **99%**.
+- **Version**: **0.88.0**
+
+### `www.chrisvogt.me`
+
+- **`music.js`**: Repertoire promo card (**`MusicRepertoirePromo`**) below the featured music post, linking to **https://repertoire.chrisvogt.me/** with color-mode screenshots; compact horizontal layout on narrow viewports; named export **`MusicRepertoirePromo`** for tests.
+- **Version**: **1.19.0**
+
+### `www.chronogrove.com` (demo)
+
+- **Version**: **1.6.0** (tracks theme **0.88.0**).
+
+### Files changed
+
+- `CHANGELOG.md`
+- `theme/jest.config.js`
+- `theme/package.json` (version **0.88.0**)
+- `theme/gatsby-browser.spec.js`
+- `theme/src/components/blog/post-timeline-index.js`
+- `theme/src/components/blog/post-timeline-index.spec.js`
+- `theme/src/components/widgets/flickr/flickr-widget.spec.js`
+- `theme/src/pages/chrisvogt-me-music-page.spec.js`
+- `theme/src/pages/chrisvogt-me-music-repertoire-promo.spec.js`
+- `www.chrisvogt.me/package.json` (version **1.19.0**)
+- `www.chrisvogt.me/src/pages/music.js`
+- `www.chronogrove.com/package.json` (version **1.6.0**)
+
+---
+
+## 0.87.1
+
+### `@chronogrove/ui` — Sonar bug fixes (patch)
+
+- **`action-button.js`**: Replaced redundant `{icon && icon}` expression with `{icon}` (Sonar S1764 — identical sub-expressions).
+- **`pagination-button.js`**: Same fix for the identical `{icon && icon}` expression.
+- **Version**: **0.84.1**
+
+### `gatsby-theme-chronogrove` — Sonar bug fixes (patch)
+
+- **`discogs-modal.js`**: Added `onKeyDown={e => e.stopPropagation()}` to the inner modal panel alongside its existing `onClick` to satisfy `jsx-a11y/click-events-have-key-events`.
+- **`vinyl-pagination.js`**: Collapsed `isCurrentPage ? 'primary' : 'primary'` to the literal `'primary'` (Sonar S3923 — dead conditional).
+- **`recently-read-books.js`**: Prefixed bare `goodreadsElement.offsetHeight` reflow read with `void` to satisfy `no-unused-expressions`.
+- **`steam-game-card.js`**: Replaced root `<div onClick>` with `<Box as='button' type='button'>` plus `aria-label` for full keyboard accessibility (`jsx-a11y/click-events-have-key-events`). Imports `Box` from `theme-ui`.
+- **`steam-game-card.spec.js`**: Added tests asserting the card renders as a `<button>` element with the correct `aria-label`.
+- **Version**: **0.87.1**
+
+### `www.chrisvogt.me` — Sonar bug fix (patch)
+
+- **`CareerPathVisualization.js`**: Collapsed `isSmallScreen ? 'Art In Reality' : 'Art In Reality'` to the literal `'Art In Reality'` (Sonar S3923 — dead conditional).
+- **Version**: **1.18.1**
+
+### Files changed
+
+- `CHANGELOG.md`
+- `packages/ui/package.json` (version **0.84.1**)
+- `packages/ui/src/action-button.js`
+- `packages/ui/src/pagination-button.js`
+- `theme/package.json` (version **0.87.1**)
+- `theme/src/components/widgets/discogs/discogs-modal.js`
+- `theme/src/components/widgets/discogs/vinyl-pagination.js`
+- `theme/src/components/widgets/goodreads/recently-read-books.js`
+- `theme/src/components/widgets/steam/steam-game-card.js`
+- `theme/src/components/widgets/steam/steam-game-card.spec.js`
+- `www.chrisvogt.me/package.json` (version **1.18.1**)
+- `www.chrisvogt.me/components/CareerPathVisualization.js`
+
+---
+
+## 0.87.0
+
+### `@chronogrove/ui` — Category index hero chrome & layout tokens
+
+- **`category-index-layout.js`**: **`CategoryIndexHeroChrome`** (animated background slot + overlay), plus Theme UI **`sx`** fragments for the main column flex, post-list section, and empty state (ported from the travel/blog shell pattern).
+- **`package.json` exports**: **`./category-index-layout`** subpath for Next.js and non-Gatsby consumers.
+- **Tests**: **`category-index-layout.spec.js`** (hero chrome / overlay height defaults).
+- **Version**: **0.84.0**
+
+### `gatsby-theme-chronogrove` — Blog & music on travel-style timeline; configurable leads
+
+- **Blog index** (`blog.js`): Uses **`CategoryIndexHeroChrome`** + **`PostTimelineIndex`** (featured row + stamp timeline) instead of a **`PostCard`** grid; default intro copy from **`DEFAULT_BLOG_INDEX_LEAD`** when site metadata omits **`blogIndexLead`**.
+- **`PostTimelineIndex`** (`post-timeline-index.js`): Shared timeline for category indexes; optional **`timelineAsideMedia`** column (**YouTube** compact embed + **SoundCloud** iframe); uniform **80px** stamp thumbnails when not in media mode; **`TimelineEmbedAside`** reuse **`getYouTubeVideoId`** from **`post-card.js`**.
+- **Theme config / metadata**: **`blogIndexLead`** & **`musicIndexLead`** in **`theme-config.js`**; GraphQL + **`useSiteMetadata`** fields; **`category-index-leads.js`** holds defaults.
+- **`category-index-layout.js`**: Thin re-export from **`@chronogrove/ui/category-index-layout`** (shim path preserved for theme shadowing); listed in **`coveragePathIgnorePatterns`**.
+- **Jest**: **`collectCoverageFrom`** includes **`www.chrisvogt.me/src/pages/music.js`** alongside travel for site-route coverage.
+- **Tests**: **`blog.spec.js`**, **`post-timeline-index.spec.js`**, **`chrisvogt-me-music-page.spec.js`**, **`chrisvogt-me-travel-page.spec.js`**, **`theme-config.spec.js`**, **`use-site-metadata.spec.js`**, and related updates.
+- **Version**: **0.87.0**
+
+### `www.chrisvogt.me`
+
+- **`gatsby-config.js`**: **`blogIndexLead`** & **`musicIndexLead`** site metadata.
+- **Travel** (`travel.js`) & **music** (`music.js`): Shared category-index chrome; **music** passes **`timelineAsideMedia`** for embed column.
+- **`travel-journal-index.js`**: Thin wrapper around **`PostTimelineIndex`** with travel **`dataTestIdPrefix`** and copy hooks (existing travel tests unchanged).
+- **Version**: **1.18.0** (tracks theme **0.87.0**).
+
+### `www.chronogrove.com` (demo)
+
+- **Version**: **1.5.0** (tracks theme **0.87.0**).
+
+### Files changed
+
+- `CHANGELOG.md`
+- `packages/ui/package.json` (version **0.84.0**)
+- **`packages/ui/src/category-index-layout.js`**, **`packages/ui/src/category-index-layout.spec.js`**
+- `theme/package.json` (version **0.87.0**)
+- `theme/jest.config.js`
+- **`theme/src/components/category-index-layout.js`**
+- **`theme/src/components/blog/post-timeline-index.js`**, **`theme/src/components/blog/post-timeline-index.spec.js`**
+- `theme/src/components/widgets/recent-posts/post-card.js`
+- **`theme/src/constants/category-index-leads.js`**
+- `theme/src/data/theme-config.js`, `theme/src/data/theme-config.spec.js`
+- `theme/src/hooks/use-site-metadata.js`, `theme/src/hooks/use-site-metadata.spec.js`
+- `theme/src/pages/blog.js`, `theme/src/pages/blog.spec.js`
+- `theme/src/pages/chrisvogt-me-music-page.spec.js`, `theme/src/pages/chrisvogt-me-travel-page.spec.js`
+- `www.chrisvogt.me/package.json` (version **1.18.0**)
+- `www.chrisvogt.me/gatsby-config.js`
+- `www.chrisvogt.me/src/pages/travel.js`, `www.chrisvogt.me/src/pages/music.js`
+- **`www.chrisvogt.me/src/components/travel-journal-index.js`**
+- `www.chronogrove.com/package.json` (version **1.5.0**)
+
+---
+
+## 0.86.0
+
+### `gatsby-theme-chronogrove` — Travel-ready Cloudinary sizing & tests for www travel index
+
+- **Cloudinary helpers** (`cloudinaryThumbnailUrl.js`): **`optimizeCloudinaryFillDimensionsSrc`** resizes/transforms uploads for arbitrary **fill** dimensions (not just square thumbs); **`CLOUDINARY_FEATURED_PORTRAIT_2X`** (~780×1040) supports a sharper travel **featured portrait** crop. Covered in **`cloudinaryThumbnailUrl.spec.js`**.
+- **Jest**: **`jest.config.js`** includes **`www.chrisvogt.me/src/components/**`** in **`collectCoverageFrom`** so site-specific **`travel-journal-index`** stays within diff coverage thresholds. **`theme/src/pages/chrisvogt-me-travel-journal-index.spec.js`** exercises the travel journal UI (featured hero, carousel advance, **`+N`** overflow cue, stamps, **read-more** links, hero without image, **`Untitled`\*\* fallback).
+- **Version**: **0.86.0**
+
+### `www.chrisvogt.me`
+
+- **Travel journal** (`travel.js`): The travel index route uses **`TravelJournalIndex`** — featured **masthead** with **Instagram-style carousel** (interval, crossfade, dots, preload, gallery cue icon as **inline SVG**), timeline **stamp** rhythm, and **`travel-read-more-link`** CTAs with explicit **`aria-label`s**. Implemented in **`www.chrisvogt.me/src/components/travel-journal-index.js`**.
+- **`chrisvogt-me-travel-page.spec.js`**: Assertions updated for the new layout/cue semantics.
+- **Version**: **1.17.0** (tracks theme **0.86.0**).
+
+### `www.chronogrove.com` (demo)
+
+- **Version**: **1.4.0** (tracks theme **0.86.0**).
+
+### Files changed
+
+- `CHANGELOG.md`
+- `theme/package.json` (version **0.86.0**)
+- `theme/jest.config.js`
+- `theme/src/helpers/cloudinaryThumbnailUrl.js`
+- `theme/src/helpers/cloudinaryThumbnailUrl.spec.js`
+- **`theme/src/pages/chrisvogt-me-travel-journal-index.spec.js`**
+- `theme/src/pages/chrisvogt-me-travel-page.spec.js`
+- `www.chrisvogt.me/package.json` (version **1.17.0**)
+- `www.chrisvogt.me/src/pages/travel.js`
+- **`www.chrisvogt.me/src/components/travel-journal-index.js`**
+- `www.chronogrove.com/package.json` (version **1.4.0**)
+
+---
+
+## 0.85.16
+
+### `gatsby-theme-chronogrove` — Discogs modal & vinyl sort labeling
+
+- **Discogs modal** (`discogs-modal.js`): Redesigned **header** with **album title**, a single meta line (**artist · release year**), light divider beneath, and themed foreground/muted colors in **light/dark** mode; **Added to collection** shows a **locale date** (no time) when `dateAdded` or known aliases resolve via **`getDiscogsCollectionAddedMs`** (**`sort-discogs-releases.js`**). **Surfaces** match the vinyl **list register**: translucent panel **`rgba(0,0,0,0.18)`** / **`rgba(255,255,255,0.92)`**, hairline borders, **frosted glass** (`backdrop-filter` blur + saturation), lighter **scrim** behind the dialog; tracklist and chrome use the same subtle **inset** translucency and row dividers as list rows.
+- **Release year UX**: **`getDiscogsReleaseYear`** is the single gate for displaying a year in the **modal**, **list** rows, and **grid** orbit. Discogs **unknown year** (**`year: 0`**) no longer surfaces as **`· 0`** in the modal or list (aligned with grid behavior); **`sort-discogs-releases.spec.js`** / **`discogs-modal.spec.js`** cover **`0`** / **`'0'`**.
+- **Sort controls**: The album-year sort toggle label is **Release Year** for clarity (**`vinyl-collection.js`**).
+- **Docs**: **`theme/src/components/widgets/discogs/README.md`** — modal UX, frost/register styling notes, **`discogs-modal.js`** in Components, **Release year** (Discogs **`0`** / **`getDiscogsReleaseYear`**).
+- **Tests / snapshots**: **`discogs-modal.spec.js`**, **`sort-discogs-releases.spec.js`**, **`discogs-widget.spec.js`**.
+- **Version**: **0.85.16**
+
+### `www.chrisvogt.me`
+
+- **Version**: **1.16.16** (tracks theme **0.85.16**).
+
+### `www.chronogrove.com` (demo)
+
+- **Version**: **1.3.16** (tracks theme **0.85.16**).
+
+### Files changed
+
+- `CHANGELOG.md`
+- `theme/package.json` (version **0.85.16**)
+- `theme/src/components/widgets/discogs/README.md` (incl. **Release year**)
+- `theme/src/components/widgets/discogs/discogs-modal.js`
+- `theme/src/components/widgets/discogs/discogs-modal.spec.js`
+- **`theme/src/components/widgets/discogs/__snapshots__/discogs-modal.spec.js.snap`**
+- `theme/src/components/widgets/discogs/vinyl-collection.js`
+- `theme/src/components/widgets/discogs/vinyl-collection.spec.js`
+- `theme/src/components/widgets/discogs/sort-discogs-releases.js`
+- `theme/src/components/widgets/discogs/sort-discogs-releases.spec.js`
+- `theme/src/components/widgets/discogs/vinyl-record-skeleton.js`
+- **`theme/src/components/widgets/discogs/__snapshots__/discogs-widget.spec.js.snap`**
+- `www.chrisvogt.me/package.json` (version **1.16.16**)
+- `www.chronogrove.com/package.json` (version **1.3.16**)
+
+---
+
+## 0.85.15
+
+### `gatsby-theme-chronogrove` — Discogs vinyl: collection sort & pagination reset fix
+
+- **Discogs widget**: Visitors can switch sort between **date added** (default; newest first when release **`dateAdded`** or known aliases exist) and **alphabetical by album title** via inline controls beside the heading.
+- **`sort-discogs-releases.js`**: Stable client-side sorting; documented optional **`dateAdded`** on releases in **`theme/src/components/widgets/discogs/README.md`**.
+- **Pagination**: Resetting to page **1** now keys off **`itemsPerRow`** and **sort mode**, not the Theme UI breakpoint index alone—crossing **1280px** no longer resets the carousel when density stays **5 columns** (indices **3** and **4** both map to **5** cols).
+- **Tests**: **`sort-discogs-releases.spec.js`**; **`vinyl-collection.spec.js`** includes a regression for the **1279 → ≥1280** resize preserving the current page.
+- **Version**: **0.85.15**
+
+### `www.chrisvogt.me`
+
+- **Version**: **1.16.15** (tracks theme **0.85.15**).
+
+### `www.chronogrove.com` (demo)
+
+- **Version**: **1.3.15** (tracks theme **0.85.15**).
+
+### Files changed
+
+- `theme/package.json` (version **0.85.15**), `theme/src/components/widgets/discogs/vinyl-collection.js`, `sort-discogs-releases.js`, `sort-discogs-releases.spec.js`, `vinyl-collection.spec.js`, **`theme/src/components/widgets/discogs/README.md`**, `theme/src/components/widgets/discogs/__snapshots__/discogs-widget.spec.js.snap`
+- `www.chrisvogt.me/package.json` (version **1.16.15**)
+- `www.chronogrove.com/package.json` (version **1.3.15**)
+- `CHANGELOG.md`
+
+---
+
+## 0.85.14
+
+### `gatsby-theme-chronogrove` — Discogs vinyl: five columns at widest breakpoint
+
+- **Discogs widget**: At **xl** (≥1280px), the grid uses **five** columns per row instead of **six**, so each vinyl is slightly larger and **`itemsPerPage` is 10** (5 × 2 rows) instead of 12. Narrower breakpoints unchanged (**[3, 4, 4, 5, 5]**). Loading skeleton count uses **`FULL_GRID_ITEMS = 10`**.
+- **Docs**: **`theme/src/components/widgets/discogs/README.md`**.
+- **Version**: **0.85.14**
+
+### `www.chrisvogt.me`
+
+- **Version**: **1.16.14** (tracks theme **0.85.14**).
+
+### `www.chronogrove.com` (demo)
+
+- **Version**: **1.3.14** (tracks theme **0.85.14**).
+
+### Files changed
+
+- `theme/package.json` (version **0.85.14**), `theme/src/components/widgets/discogs/vinyl-collection.js`, `theme/src/components/widgets/discogs/README.md`, `theme/src/components/widgets/discogs/__snapshots__/discogs-widget.spec.js.snap`
+- `www.chrisvogt.me/package.json` (version **1.16.14**)
+- `www.chronogrove.com/package.json` (version **1.3.14**)
+- `CHANGELOG.md`
+
+---
+
+## 0.85.13
+
+### `gatsby-theme-chronogrove` — Discogs vinyl: two rows per carousel page
+
+- **Discogs widget**: Pagination shows **two rows per page** (`itemsPerPage = columns × 2`, e.g. **12** items at xl instead of **18** under the previous three-row layout). Carousel loading placeholders use **`FULL_GRID_ITEMS = 12`**.
+- **Docs**: **`theme/src/components/widgets/discogs/README.md`** pagination description aligned with behavior.
+- **Tests**: **`theme/src/components/widgets/discogs/vinyl-collection.spec.js`** (page totals, clamp-on-resize, last-page elastic tests).
+- **Version**: **0.85.13**
+
+### `www.chrisvogt.me`
+
+- **Version**: **1.16.13** (tracks theme **0.85.13**).
+
+### `www.chronogrove.com` (demo)
+
+- **Version**: **1.3.13** (tracks theme **0.85.13**).
+
+### Files changed
+
+- `theme/package.json` (version **0.85.13**), `theme/src/components/widgets/discogs/vinyl-collection.js`, `vinyl-collection.spec.js`, `theme/src/components/widgets/discogs/README.md`
+- `www.chrisvogt.me/package.json` (version **1.16.13**)
+- `www.chronogrove.com/package.json` (version **1.3.13**)
+- `CHANGELOG.md`
+
+---
+
+## 0.85.12
+
+### `gatsby-theme-chronogrove` — Color mode MDX image shortcode
+
+- **`ColorModeImage`**: MDX shortcode registered on **`wrapRootElement.js`** — `<ColorModeImage light='…' dark='…' alt='…' />` picks **`src`** from Theme UI color mode (light vs dark). Optional **`optimizeDelivery`** (default **`true`**) inserts Cloudinary **`f_auto,q_auto`** when delivery URLs omit transform segments; hostnames are validated as **`*.cloudinary.com`** via DNS labels (not substring checks) for CodeQL / URL sanitization.
+- **Tests**: **`theme/src/shortcodes/color-mode-image.spec.js`**.
+- **Version**: **0.85.12**
+
+### `www.chrisvogt.me`
+
+- **Blog**: Piano repertoire post uses **`ColorModeImage`** for separate light- and dark-mode screenshots.
+- **Version**: **1.16.12** (tracks theme **0.85.12**).
+
+### `www.chronogrove.com` (demo)
+
+- **Version**: **1.3.12** (tracks theme **0.85.12**).
+
+### Files changed
+
+- `theme/package.json` (version **0.85.12**), `theme/src/shortcodes/color-mode-image.js`, `theme/src/shortcodes/color-mode-image.spec.js`, `theme/wrapRootElement.js`
+- `www.chrisvogt.me/package.json` (version **1.16.12**), `www.chrisvogt.me/content/blog/2025-01-07-my-piano-repertoire.mdx`
+- `www.chronogrove.com/package.json` (version **1.3.12**)
+- `CHANGELOG.md`, `README.md`, `theme/README.md`
+
+---
+
+## 0.85.11
+
+### `gatsby-theme-chronogrove` — Workspace dependency refresh
+
+- **Ranges / lockfile**: Refreshed **semver ranges** and **`pnpm-lock.yaml`** with **`pnpm -r update`** (no source refactors). Root **ESLint** **^10.3.0**, **eslint-plugin-react-hooks** **^7.1.1**, **Turborepo** **^2.9.12**; theme **Jest** / **jest-environment-jsdom** **30.4.x**, **@tanstack/react-query** **^5.100.9**, **zustand** **^5.0.13**, **@fortawesome/react-fontawesome** **^3.3.1**.
+- **Workspace catalog** (`pnpm-workspace.yaml`): **Next** **^16.2.6**, **Prettier** **^3.8.3**, **React** / **React DOM** **^19.2.6**; **three** remains **^0.184.0**.
+- **Version**: **0.85.11**
+
+### `@chronogrove/ui`
+
+- **Dependencies**: **@fortawesome/react-fontawesome** **^3.3.1**; dev — **@babel/preset-env** **^7.29.5**, **babel-jest** / **jest** / **jest-environment-jsdom** **30.4.x**.
+- **Version**: **0.83.3**
+
+### `www.chrisvogt.me`
+
+- **Version**: **1.16.11** (tracks theme **0.85.11**).
+
+### `www.chronogrove.com` (demo)
+
+- **Version**: **1.3.11** (tracks theme **0.85.11**).
+
+### Files changed
+
+- `package.json`, `pnpm-workspace.yaml`, `pnpm-lock.yaml`
+- `theme/package.json` (version **0.85.11**)
+- `packages/ui/package.json` (version **0.83.3**)
+- `www.chrisvogt.me/package.json` (version **1.16.11**), `www.chronogrove.com/package.json` (version **1.3.11**)
+- `CHANGELOG.md`
+
+---
+
+## 0.85.10
+
+### `www.chrisvogt.me` — Travel & Music index layout
+
+- **Travel (`/travel/`)**: Uses **`articleColumnContainerSx`** (same reading measure as the blog index and MDX posts), **single-column** post list, **home-widget-style** `PostCard` (vertical thumbnails + title block), and optional **`excerpt`** under the title when set in frontmatter.
+- **Music (`/music/`)**: Same **article column** width and **single-column** cards (stacked embeds) for easier focus than the previous multi-column grid.
+- **Tests**: **`theme/src/pages/chrisvogt-me-travel-page.spec.js`** and **`theme/src/pages/chrisvogt-me-music-page.spec.js`** exercise the site pages (filters, empty states, `Head` SEO props). **`theme/jest.config.js`** collects coverage for **`www.chrisvogt.me/src/pages/travel.js`** and **`music.js`**.
+- **Jest / Babel**: **`theme/babel.config.js`** adds a **`babel-plugin-remove-graphql-queries`** override **only** for `www.chrisvogt.me/**/*.js` so Jest can compile those pages without breaking theme **`useStaticQuery`** JSON extraction. **`theme/jest.config.js`** raises global **`coverageThreshold`** for **statements**, **lines**, and **functions** to **98%** (branches remain **90%**).
+- **Version**: **0.85.10**
+
+### `www.chrisvogt.me`
+
+- **Version**: **1.16.10** (tracks theme **0.85.10**).
+
+### `www.chronogrove.com` (demo)
+
+- **Version**: **1.3.10** (tracks theme **0.85.10**).
+
+### Files changed
+
+- `theme/package.json` (version **0.85.10**), `theme/babel.config.js`, `theme/jest.config.js` (coverage thresholds + collect paths), `theme/src/pages/chrisvogt-me-travel-page.spec.js`, `theme/src/pages/chrisvogt-me-music-page.spec.js`
+- `www.chrisvogt.me/package.json` (version **1.16.10**), `www.chrisvogt.me/src/pages/travel.js`, `www.chrisvogt.me/src/pages/music.js`
+- `www.chronogrove.com/package.json` (version **1.3.10**)
+- `CHANGELOG.md`
+
+---
+
+## 0.85.9
+
+### `gatsby-theme-chronogrove` — Goodreads grid pagination after book detail
+
+- **Goodreads / `recently-read-books`**: Reset carousel page to 1 only when the **book list identity** changes (ordered ids), not when the parent passes a new filtered **`books`** array reference on each render. Opening a book (**`?bookId=`**) no longer forces page 1 before returning from detail view ([#601](https://github.com/chrisvogt/gatsby-theme-chronogrove/issues/601)).
+- **Tests**: **`recently-read-books.spec.js`** — page survives rerender with a new array and the same ids.
+- **Version**: **0.85.9**
+
+### `www.chrisvogt.me`
+
+- **Version**: **1.16.9** (tracks theme **0.85.9**).
+
+### `www.chronogrove.com` (demo)
+
+- **Version**: **1.3.9** (tracks theme **0.85.9**).
+
+### Files changed
+
+- `theme/package.json` (version **0.85.9**), `theme/src/components/widgets/goodreads/recently-read-books.js`, `theme/src/components/widgets/goodreads/recently-read-books.spec.js`
+- `www.chrisvogt.me/package.json` (version **1.16.9**), `www.chronogrove.com/package.json` (version **1.3.9**)
+- `CHANGELOG.md`
+
+---
+
+## 0.85.8
+
+### `gatsby-theme-chronogrove` — Goodreads carousel WebGL and dark-mode background
+
+- **`Book3D`**: Guards teardown so a late **`IntersectionObserver`** callback cannot **`createScene()`** after **`dispose()`** (disconnect observers and DOM listeners **before** destroying the Three.js scene); animation frame, intro **`setTimeout`**, and **`TextureLoader`** paths respect **`active`**; **`WEBGL_lose_context`** (**`loseContext`**) after **`renderer.dispose()`** where available so contexts are released promptly on drivers that defer until GC if not lost explicitly.
+- **Goodreads / `recently-read-books`**: On **`currentPage`** change (not initial mount), the active slide renders **flat covers** for two **`requestAnimationFrame`** ticks before **`Book3D`** again, so disposing the previous slide’s canvases completes before allocating the next (~10+) contexts — avoids spikes that exceeded the browser cap and revoked the fixed **Color Bends** layer (**“Too many active WebGL contexts”**).
+- **Tests**: **`book-3d.spec.js`** — post-unmount intersect must not recreate the renderer; **`getContext`** / **`WEBGL_lose_context`** (including **`getExtension`** throw swallowed in **`dispose`**); ResizeObserver callbacks after **unmount**; stale animation ticks after **unmount** or **leaveViewport**.
+- **`Book3D` instrumentation**: **`istanbul ignore next`** on the intro-timeout **`!inViewport`** guard (normally unreachable — viewport leave clears the timer before it fires).
+- **Version**: **0.85.8**
+
+### `www.chrisvogt.me`
+
+- **Version**: **1.16.8** (tracks theme **0.85.8**).
+
+### `www.chronogrove.com` (demo)
+
+- **Version**: **1.3.8** (tracks theme **0.85.8**).
+
+### Files changed
+
+- `theme/package.json` (version **0.85.8**), `theme/src/components/artwork/book-3d.js`, `theme/src/components/artwork/book-3d.spec.js`, `theme/src/components/widgets/goodreads/recently-read-books.js`
+- `www.chrisvogt.me/package.json` (version **1.16.8**), `www.chronogrove.com/package.json` (version **1.3.8**)
+- `CHANGELOG.md`
+
+---
+
+## 0.85.7
+
+### `@chronogrove/ui` — Letterpress card depth + dashboard widget headers
+
+- **Theme**: `card` uses a layered paper-stack `box-shadow` instead of a flat Tailwind `default` shadow; `floatOnHover` lifts cards with a deeper shadow on hover (no scale pop).
+- **WidgetHeader**: Social-dashboard style — primary-colored icon chip, baseline-aligned headline + CTA, square metric chips using `panel-background` and subtle text-tinted borders; `ProfileMetricsBadge` inlined for consistent chip layout. Removed horizontal rules from earlier iterations.
+- **Metric chip borders**: Theme `text` is 3-digit hex (`#111` / `#fff`); borders use `normalizeHexToRrggbb` + `hexToRgba` (~`#RRGGBB22` alpha) instead of string-concatenating `22`, which produced invalid 5-digit hex and was ignored by browsers.
+- **color-utils**: Added `normalizeHexToRrggbb`; `hexToRgb` now accepts 3- and 4-digit hex shorthand.
+- **WidgetSection**: When **`id`** is set, the section defaults to **`tabIndex={-1}`** so callers (e.g. theme hash navigation) can move keyboard / screen reader focus onto the landmark after scrolling. An explicit **`tabIndex`** prop still overrides.
+- **Tests**: `widget-header.spec.js`, `color-utils.spec.js`, **`widget-section.spec.js`** (`tabIndex` / `id` behavior), and theme snapshots updated (widget headers that embed `WidgetHeader` pick up new Emotion class names).
+- **Version**: **0.83.2**
+
+### `gatsby-theme-chronogrove` — Home sidebar scroll rail + WCAG contrast
+
+- **HomeNavigation**: Vertical progress rail with circular section badges; scroll-synced fill; WCAG-friendly idle label/icon opacity in light mode; dark-mode active badge uses a dark icon on the light primary blue for ≥3:1 contrast. Rail fill percentage uses exported `getRailFillPct`; primary color resolution uses `resolvePrimaryFromTheme`; `normalizeHomeNavProps` keeps nullish `props` handling testable.
+- **HomeNavigation / rail robustness**: `getRailFillPct` clamps invalid indices (e.g. `findIndex` → `-1` when `activeSection` does not match any link id) so the rail fill never computes a negative `calc()` percentage.
+- **HomeNavigation / keyboard & screen readers**: After activating an in-page target, focus moves to the destination section (`#top` hero or hash targets). `scrollToElementWhenReady` scrolls smoothly then calls `focus({ preventScroll: true })` by default so focus follows navigation without doubling scroll; **`focusTarget: false`** opts out when needed.
+- **Home template**: `<section id="top">` uses **`tabIndex={-1}`** so programmatic focus matches hash / Home nav clicks.
+- **Tests**: `home-navigation.spec.js` (rail helpers, hash clicks including focus to `#top`); `scroll-to-element-when-ready.spec.js`; `scroll-to-hash-when-ready.spec.js`; `templates/home.spec.js` (hero focus target); snapshots refreshed where applicable.
+- **Version**: **0.85.7**
+
+### `www.chrisvogt.me`
+
+- **Version**: **1.16.7** (tracks theme **0.85.7**).
+
+### `www.chronogrove.com` (demo)
+
+- **Version**: **1.3.7** (tracks theme **0.85.7**).
+
+### Files changed
+
+- `packages/ui/package.json` (version **0.83.2**), `packages/ui/src/theme.js`, `packages/ui/src/color-utils.js`, `packages/ui/src/color-utils.spec.js`, `packages/ui/src/widget-section.js`, `packages/ui/src/widget-section.spec.js`, `packages/ui/src/widget-header.js`, `packages/ui/src/widget-header.spec.js`, `packages/ui/src/__snapshots__/theme.spec.js.snap`, `packages/ui/src/__snapshots__/widget-header.spec.js.snap`
+- `theme/package.json` (version **0.85.7**), `theme/src/templates/home.js`, `theme/src/templates/home.spec.js`, `theme/src/helpers/scroll-to-element-when-ready.js`, `theme/src/helpers/scroll-to-element-when-ready.spec.js`, `theme/src/components/scroll-to-hash-when-ready.spec.js`, `theme/src/components/home-navigation.js`, `theme/src/components/home-navigation.spec.js`, **`theme/src/components/home-navigation.hash-focus-integration.spec.js`**, `theme/src/gatsby-plugin-theme-ui/theme.spec.js`, theme snapshot files under `theme/src/**/__snapshots__/`
+- `www.chrisvogt.me/package.json` (version **1.16.7**), `www.chronogrove.com/package.json` (version **1.3.7**)
+- `CHANGELOG.md`
+
+---
+
+## 0.85.6
+
+### `@chronogrove/ui` — Shared page layouts (article column, home dashboard, page shell)
+
+- **New subpaths**: `@chronogrove/ui/article-column-container` (`articleColumnContainerSx`, `ArticleColumnContainer`), `@chronogrove/ui/home-dashboard-layout` (`HomeDashboardGrid`, home dashboard `sx` tokens), `@chronogrove/ui/page-shell-layout` (`ChronogrovePageShell` — skip link, optional header/footer slots, main landmark or bare children).
+- **Tests**: unit specs for the new modules; coverage thresholds unchanged.
+- **Version**: **0.83.1**
+
+### `gatsby-theme-chronogrove`
+
+- **Layout**: `layout.js` composes **`ChronogrovePageShell`** from **`@chronogrove/ui/page-shell-layout`** (nav, footer, audio bar padding unchanged).
+- **Home**: `templates/home.js` uses **`HomeDashboardGrid`** and shared home layout tokens from **`@chronogrove/ui/home-dashboard-layout`**.
+- **Constants**: `constants/article-column-container-sx.js` re-exports **`articleColumnContainerSx`** from **`@chronogrove/ui/article-column-container`** for theme shadowing.
+- **Tests**: `layout.spec.js` snapshots updated for the shell’s `<main>` markup.
+- **Version**: **0.85.6**
+
+### `chronogrove-next` (example)
+
+- **`app/home-showcase.jsx`**: Uses the same **`@chronogrove/ui/home-dashboard-layout`** primitives as the Gatsby home template for the dashboard-style grid and main shell tokens.
+
+### `www.chrisvogt.me`
+
+- **About**: `articleColumnContainerSx` from **`gatsby-theme-chronogrove/src/constants/article-column-container-sx`** instead of duplicating container `sx`.
+- **Version**: **1.16.6** (tracks theme **0.85.6**).
+
+### `www.chronogrove.com` (demo)
+
+- **About**: Same **`articleColumnContainerSx`** import path; **`about.spec.js`** mocks the constants module for Jest.
+- **Version**: **1.3.6** (tracks theme **0.85.6**).
+
+### Files changed
+
+- `packages/ui/package.json` (version **0.83.1**, new **`exports`**), `packages/ui/src/article-column-container.js`, `packages/ui/src/article-column-container.spec.js`, `packages/ui/src/home-dashboard-layout.js`, `packages/ui/src/home-dashboard-layout.spec.js`, `packages/ui/src/page-shell-layout.js`, `packages/ui/src/page-shell-layout.spec.js`
+- `theme/package.json` (version **0.85.6**), `theme/src/components/layout.js`, `theme/src/templates/home.js`, `theme/src/constants/article-column-container-sx.js`, `theme/src/components/__snapshots__/layout.spec.js.snap`
+- `examples/chronogrove-next/app/home-showcase.jsx`
+- `www.chrisvogt.me/package.json` (version **1.16.6**), `www.chrisvogt.me/src/pages/about.js`
+- `www.chronogrove.com/package.json` (version **1.3.6**), `www.chronogrove.com/src/pages/about.js`, `www.chronogrove.com/src/pages/about.spec.js`
+- `CHANGELOG.md`
+
+---
+
+## 0.85.5
+
+### `gatsby-theme-chronogrove` — Direct `@chronogrove/ui/theme` imports ([Issue #569](https://github.com/chrisvogt/gatsby-theme-chronogrove/issues/569))
+
+- **Refactor**: Theme tests, **`testUtils`**, **`media-item-grid`**, and related specs import the design tokens from **`@chronogrove/ui/theme`** instead of the **`src/gatsby-plugin-theme-ui`** shim paths. The shim files remain for Gatsby theme shadowing and backward compatibility.
+- **Version**: **0.85.5**
+
+### `www.chrisvogt.me`
+
+- **Version**: **1.16.5** (tracks theme **0.85.5**).
+
+### `www.chronogrove.com` (demo)
+
+- **Version**: **1.3.5** (tracks theme **0.85.5**).
+
+### Files changed
+
+- `theme/package.json` (version **0.85.5**), `theme/src/testUtils.js`, `theme/src/components/widgets/spotify/media-item-grid.js`, `theme/src/components/category.spec.js`, `theme/src/components/animated-page-background.spec.js`, `theme/src/components/home-navigation.spec.js`, `theme/src/shortcodes/Note.spec.js`, `theme/src/components/widgets/spotify/playlists.spec.js`, `theme/src/components/widgets/spotify/top-tracks.spec.js`, `theme/src/components/widgets/steam/play-time-chart.spec.js`, `theme/src/components/widgets/steam/steam-game-card.spec.js`
+- `www.chrisvogt.me/package.json` (version **1.16.5**), `www.chronogrove.com/package.json` (version **1.3.5**)
+- `CHANGELOG.md`
+
+---
+
+## 0.85.4
+
+### `@chronogrove/ui` — `ThumbnailStrip`, `ImageThumbnails`, Next showcase helpers ([Issue #566](https://github.com/chrisvogt/gatsby-theme-chronogrove/issues/566))
+
+- **New subpaths**: `@chronogrove/ui/thumbnail-strip`, `@chronogrove/ui/image-thumbnails` (optional **`optimizeSrc`** for CDN-specific URLs; **`IMAGE_THUMBNAILS_SIZE_PX`** aligns retina resize math with consumers).
+- **ThumbnailStrip**: layout dimensions use **`px` strings** in **`sx`** so Theme UI does not treat integer **`width` / `height` / `top` / `left`** values as theme scale tokens (fixes oversized tiles in App Router / strict Theme UI setups).
+- **Tests**: suites and snapshots in `packages/ui`; **`packages/ui/README.md`** documents the exports.
+- **Version**: **0.83.0**
+
+### `gatsby-theme-chronogrove`
+
+- **Recent posts**: **`image-thumbnails`** delegates to **`@chronogrove/ui/image-thumbnails`** with **`optimizeCloudinaryThumbnailSrc`** in **`theme/src/helpers/cloudinaryThumbnailUrl.js`** (hostname-safe Cloudinary **`/upload/`** rewriting; covered by **`cloudinaryThumbnailUrl.spec.js`**). **`thumbnail-strip`** is a shim re-export; **Jest** coverage ignores thin shims plus **`recent-posts` thumbnail specs moved to the UI package**.
+- **Version**: **0.85.4**
+
+### Examples
+
+- **`chronogrove-next`**: [`app/home-showcase.jsx`](examples/chronogrove-next/app/home-showcase.jsx) **`Post thumbnails`** section demonstrates **`ThumbnailStrip`** and **`ImageThumbnails`** (stable **`picsum.photos`** URLs; default pass-through **`optimizeSrc`**).
+
+### `www.chrisvogt.me`
+
+- **Version**: **1.16.4** (tracks theme **0.85.4**).
+
+### `www.chronogrove.com` (demo)
+
+- **Version**: **1.3.4** (tracks theme **0.85.4**).
+
+### Files changed
+
+- `packages/ui/package.json` (version **0.83.0**, new **`exports`**), `packages/ui/src/thumbnail-strip.js`, `packages/ui/src/image-thumbnails.js`, specs, snapshots, `packages/ui/README.md`
+- `theme/package.json` (version **0.85.4**), `theme/jest.config.js`, `theme/src/helpers/cloudinaryThumbnailUrl.js`, `theme/src/helpers/cloudinaryThumbnailUrl.spec.js`, `theme/src/components/widgets/recent-posts/thumbnail-strip.js`, `theme/src/components/widgets/recent-posts/image-thumbnails.js`, `theme/src/components/widgets/recent-posts/__snapshots__/post-card.spec.js.snap`, removed superseded **`recent-posts` thumbnail snapshots/specs**
+- `examples/chronogrove-next/app/home-showcase.jsx`
+- `www.chrisvogt.me/package.json` (version **1.16.4**), `www.chronogrove.com/package.json` (version **1.3.4**)
+- `CHANGELOG.md`
+
+---
+
+## 0.85.3
+
+### `gatsby-theme-chronogrove` — Steam widget & GitHub contribution graph
+
+- **Steam**: The **Recently-Played Games** block (heading, copy, and grid) is shown only while **loading** or when the API returns **at least one** recently played game. If the last-two-weeks list is empty after load, the section is omitted so the widget does not show a bare headline.
+- **GitHub contribution graph**: Uses an explicit **4px** gap constant for the heatmap, skeleton, legend, and day-label row math so month labels line up with cells (Theme UI **`gap: 1`** is not guaranteed to be 4px). **Month labels** match GitHub when the year view does not start on the 1st: skip the cramped first partial month and omit the trailing partial month. **Tests**: **`contribution-graph.spec.js`** covers partial-range month labeling.
+- **Version**: **0.85.3**
+
+### `www.chrisvogt.me`
+
+- **Version**: **1.16.3** (tracks theme **0.85.3**).
+
+### `www.chronogrove.com` (demo)
+
+- **Version**: **1.3.3** (tracks theme **0.85.3**).
+
+### Files changed
+
+- `theme/package.json` (version **0.85.3**), `theme/src/components/widgets/steam/steam-widget.js`, `theme/src/components/widgets/steam/README.md`, `theme/src/components/widgets/steam/__snapshots__/steam-widget.spec.js.snap`, `theme/src/components/widgets/github/contribution-graph.js`, `theme/src/components/widgets/github/contribution-graph.spec.js`, `theme/src/components/widgets/github/__snapshots__/contribution-graph.spec.js.snap`, `theme/src/components/widgets/github/__snapshots__/github-widget.spec.js.snap`
+- `www.chrisvogt.me/package.json` (version **1.16.3**)
+- `www.chronogrove.com/package.json` (version **1.3.3**)
+- `CHANGELOG.md`
+
+---
+
+## 0.85.2
+
+### `gatsby-theme-chronogrove` — Goodreads carousel WebGL limits
+
+- **Bug fix**: The Goodreads carousel kept **every page** mounted for swipe layout, so each tile created a **`Book3D` / WebGL context**. That could exceed the browser context cap (**“Too many active WebGL contexts”**), trigger **context loss**, and break covers after pagination (and stress other canvases, e.g. the home background). **Non-active carousel pages** now use **`BookLink`** with **`flatCover`** (static `<img>` plus a title fallback on image error). Only the **current page** mounts **`Book3D`** (~10 contexts instead of dozens).
+- **Tests**: **`book-link.spec.js`** covers **`flatCover`**; **`recently-read-books`** pagination tests unchanged.
+- **Version**: **0.85.2**
+
+### `www.chrisvogt.me`
+
+- **Version**: **1.16.2** (tracks theme **0.85.2**).
+
+### `www.chronogrove.com` (demo)
+
+- **Version**: **1.3.2** (tracks theme **0.85.2**).
+
+### Files changed
+
+- `theme/package.json` (version **0.85.2**), `theme/src/components/widgets/goodreads/book-link.js`, `theme/src/components/widgets/goodreads/book-link.spec.js`, `theme/src/components/widgets/goodreads/recently-read-books.js`
+- `www.chrisvogt.me/package.json` (version **1.16.2**)
+- `www.chronogrove.com/package.json` (version **1.3.2**)
+- `CHANGELOG.md`
+
+---
+
+## 0.85.1
+
+### `gatsby-theme-chronogrove` — Goodreads 3D books and WebGL background
+
+- **Bug fix**: **`Book3D`** no longer **`dispose()`**s its Three.js renderer when it leaves the viewport. It pauses animation, clears the intro timer, resets hover/intro state to the resting pose, and hides the canvas (**`visibility: hidden`**). Scrolling past many Goodreads tiles and back was creating a burst of new WebGL contexts and could exceed the browser limit, **revoking the dark-mode Color Bends background** on the home page. The scene is still fully torn down on component unmount.
+- **Tests**: **`book-3d.spec.js`** expects pause/reuse on viewport exit/re-entry instead of dispose/recreate.
+- **Version**: **0.85.1**
+
+### `www.chrisvogt.me`
+
+- **Version**: **1.16.1** (tracks theme **0.85.1**).
+
+### `www.chronogrove.com` (demo)
+
+- **Version**: **1.3.1** (tracks theme **0.85.1**).
+
+### Files changed
+
+- `theme/package.json` (version **0.85.1**), `theme/src/components/artwork/book-3d.js`, `theme/src/components/artwork/book-3d.spec.js`
+- `www.chrisvogt.me/package.json` (version **1.16.1**)
+- `www.chronogrove.com/package.json` (version **1.3.1**)
+- `CHANGELOG.md`
+
+---
+
+## 0.85.0
+
+### `gatsby-theme-chronogrove` — home “Latest Posts” widget layout
+
+- **Recaps**: `PostCard` no longer receives **`excerpt`** (matches Travel-style cards: thumbnails, title, meta). Recaps use the same **2-column** grid as Travel on large breakpoints instead of a dynamic 3-column layout.
+- **Music**: **`useCategorizedPosts`** exposes **`musicSoundcloud`** and **`musicYoutube`** (up to **two** newest music posts per embed type). The home widget renders **two rows** under one Music heading: SoundCloud first, then YouTube, with spacing between rows. Posts already shown in the SoundCloud row are excluded from the YouTube row so dual-embed posts do not duplicate. Each row passes **only** the relevant embed props so previews align. Music posts **without** `soundcloudId` or `youtubeSrc` do not appear in these rows.
+- **Version**: **0.85.0**
+
+### `www.chrisvogt.me`
+
+- **Version**: **1.16.0** (tracks theme **0.85.0**).
+
+### `www.chronogrove.com` (demo)
+
+- **Version**: **1.3.0** (tracks theme **0.85.0**).
+
+### Files changed
+
+- `theme/package.json` (version **0.85.0**), `theme/src/hooks/use-categorized-posts.js`, `theme/src/hooks/use-categorized-posts.spec.js`, `theme/src/components/widgets/recent-posts/recent-posts-widget.js`, `theme/src/components/widgets/recent-posts/recent-posts-widget.spec.js`
+- `www.chrisvogt.me/package.json` (version **1.16.0**)
+- `www.chronogrove.com/package.json` (version **1.3.0**)
+- `CHANGELOG.md`
+
+---
+
+## 0.84.0
+
+### `gatsby-theme-chronogrove` — configurable footer links
+
+- **Feature**: Optional **`siteMetadata.navigation.footer`** (same item shape as header links: `path`, `slug`, `text`, `title`, optional **`nativeAnchor`**). Internal pages use Gatsby **`Link`**; **`https://` / `http://` paths**, site-relative paths that look like static outputs (e.g. **`.xml`**, **`.rss`**, **`.atom`**), and items with **`nativeAnchor: true`** use a plain anchor so feeds and other non-page assets are not routed through **`gatsby-link`**. Default **`footer`** in theme config is **[]** so the published theme does not embed site-specific URLs. Header **`left`** links use the same rules.
+- **API**: GraphQL type **`SiteSiteMetadataNavigation`** includes **`footer`**. Navigation items may set **`nativeAnchor`**. **`useNavigationData`** returns **`footer`** (and always returns defined **`header` / `footer` arrays**; footer-only config is supported). Selectors **`getFooterLinkItems`**, **`isExternalNavigationPath`**, **`isStaticOutputNavigationPath`**, and **`shouldUseNativeNavigationLink`** in [`theme/src/selectors/navigation.js`](theme/src/selectors/navigation.js).
+- **Site**: [`www.chrisvogt.me`](www.chrisvogt.me) supplies RSS, Privacy, View Source, and Status (**`https://api.chrisvogt.me`**) via theme options.
+- **Docs**: [`theme/README.md`](theme/README.md) (navigation.footer).
+- **Version**: **0.84.0**
+
+### `www.chrisvogt.me`
+
+- **Version**: **1.15.0** (theme options: `navigation.footer`).
+
+### `www.chronogrove.com` (demo)
+
+- **Version**: **1.2.0** — theme options add **`navigation.footer`** with **View Source** (GitHub) so the public demo shows configurable footer links. RSS is omitted here because this package does not ship **`gatsby-plugin-feed`** (unlike **`www.chrisvogt.me`**); adding a feed plugin first would be required for a real **`/rss.xml`** link.
+
+### Files changed
+
+- `theme/package.json` (version **0.84.0**), `theme/gatsby-node.js`, `theme/src/data/theme-config.js`, `theme/src/hooks/use-navigation-data.js`, `theme/src/selectors/navigation.js`, `theme/src/components/footer/footer.js`, `theme/src/components/top-navigation.js`, related specs and layout snapshots, `theme/README.md`
+- `www.chrisvogt.me/package.json` (version **1.15.0**), `www.chrisvogt.me/gatsby-config.js`
+- `www.chronogrove.com/package.json` (version **1.2.0**), `www.chronogrove.com/gatsby-config.js`
+- `CHANGELOG.md`
+
+---
+
+## 0.83.2
+
+### `@chronogrove/ui` — configurable cross-subdomain color mode
+
+- **Feature**: Optional sync of light/dark preference across subdomains via a first-party cookie (`Domain=.<registrableDomain>`; `Path=/`; `SameSite=Lax`; `Secure` on HTTPS). Head inline scripts can read the shared cookie into `theme-ui-color-mode` when **`crossDomainColorMode.registrableDomain`** is set; **`ColorToggle`** writes the cookie when **`setChronogroveCrossDomainColorModeClientConfig`** matches (or use **`ChronogroveNextAppShell`** / Gatsby **`onClientEntry`** wiring). There is **no** hardcoded site domain in the package.
+- **API**: **`buildThemeUiNoFlashInlineScript`**, **`buildHtmlBackgroundInlineScript`**, **`ChronogroveNextRootLayoutHead`**, **`ChronogroveNextAppShell`**, **`buildThemeUiColorModeHeadComponents`** accept optional **`crossDomainColorMode?: { registrableDomain?: string, cookieName?: string }`**. New exports: **`validateRegistrableDomain`**, **`isHostnameUnderRegistrableDomain`**, **`setChronogroveCrossDomainColorModeClientConfig`**, **`getChronogroveCrossDomainColorModeClientConfig`**, **`setChronogroveCrossDomainColorModeCookie`**, and related cookie helpers under **`@chronogrove/ui/color-mode`**.
+- **Version**: **0.82.3**
+
+### `gatsby-theme-chronogrove`
+
+- **Gatsby**: When **`GATSBY_COLOR_MODE_REGISTRABLE_DOMAIN`** is set (e.g. `chrisvogt.me`), **`gatsby-ssr`** passes **`crossDomainColorMode`** into head components and **`gatsby-browser`** calls **`setChronogroveCrossDomainColorModeClientConfig`** on **`onClientEntry`**. If unset, behavior matches the previous localStorage-only color mode (no shared cookie).
+- **Version**: **0.83.2**
+
+### Files changed
+
+- `packages/ui/package.json` (version **0.82.3**), `packages/ui/src/color-mode/*`, `packages/ui/src/color-toggle.js`, `packages/ui/src/gatsby/build-theme-ui-color-mode-head-components.js`, `packages/ui/src/next/app-shell.js`, `packages/ui/src/next/root-layout-head.js`
+- `theme/package.json` (version **0.83.2**), `theme/gatsby-ssr.js`, `theme/gatsby-browser.js`
+
+---
+
+## 0.83.1
+
+### `@chronogrove/ui` — three.js `Timer` for Color Bends
+
+- **Runtime**: [`ColorBends`](packages/ui/src/animated-page-background/ColorBends.js) uses **`THREE.Timer`** (with `requestAnimationFrame` timestamps, optional `connect(document)` for visibility-aware deltas, and `dispose()` on teardown) instead of deprecated **`THREE.Clock`**, removing r183+ console warnings for consumers of **`@chronogrove/ui/animated-page-background`**, **`@chronogrove/ui/color-bends`**, and **`@chronogrove/ui/next`** (`ChronogroveAnimatedPageBackground`).
+- **Version**: **0.82.1**
+
+### `gatsby-theme-chronogrove`
+
+- **Dependencies**: Declare **`three`** via the workspace catalog so webpack can resolve imports in [`book-3d.js`](theme/src/components/artwork/book-3d.js) (pnpm does not rely on transitive hoisting for bare `three` imports in theme source).
+- **Tests**: [`color-bends.spec.js`](theme/src/components/home-backgrounds/color-bends.spec.js) mocks updated from `Clock` to `Timer`.
+- **Version**: **0.83.1**
+
+### Workspace (pnpm catalog)
+
+- **Catalog** ([`pnpm-workspace.yaml`](pnpm-workspace.yaml)): Restored **`three`**; added **`@theme-ui/color`**, **`@theme-ui/css`**, **`@theme-ui/presets`**, **`@theme-ui/prism`** so Theme UI satellite packages stay on one bump line with **`@theme-ui/components`** / **`theme-ui`**.
+- **Consumers** using `catalog:` where versions match: root **`prettier`** / **`boxen`**; **`theme`** (`@emotion/cache`, `@mdx-js/react`, `@theme-toggles/react`, Theme UI entries above); **`packages/ui`** (`@theme-ui/presets`); **`www.chrisvogt.me`** and **`www.chronogrove.com`** (`@mdx-js/react`).
+
+### Site packages
+
+- **`www.chrisvogt.me`**: **1.14.2** (dependency alignment with catalog edits).
+- **`www.chronogrove.com`**: **1.1.3** (same).
+
+### Documentation
+
+- **[`packages/ui/README.md`](packages/ui/README.md)**, **[`README.md`](README.md)** (repo root), **[`examples/chronogrove-next/README.md`](examples/chronogrove-next/README.md)**: Clarify Color Bends / three.js timing; align **Next.js** reference wording with the **16.x** line pinned in the catalog.
+
+### Files changed
+
+- `packages/ui/package.json` (version **0.82.1**), `packages/ui/src/animated-page-background/ColorBends.js`, `packages/ui/README.md`
+- `theme/package.json` (version **0.83.1**), `theme/src/components/home-backgrounds/color-bends.spec.js`
+- `package.json` (root), `pnpm-workspace.yaml`, `pnpm-lock.yaml`
+- `www.chrisvogt.me/package.json`, `www.chronogrove.com/package.json`
+- `README.md`, `examples/chronogrove-next/README.md`
+
+---
+
+## 0.83.0
+
+### `gatsby-theme-chronogrove` — Zustand audio player, remove Redux
+
+- **Breaking**: The theme no longer ships **Redux** (`react-redux`, `@reduxjs/toolkit`, `redux`, `reselect`). Removed [`theme/src/store.js`](theme/src/store.js) and [`theme/src/reducers/`](theme/src/reducers/) (including the former `audioPlayer` slice). Sites that **shadowed** those files or imported them must migrate.
+- **New**: Global audio UI state lives in [`theme/src/stores/audio-player-store.js`](theme/src/stores/audio-player-store.js) (**Zustand**). Behavior is unchanged: SoundCloud / Spotify track selection, visibility, and the fixed player still work from layout, media templates, and Spotify widgets.
+- **Root wiring**: [`theme/wrapRootElement.js`](theme/wrapRootElement.js) wraps **TanStack Query** + Theme UI + MDX only (no Redux `Provider`).
+- **Tests**: [`theme/src/testUtils.js`](theme/src/testUtils.js) exports **`resetAudioPlayerStore`** for isolation; Redux mock store removed. Jest **`moduleNameMapper`** maps **`theme-ui`** to one resolved file so tests and **`@chronogrove/ui`** always share the same **`ThemeUIProvider`** / **`useColorMode`** module (pnpm can otherwise install duplicate **`theme-ui`** trees). [`theme/src/gatsby-plugin-theme-ui/theme.spec.js`](theme/src/gatsby-plugin-theme-ui/theme.spec.js) uses **`jest.requireActual('theme-ui')`** for the mock so **`merge`** stays Theme UI’s deep merge (the previous stub replaced the whole module and flattened the exported theme). Theme snapshot under **`theme/src/gatsby-plugin-theme-ui/__snapshots__/`** updated accordingly.
+- **Gatsby webpack**: [`theme/gatsby-node.js`](theme/gatsby-node.js) sets **`resolve.alias`** for **`theme-ui`**, **`@theme-ui/color-modes`**, **`@theme-ui/core`**, and **`@theme-ui/theme-provider`** to the same physical packages as **`ChronogroveThemeProvider`** (pnpm can install multiple Theme UI peer graphs; otherwise **`useColorMode`** can throw **`[useColorMode] requires the ColorModeProvider component`** in develop/build because React context does not cross duplicate modules).
+- **Dependencies (theme dev)**: **`zustand`** range bumped to **`^5.0.12`** (still compatible with the audio store API).
+- **Docs**: [`.cursorrules`](.cursorrules) and [`theme/src/components/widgets/steam/README.md`](theme/src/components/widgets/steam/README.md) updated to describe widget data via **`useWidgetData`** (not Redux).
+
+### `@chronogrove/ui`
+
+- No changes in this release (version remains **0.82.0**).
+
+### Files changed
+
+- `theme/package.json` (version **0.83.0**), `theme/gatsby-node.js` (Theme UI webpack aliases), `theme/src/stores/audio-player-store.js`, `theme/src/stores/audio-player-store.spec.js`, `theme/wrapRootElement.js`, `theme/src/testUtils.js`, component/template updates, `theme/jest.config.js` (including **`theme-ui`** dedupe and removed-**`reducers`** coverage ignore), `theme/src/gatsby-plugin-theme-ui/theme.spec.js` + snapshot, snapshots under `theme/src/components/__snapshots__/`, `.cursorrules`, `pnpm-lock.yaml`
+
+---
+
+## 0.82.0
+
+### `@chronogrove/ui` — widget header row, profile metrics, `MetricCard` alias, remove unused backdrop
+
+- **New subpaths**: [`@chronogrove/ui/widget-header`](packages/ui/src/widget-header.js) (dashboard widget title row with optional Font Awesome icon, aside slot, optional metrics strip) and [`@chronogrove/ui/profile-metrics-badge`](packages/ui/src/profile-metrics-badge.js) (metrics badges for that header). Implementation uses Theme UI `Box` / `Heading` / `Badge` (no classic `jsx` pragma) for compatibility with automatic JSX in Jest.
+- **Dependencies**: `@fortawesome/fontawesome-svg-core` and `@fortawesome/react-fontawesome` (icon slot in `WidgetHeader`).
+- **`MetricCard`**: accepts **`showPlaceholder`** as an alias for **`loading`** (same loading UI), for parity with previous Gatsby-only prop naming.
+- **Removed**: **`ChronogrovePageBackdrop`** and the **`@chronogrove/ui/page-backdrop`** export. Nothing in this repo consumed it; the supported full-bleed background remains [`@chronogrove/ui/animated-page-background`](packages/ui/src/animated-page-background/index.js) (three.js Color Bends). If you copied `page-backdrop` from an older publish, pin to **0.81.x** or switch to the animated background / your own fixed layer.
+
+### `gatsby-theme-chronogrove`
+
+- **Thin re-exports**: [`widget-header`](theme/src/components/widgets/widget-header.js), [`profile-metrics-badge`](theme/src/components/widgets/profile-metrics-badge.js), and [`metric-card`](theme/src/components/widgets/metric-card.js) now re-export from `@chronogrove/ui` (Jest coverage ignores these shims; logic is tested in `packages/ui`).
+- **Tests**: widget snapshots updated for header/icon markup; removed invalid **`platform`** prop from the widget-header spec.
+
+### Examples & documentation
+
+- **`examples/chronogrove-next`**: [`home-showcase.jsx`](examples/chronogrove-next/app/home-showcase.jsx) uses **`WidgetHeader`** (with **`@fortawesome/free-brands-svg-icons`**), **`PageHeader`**, **`Header`**, **`PaginationButton`**, **`MetricBadge`**, and **`MetricCard`** **`showPlaceholder`** alongside existing demos; [`README.md`](examples/chronogrove-next/README.md) updated.
+- **`packages/ui/README.md`**: Notes on **additional `exports`**, **`WidgetHeader`** icon packages, and **`MetricCard`** **`loading`** / **`showPlaceholder`**.
+- **[Root `README.md`](README.md)** and **[`theme/README.md`](theme/README.md)**: Cross-references for widget re-exports and the Next showcase.
+- **[`.cursorrules`](.cursorrules)** and **[`CONTRIBUTING.md`](CONTRIBUTING.md)**: Gatsby **shadow** import paths (theme shims) vs **direct** `@chronogrove/ui/...` imports for Next and other non-Gatsby code.
+
+### Files changed
+
+- `packages/ui/package.json` (version **0.82.0**, new exports; removed `./page-backdrop`), `packages/ui/src/widget-header.js`, `packages/ui/src/profile-metrics-badge.js`, `packages/ui/src/metric-card.js`, specs and snapshots, `packages/ui/README.md`
+- `theme/package.json` (version **0.82.0**), widget shims, `theme/jest.config.js`, snapshot updates under `theme/src/components/widgets/**`
+- `pnpm-lock.yaml`
+
+---
+
+## 0.81.0
+
+### `@chronogrove/ui` — dashboard widget primitives (Issue #566) and reference-app polish
+
+Tracked under epic **[#561](https://github.com/chrisvogt/gatsby-theme-chronogrove/issues/561)** (Decouple Chronogrove UX into `@chronogrove/ui`). This release advances **[#566](https://github.com/chrisvogt/gatsby-theme-chronogrove/issues/566)** by moving additional low-coupling dashboard pieces into the UI package with subpath exports and tests.
+
+- **New subpaths**: [`@chronogrove/ui/category-label`](packages/ui/src/category-label.js), [`@chronogrove/ui/external-link-icon`](packages/ui/src/external-link-icon.js), [`@chronogrove/ui/metric-badge`](packages/ui/src/metric-badge.js), [`@chronogrove/ui/metric-card`](packages/ui/src/metric-card.js), [`@chronogrove/ui/muted-card-footer`](packages/ui/src/muted-card-footer.js), [`@chronogrove/ui/pagination`](packages/ui/src/pagination.js) (bar composition; pairs with existing `@chronogrove/ui/pagination-button`), [`@chronogrove/ui/status-card`](packages/ui/src/status-card.js), [`@chronogrove/ui/widget-section`](packages/ui/src/widget-section.js), [`@chronogrove/ui/widget-call-to-action`](packages/ui/src/widget-call-to-action.js). Shared chevron SVG helpers live alongside implementations for pagination (`chevron-icons.js`, not separately exported).
+- **`WidgetCallToAction`**: when `linkComponent` is set (e.g. Next.js `Link` or Gatsby `Link`), the outer node is Theme UI **`Box as={linkComponent}`** so **`sx`** and **`links.widgetCta`** apply — framework links do not accept `sx` on their own.
+- **`MetricCard`**: centered stat-tile layout (value + uppercase label), optional **`sx`** merge, theme **`metricCard`** gains a light **border** on **`panel-divider`** for contrast on animated backgrounds.
+- **Theme**: `cards.metricCard` snapshot updated.
+
+### `gatsby-theme-chronogrove`
+
+- **Thin re-exports** for category, pagination, and widget modules now point at `@chronogrove/ui` where applicable; widget snapshot tests updated for moved markup.
+
+### Examples
+
+- **`examples/chronogrove-next`**: **[#563](https://github.com/chrisvogt/gatsby-theme-chronogrove/issues/563)** reference app homepage reworked into a **composite widget** preview (header row, metrics grid, status, `WidgetSection`, pinned **`actionCard`** via `@chronogrove/ui/action-card-layout`) plus focused sections for controls, tokens, and lazy load — closer to the Gatsby home dashboard than a flat control list.
+
+### Related GitHub issues (not closed by this release alone)
+
+| Issue                                                                                                 | Relationship                                                                                  |
+| ----------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| [#561](https://github.com/chrisvogt/gatsby-theme-chronogrove/issues/561)                              | Parent epic; still open until decoupling milestones finish.                                   |
+| [#566](https://github.com/chrisvogt/gatsby-theme-chronogrove/issues/566)                              | Directly advanced; may remain open until migration scope matches the issue checklist.         |
+| [#563](https://github.com/chrisvogt/gatsby-theme-chronogrove/issues/563)                              | Closed earlier; Next example continues to serve as the proof app — layout/docs improved here. |
+| [#568](https://github.com/chrisvogt/gatsby-theme-chronogrove/issues/568) — Global CSS / consumer docs | Not targeted in this PR.                                                                      |
+| [#569](https://github.com/chrisvogt/gatsby-theme-chronogrove/issues/569) — Remove theme shims         | Opposite direction (this PR adds/keeps shims while moving sources to `packages/ui`).          |
+| [#570](https://github.com/chrisvogt/gatsby-theme-chronogrove/issues/570) — Publish `@chronogrove/ui`  | Version bump prepares npm tag; publishing workflow is separate.                               |
+
+### Files changed
+
+- `packages/ui/package.json` (version **0.81.0**, new exports), `packages/ui/src/**`, `packages/ui/src/__snapshots__/theme.spec.js.snap`
+- `theme/package.json` (version **0.81.0**), widget and template shims, snapshots, `theme/jest.config.js`
+- `examples/chronogrove-next/app/home-showcase.jsx`
+
+---
+
+## 0.80.0
+
+### `@chronogrove/ui` — Next.js App Router helpers, Color Bends export, and test hardening
+
+- **New subpath** [`@chronogrove/ui/next`](packages/ui/src/next/index.js): **`ChronogroveNextRootLayoutHead`**, **`ChronogroveNextEmotionRegistry`**, **`ChronogroveNextAppShell`**, **`ChronogroveNextThemeUiColorModeRouteSync`** — shared wiring for Emotion SSR, Theme UI color-mode head scripts, optional three.js animated background (`ChronogroveAnimatedPageBackground`), document surface sync, and client route reconcile (peer **`next`** optional for non-Next consumers).
+- **New subpath** [`@chronogrove/ui/color-bends`](packages/ui/src/animated-page-background/ColorBends.js): direct export of the **Color Bends** WebGL background primitive (also composed by `ChronogroveAnimatedPageBackground`).
+- **Theme**: thin re-export [`theme/src/components/home-backgrounds/color-bends.js`](theme/src/components/home-backgrounds/color-bends.js) → `@chronogrove/ui/color-bends` for backwards-compatible `home-backgrounds` imports.
+- **Tests / Jest**: `theme` color-toggle spec loads the shim with **`require()` after `jest.mock('theme-ui')`** so `@chronogrove/ui` sees the mocked `useColorMode`; **`@theme-toggles/react`** manual mock matches **`Expand`**’s boolean `toggle` callback; layout/widget snapshots refreshed.
+- **Color mode / SSR**: canonical surface palette in [`chronogrove-theme-surface-colors.js`](packages/ui/src/chronogrove-theme-surface-colors.js) — shared by `theme.js`, **`chronogroveHeadTheme`** (RSC-safe), **`resolveChronogroveSurfaceColors`** / **`buildThemeUiColorModeFallbackCss`** defaults, and **`ChronogroveAnimatedPageBackground`** fallbacks so inline head CSS, Theme UI, and WebGL overlay tints stay aligned (no duplicate hex lists).
+
+### Examples
+
+- **`examples/chronogrove-next`**: private **Next.js 15** App Router reference app (`transpilePackages`, `ChronogroveNext*` layout/providers). **Gitignored:** `.next`, `out`, `node_modules`, `.turbo`, `.vercel`, local env files, logs — only source and config are tracked (no build output).
+
+### Tooling
+
+- **Catalog**: Next.js and **`eslint-config-next`** remain on the **15.x** line via [`pnpm-workspace.yaml`](pnpm-workspace.yaml) (`catalog:`); lockfile resolves current 15.x patches. Upgrade to **Next 16** is a separate, intentional migration.
+
+### Files changed
+
+- `packages/ui/package.json` (version **0.80.0**, exports `./next`, `./color-bends`), `packages/ui/src/next/**`, `packages/ui/src/chronogrove-theme-surface-colors.js`, `packages/ui/src/theme.js`, `packages/ui/src/color-mode/**`, `packages/ui/src/animated-page-background/ChronogroveAnimatedPageBackground.js`
+- `theme/package.json` (version **0.80.0**), `theme/src/components/home-backgrounds/color-bends.js`, `theme/src/components/color-toggle.spec.js`, `theme/__mocks__/theme-toggles-react-mock.js`, snapshots
+- `examples/chronogrove-next/**`, `examples/chronogrove-next/.gitignore`
+- `README.md`, `packages/ui/README.md`, `examples/chronogrove-next/README.md`
+
+---
+
+## 0.79.0
+
+### `@chronogrove/ui` — ESM metadata, packaging, and imports
+
+- **`"type": "module"`** and npm **`files`** (`src`, `README.md`) so published `.js` matches ESM and the tarball omits tests and tooling.
+- **Imports**: `color-toggle.js` and `skip-nav/SkipNavLink.js` use **relative** imports for `isDarkMode` instead of the package self-path; **Jest** `moduleNameMapper` for `@chronogrove/ui/is-dark-mode` removed as redundant.
+- **Docs**: README note to bump **pnpm catalog** entries for shared Theme UI / Emotion deps in the **same PR** for `packages/ui` and `theme`.
+
+### Tooling
+
+- **`gatsby-theme-chronogrove` Jest**: `transformIgnorePatterns` now **transpiles `@chronogrove/ui`** from `node_modules` (including `.pnpm` paths) so ESM in the workspace package stays compatible with Babel-Jest.
+- **Root ESLint**: Scoped React/browser rules to `theme/`, `www.chrisvogt.me/`, `www.chronogrove.com/`, and `packages/`; **Node globals** for `eslint.config.js` and `scripts/**` so root tooling still lints.
+
+### `gatsby-theme-chronogrove` — Gatsby `gatsby-browser` API validation
+
+- **Fixed** Gatsby **#11329** (`API.NODE.VALIDATION`): `gatsby-browser.js` may only export [known lifecycle APIs](https://www.gatsbyjs.com/docs/reference/config-files/gatsby-browser/). The scroll/skip-nav helper **`onRouteUpdateChronogroveNavigation`** is moved to **`theme/src/helpers/on-route-update-chronogrove-navigation.js`**. Sites that implement their own `onRouteUpdate` should import that helper (and `@chronogrove/ui/gatsby`’s `onRouteUpdateThemeUiColorMode`) from those modules — do not export custom names from `gatsby-browser.js`.
+
+### Files changed
+
+- `packages/ui/package.json` (version **0.79.0**)
+- `packages/ui/README.md`, `packages/ui/jest.config.cjs`, `packages/ui/src/color-toggle.js`, `packages/ui/src/skip-nav/SkipNavLink.js`
+- `theme/package.json` (version **0.79.0**), `theme/jest.config.js`, `theme/gatsby-browser.js`, `theme/gatsby-browser.spec.js`, `theme/src/helpers/on-route-update-chronogrove-navigation.js` (new)
+- `eslint.config.js`
+
+---
+
+## 0.78.0
+
+### `@chronogrove/ui` — presentational components (Issue #566)
+
+- **New subpaths**: [`@chronogrove/ui/color-utils`](packages/ui/src/color-utils.js) (`hexToRgb`, `hexToRgba`, `BUTTON_PRIMARY_COLORS`), [`@chronogrove/ui/action-button`](packages/ui/src/action-button.js), [`@chronogrove/ui/pagination-button`](packages/ui/src/pagination-button.js), [`@chronogrove/ui/lazy-load`](packages/ui/src/lazy-load.js) (adds dependency on `react-intersection-observer`), [`@chronogrove/ui/header`](packages/ui/src/header.js), [`@chronogrove/ui/page-header`](packages/ui/src/page-header.js).
+- **Tests**: Coverage for new modules lives under `packages/ui`; theme specs for the moved components were removed in favor of UI package tests.
+- **Theme integration**: `gatsby-theme-chronogrove` keeps **thin re-exports** at the previous import paths; `theme/src/utils/colors.js` re-exports from `@chronogrove/ui/color-utils`. `react-intersection-observer` is no longer a direct dependency of the theme (provided via `@chronogrove/ui`).
+
+### Files changed
+
+- `packages/ui/package.json` (new exports, `react-intersection-observer`, version **0.78.0**)
+- `packages/ui/README.md` (subpath export table)
+- `packages/ui/src/color-utils.js`, `action-button.js`, `pagination-button.js`, `lazy-load.js`, `header.js`, `page-header.js`, and matching `*.spec.js` / snapshots
+- `theme/package.json` (version **0.78.0**, drop direct `react-intersection-observer`)
+- `theme/jest.config.js` (coverage ignore for UI shim files)
+- `theme/src/components/action-button.js`, `pagination-button.js`, `lazy-load.js`, `header.js`, `blog/page-header.js`, `utils/colors.js` (re-exports)
+- Removed obsolete theme snapshot files for header / page-header (snapshots moved to `packages/ui`)
+
+---
+
+## 0.77.0
+
+### `@chronogrove/ui/gatsby` — Gatsby wiring helpers (Issue #565)
+
+- **New subpath** [`@chronogrove/ui/gatsby`](packages/ui/src/gatsby/): **`buildThemeUiColorModeHeadComponents({ theme })`** (Theme UI no-flash script, HTML background script, fallback CSS from `resolveChronogroveSurfaceColors`), **`onPreRenderHTMLSortThemeUiColorModeFirst`** (Gatsby `onPreRenderHTML` head ordering for `CHRONOGROVE_COLOR_MODE_HEAD_PRIORITY_KEYS`), **`onRouteUpdateThemeUiColorMode`** (browser route reconciliation + `RECONCILE_COLOR_MODE_EVENT`), and re-export of **`RECONCILE_COLOR_MODE_EVENT`**.
+- **Theme integration**: `gatsby-theme-chronogrove` **`gatsby-ssr.js`** / **`gatsby-browser.js`** consume these helpers instead of inlining color-mode wiring; **`onRouteUpdateChronogroveNavigation`** is exported for sites that compose their own `onRouteUpdate` with `@chronogrove/ui/gatsby`.
+
+### Files changed
+
+- `packages/ui/package.json` (export `./gatsby`, version **0.77.0**)
+- `packages/ui/src/gatsby/**`, `packages/ui/src/gatsby/index.spec.js`
+- `theme/package.json` (version **0.77.0**)
+- `theme/gatsby-ssr.js`, `theme/gatsby-browser.js`, `theme/gatsby-browser.spec.js`
+- `packages/ui/jest.config.cjs`
+
+---
+
+## 0.76.0
+
+### 📦 `@chronogrove/ui` — shared Theme UI layer
+
+- **New workspace package** [`@chronogrove/ui`](packages/ui/README.md): Theme UI **theme object**, **`ChronogroveThemeProvider`** (`ThemeUIProvider` + `InitializeColorMode` + global styles), **color-mode** helpers (SSR inline scripts/CSS derived from `resolveChronogroveSurfaceColors(theme)`, browser sync, reconcile event + storage key), **Emotion cache** helpers, and portable primitives (**Button**, **ColorToggle**, **SkipNavLink** / **SkipNavContent**, **isDarkMode**).
+- **Subpath exports** for tree-shaking: e.g. `@chronogrove/ui/theme`, `@chronogrove/ui/color-mode`, `@chronogrove/ui/provider`, `@chronogrove/ui/button`, `@chronogrove/ui/color-toggle`, `@chronogrove/ui/skip-nav`, `@chronogrove/ui/emotion-cache`, `@chronogrove/ui/is-dark-mode`.
+- **Theme integration**: `gatsby-theme-chronogrove` depends on `workspace:*` and keeps **thin re-exports** under `theme/src/gatsby-plugin-theme-ui/theme.js` and shims for moved components/helpers; `gatsby-browser`, `gatsby-ssr`, `wrapRootElement`, and `root-wrapper` consume the package so light/dark bootstrap colors stay aligned with the theme tokens.
+- **Versioning**: `@chronogrove/ui` is released in lockstep with the theme at **0.76.0** for this milestone; future independent semver on npm is supported via `pnpm publish` (workspace protocol rewritten in the tarball).
+
+### 📦 Files Changed
+
+- `pnpm-workspace.yaml` (include `packages/*`)
+- `packages/ui/**` (new)
+- `theme/package.json` (version 0.76.0, dependency on `@chronogrove/ui`)
+- `theme/gatsby-browser.js`, `theme/gatsby-ssr.js`, `theme/wrapRootElement.js`, `theme/src/components/root-wrapper.js`
+- `theme/src/gatsby-plugin-theme-ui/theme.js`, component/helper shims, related specs
+
+---
+
+## 0.75.0
+
+### 📚 Goodreads — interactive 3D book covers
+
+- **Three.js book renderer** (`Book3D`): replaces flat SVG book thumbnails with an interactive 3D box rendered via WebGL. The front face displays the cover image, the spine carries the title text, and all other faces use dark neutral materials.
+- **Staggered intro animation**: books ease from face-on to their resting 3D angle sequentially on first render (80 ms per-book delay), then sit statically at rest — zero per-frame GPU cost while idle.
+- **Hover interaction**: cursor movement rotates the book in real time; rotation is clamped to ±1.35 rad so the blank back face never comes into view. On mouse-leave the book eases back to its resting pose.
+- **IntersectionObserver lifecycle**: WebGL contexts are created only when a book enters the viewport and fully disposed when it leaves, preventing context exhaustion across the paginated carousel.
+- **Cover fallback**: when a thumbnail URL is missing or fails to load, the book title is rendered directly on the cover using a canvas texture with word-wrapping and a dark gradient background.
+- **Loading pulse**: while a cover texture is in-flight the front face emits a subtle blue glow that fades once the image arrives.
+- **Book detail view**: `BookExplorer` now uses `Book3D` for the cover art, matching the grid.
+- **Grid layout**: updated to 5 columns (2 rows × 5 = 10 books per page) with responsive breakpoints (2 → 3 → 4 → 5 columns), matching the Instagram and Flickr widget grids.
+- **Race-condition guards**: texture `onLoad`/`onError` callbacks bail out early when `coverMat` has already been nulled by a concurrent `destroyScene()`.
+
+### 📦 Files Changed
+
+- `theme/package.json` (version 0.75.0)
+- `theme/src/components/artwork/book-3d.js` (new)
+- `theme/src/components/artwork/book-3d.spec.js` (new)
+- `theme/src/components/widgets/goodreads/book-link.js`
+- `theme/src/components/widgets/goodreads/book-link.spec.js`
+- `theme/src/components/widgets/goodreads/book-explorer.js`
+- `theme/src/components/widgets/goodreads/book-explorer.spec.js`
+- `theme/src/components/widgets/goodreads/recently-read-books.js`
+- `theme/src/components/widgets/goodreads/recently-read-books.spec.js`
+
+---
+
+## 0.74.8
+
+### ✨ Blog index
+
+- **Single chronological feed**: `/blog` no longer splits posts into category sections (Monthly Recaps, Personal, Technology, etc.). All in-scope posts render in **publication order** (newest first, matching the MDX query). Posts that belong on dedicated indexes are still excluded: **music**, **photography**, and **travel**.
+- **Card styles unchanged by category**: **Recap** posts (title contains “recap”) still use the vertical card with circular thumbnails; **everything else** uses the horizontal “headline + small preview image” card.
+
+### 🎨 Post cards & layout
+
+- **Horizontal index cards**: Text-first layout with the preview image on the **same row as the headline**, **aligned right**, at a **wider aspect ratio** (1.9:1) and a larger thumb width (`5.625rem`).
+- **`buildYouTubeEmbedUrl`**: Exported for tests; unit tests cover empty URLs and query-string appends (`?` vs `&`).
+
+### 🏠 Home widget
+
+- **Travel** posts in “Latest Posts” use the **same vertical card** as the Travel index (circular thumbnails), not the horizontal blog card.
+
+### 📐 Shared article column
+
+- **`articleColumnContainerSx`**: Shared Theme UI container (`max(80ch, 50vw)`) for **blog index**, **MDX post template**, and **About** so the blog list matches the article measure.
+
+### 📦 Files Changed
+
+- `theme/package.json` (version 0.74.8)
+- `theme/src/constants/article-column-container-sx.js` (new)
+- `theme/src/pages/blog.js`, `theme/src/pages/blog.spec.js`
+- `theme/src/pages/about.js`
+- `theme/src/templates/post.js`
+- `theme/src/components/widgets/recent-posts/post-card.js`, `post-card.spec.js`, `__snapshots__/post-card.spec.js.snap`
+- `theme/src/components/widgets/recent-posts/recent-posts-widget.js`
+
+---
+
+## 0.74.7
+
+### 🎨 Style
+
+- **SoundCloud embed card height**: SoundCloud iframes in post cards now expand to fill available card height instead of rendering at a fixed 166px. When displayed alongside taller YouTube embeds in a grid, SoundCloud cards visually balance rather than leaving empty space.
+
+### 📦 Files Changed
+
+- `theme/package.json` (version 0.74.7)
+- `theme/src/components/widgets/recent-posts/post-card.js`
+- `theme/src/components/widgets/recent-posts/__snapshots__/post-card.spec.js.snap`
+
+---
+
+## 0.74.6
+
+### ✨ Features
+
+- **Goodreads swipe pagination**: Swipe between pages on the recently read books carousel. Adds a reusable `useSwipePagination` hook with unit tests.
+
+### 🎨 Widget layout
+
+- **Goodreads & Discogs carousels**: Tighter shared carousel shell (overflow clipping, slide spacing, bottom padding for hover shadows). `minWidth: 0` on Goodreads book cards for predictable grid sizing. Discogs vinyl collection aligned with the same patterns; Jest snapshots and widget specs updated.
+
+### 📦 Files Changed
+
+- `theme/package.json` (version 0.74.6)
+- `theme/src/hooks/use-swipe-pagination.js`
+- `theme/src/hooks/use-swipe-pagination.spec.js`
+- `theme/src/components/widgets/goodreads/book-link.js`
+- `theme/src/components/widgets/goodreads/book-link.spec.js`
+- `theme/src/components/widgets/goodreads/goodreads-widget.js`
+- `theme/src/components/widgets/goodreads/goodreads-widget.spec.js`
+- `theme/src/components/widgets/goodreads/recently-read-books.js`
+- `theme/src/components/widgets/goodreads/recently-read-books.spec.js`
+- `theme/src/components/widgets/discogs/vinyl-collection.js`
+- `theme/src/components/widgets/discogs/vinyl-collection.spec.js`
+- `theme/src/components/widgets/discogs/__snapshots__/discogs-widget.spec.js.snap`
+- `theme/src/components/widgets/discogs/__snapshots__/vinyl-collection.spec.js.snap`
+
+---
+
+## 0.74.5
+
+### 🐛 Bug Fix
+
+- **Instagram & Flickr loading placeholders**: Fixed loading state showing 16 placeholder rows instead of 8. The widgets assumed a "full grid" during loading to prevent scroll drift, but the page never initially loads in Show More state. Placeholders now match the default display (8 items), fixing a visible layout shift.
+
+### 📦 Files Changed
+
+- `theme/package.json` (version 0.74.5)
+- `theme/src/components/widgets/instagram/instagram-widget.js`
+- `theme/src/components/widgets/flickr/flickr-widget.js`
+
+---
+
+## 0.74.4
+
+### 📦 Dependencies
+
+- **lottie-react-web**: Replaced npm package (`^2.2.2`) with GitHub fork `chrisvogt/lottie-react-web#codex/modernize-tooling-and-ci`. Removes deprecated `core-js@2.x` transitive dependency (previously pulled in via `babel-runtime`). The fork uses modern tooling and supports React 19. Added to `onlyBuiltDependencies` so its `prepare` script runs at install (builds `dist/`).
+
+### 📦 Files Changed
+
+- `theme/package.json` (version 0.74.4, lottie-react-web GitHub dependency)
+- `package.json` (add lottie-react-web to onlyBuiltDependencies for prepare script)
+- `pnpm-lock.yaml`
+
+---
+
+## 0.74.3
+
+### 🔒 Security
+
+- **Dependabot High alerts resolved**: Added pnpm overrides to patch transitive vulnerabilities in `flatted`, `socket.io-parser`, `immutable`, `multer`, and `svgo`. See [docs/dependency-overrides.md](docs/dependency-overrides.md) for rationale and maintenance notes.
+
+### 📦 Files Changed
+
+- `package.json` (security overrides)
+- `pnpm-lock.yaml`
+- `docs/dependency-overrides.md` (new)
+- `README.md` (link to overrides doc)
+
+---
+
+## 0.74.2
+
+### 📦 Dependencies
+
+- **@fortawesome/react-fontawesome**: 3.2.0 → 3.3.0
+- **@tanstack/react-query**: 5.90.21 → 5.91.3
+- **jest**: 30.2.0 → 30.3.0
+- **jest-environment-jsdom**: 30.2.0 → 30.3.0
+- **three**: 0.182.0 → 0.183.2
+
+### 📦 Files Changed
+
+- `theme/package.json` (version 0.74.2, dependency updates)
+- `pnpm-lock.yaml`
+
+---
+
+## 0.74.1
+
+### 🧹 Cleanup
+
+- **Dead code removal**: Removed unused files and dependencies across the monorepo.
+  - Deleted root `index.js` (duplicate of postinstall banner; never invoked).
+  - Removed `ogl` from theme dependencies (unused; theme uses `three` for WebGL).
+  - Removed `gatsby-plugin-webpack-bundle-analyser-v2` from `www.chrisvogt.me` (installed but not in gatsby-config).
+  - Removed `@babel/core`, `@babel/preset-env`, `@babel/preset-react` and `main` field from `www.chronogrove.com` (unused).
+  - Added `junit.xml` to `.gitignore` and stopped tracking generated test output.
+
+### 📦 Files Changed
+
+- `theme/package.json` (version 0.74.1, remove `ogl`)
+- `www.chrisvogt.me/package.json` (remove `gatsby-plugin-webpack-bundle-analyser-v2`)
+- `www.chronogrove.com/package.json` (remove Babel devDependencies and `main` field)
+- `index.js` (deleted)
+- `.gitignore` (add `junit.xml`)
+- `theme/junit.xml` (removed from git tracking)
+
+---
+
+## 0.74.0
+
+### ✨ Improvements
+
+- **Note callout component**: Added a reusable `Note` shortcode for blog posts. Use `<Note>`, `<Note variant='info'>`, `<Note variant='update'>`, or `<Note variant='outdated'>` in MDX content for callout panels (informational asides, resolution updates, or outdated-content notices). No import required—Note is provided by the theme's MDXProvider.
+
+### 📦 Files Changed
+
+- `theme/package.json` (version 0.74.0)
+- `theme/src/shortcodes/Note.js` (new)
+- `theme/src/shortcodes/Note.spec.js` (new)
+- `theme/wrapRootElement.js` (add Note to MDXProvider components)
+- `www.chrisvogt.me/content/blog/*` (remove Note imports; use theme-provided component)
+- `www.chrisvogt.me/package.json` (remove FontAwesome deps; theme provides them)
+
+---
+
+## 0.73.0
+
+### ✨ Improvements
+
+- **GA4 support via gtag**: `www.chrisvogt.me` now uses `gatsby-plugin-google-gtag` for Google Analytics 4, replacing the legacy `gatsby-plugin-google-analytics` / `analytics.js` integration and wiring the site up to a GA4 measurement ID.
+
+### 📦 Files Changed
+
+- `www.chrisvogt.me/gatsby-config.js` (switch to `gatsby-plugin-google-gtag`, new `GA_MEASUREMENT_ID` env var)
+- `www.chrisvogt.me/package.json` (replace `gatsby-plugin-google-analytics` with `gatsby-plugin-google-gtag`)
+- `theme/package.json` (version 0.73.0)
+
+---
+
+## 0.72.24
+
+### ✨ Improvements
+
+- **Restore live metrics API for widgets**: Reverted the temporary `/api/*.json` static JSON fallback and pointed all widget `widgetDataSource` URLs back to `https://metrics.chrisvogt.me/api/widgets/*`, including Instagram, now that the backend is healthy again. The home navigation guard introduced in 0.72.20 (which hides nav items when a widget exists but has no `widgetDataSource`) remains in place.
+
+### 📦 Files Changed
+
+- `www.chrisvogt.me/gatsby-config.js` (restore live metrics API URLs; re-add Instagram widget config)
+- `www.chrisvogt.me/static/api/*` (remove temporary static JSON backups and README)
+- `theme/package.json` (version 0.72.24)
+
+---
+
+## 0.72.23
+
+### ✨ Improvements
+
+- **Canonical URLs for all main pages**: The theme now outputs a `<link rel="canonical">` tag for the home page, blog index, and about page (blog posts and media pages already had canonicals). The canonical URL is built from site metadata: `baseURL` or `siteUrl` from `gatsby-config` plus the page path. There is no hardcoded domain — every consumer of the theme gets canonicals pointing at their own configured origin. Useful when serving the same site from multiple domains (e.g. alias or redirect) so search engines consolidate on one preferred URL.
+
+### 📦 Files Changed
+
+- `theme/src/templates/home-head.js` (pass `canonicalPath='/'` to `Seo`)
+- `theme/src/pages/blog-head.js` (pass `canonicalPath='/blog/'` to `Seo`)
+- `theme/src/pages/about.js` (pass `canonicalPath='/about/'` to `Seo`)
+
+---
+
+## 0.72.22
+
+### ✨ Improvements
+
+- **Home widget loading & scroll stability**:
+  - Updated grid-based widgets (Steam, Discogs, Instagram, Flickr, Goodreads, GitHub) so their loading skeletons match the final card layouts, grid density, and pagination footprint, preventing scroll drift when navigating via Home navigation links.
+  - Added dedicated skeleton components for AI summaries (Steam, Goodreads) and Discogs vinyl records so only the image/summary areas “animate in” while their containers keep a stable size and shape.
+  - Removed remaining entrance/fade-in effects from AI summaries and the GitHub contribution graph so they render immediately in their final layout without late-stage shifts.
+
+### 🧪 Tests
+
+- Updated Jest snapshots for the affected widgets and graphs to reflect the new skeleton layouts and non-animated loading behavior.
+- Adjusted AI summary and GitHub contribution graph tests to assert immediate visibility instead of relying on delayed animation timing.
+
+### 📦 Files Changed
+
+- `theme/package.json` (version 0.72.22)
+- `theme/src/components/widgets/steam/ai-summary-skeleton.js` (new AI summary skeleton)
+- `theme/src/components/widgets/steam/ai-summary.js` (remove slide-open effects; simple opacity transition)
+- `theme/src/components/widgets/steam/steam-widget.js` (recently-played skeleton cards; AI summary skeleton usage)
+- `theme/src/components/widgets/goodreads/goodreads-widget.js` (AI summary skeleton usage)
+- `theme/src/components/widgets/discogs/vinyl-record-skeleton.js` (new vinyl record skeleton)
+- `theme/src/components/widgets/discogs/vinyl-collection.js` (3-page full-grid loading state; vinyl skeleton usage; pagination skeleton)
+- `theme/src/components/widgets/instagram/instagram-widget.js` (full-grid loading state; Show More skeleton)
+- `theme/src/components/widgets/flickr/flickr-widget.js` (full-grid loading state; Show More skeleton)
+- `theme/src/components/widgets/github/github-widget.js` (full pinned-items loading state; graph placeholder height)
+- `theme/src/components/widgets/github/contribution-graph.js` (remove IntersectionObserver-based entrance animations)
+- `theme/src/components/widgets/steam/ai-summary.spec.js`, `theme/src/components/widgets/github/contribution-graph.spec.js`, and related widget specs/snapshots (updated expectations)
+
+---
+
+## 0.72.21
+
+### 🐛 Bug Fixes
+
+- **Home and Layout unit tests**: Components that use `useLocation()` from `@gatsbyjs/reach-router` (e.g. `ScrollToHashWhenReady`, `TopNavigation`) were rendering in tests without a router context, causing "LocationContext.Provider was not found" errors. Added a mock for `@gatsbyjs/reach-router` with a stub `useLocation` in `home.spec.js` and `layout.spec.js` so tests run without a real Router.
+
+### ✨ Improvements
+
+- **ScrollToHashWhenReady**: Added optional `getHash` prop so tests can inject the hash without touching `window.location` (which is not mockable in jsdom). Production usage is unchanged (no `getHash` passed).
+
+### 🧪 Tests
+
+- **scroll-to-hash-when-ready.spec.js** (new): Full coverage for hash-based scroll behavior — no hash / short hash, scroll when element exists, decodeURIComponent, element appears after interval, timeout branch, cleanup on unmount.
+- **layout.spec.js**: Mock `@gatsbyjs/reach-router`; added test for `transparentBackground` prop.
+- **top-navigation.spec.js**: Mock `window.___navigate` for Gatsby Link; added tests for brand-link click calling `window.scrollTo(0, 0)` on home path and not on other paths.
+- **use-navigation-data.spec.js**: Tests for missing `header.left` / `header.home` (fallback to empty arrays).
+- **root-wrapper.spec.js**: Test for reconcile event when `localStorage.getItem` throws (catch path in `getStoredColorMode`).
+- **Coverage**: Global statement coverage raised to **97%** (threshold met); `scroll-to-hash-when-ready.js`, `layout.js`, `top-navigation.js`, and `use-navigation-data.js` at 100% statements/lines where applicable.
+
+### 📦 Files Changed
+
+- `theme/package.json` (version 0.72.21)
+- `theme/src/components/scroll-to-hash-when-ready.js` (optional `getHash` prop)
+- `theme/src/components/scroll-to-hash-when-ready.spec.js` (new)
+- `theme/src/templates/home.spec.js` (mock `@gatsbyjs/reach-router`)
+- `theme/src/components/layout.spec.js` (mock `@gatsbyjs/reach-router`; `transparentBackground` test)
+- `theme/src/components/top-navigation.spec.js` (`window.___navigate`; brand-click / scrollTo tests)
+- `theme/src/hooks/use-navigation-data.spec.js` (header.left/home fallback tests)
+- `theme/src/components/root-wrapper.spec.js` (reconcile event when getItem throws / catch path)
+
+---
+
+## 0.72.20
+
+### 🔄 Recovery / Placeholder
+
+**Context**: Firebase shut down the backend API at **metrics.chrisvogt.me** and flagged it as a phishing site (possibly triggered during auth/login page development). An appeal has been submitted. Until the backend is recovered, the site uses a local static JSON fallback as a placeholder.
+
+### ✨ Improvements
+
+- **Local static JSON fallback for widget data**.
+  - Widget data sources (Discogs, Flickr, GitHub, Goodreads, Spotify, Steam) now point to `/api/{widget}.json` — static JSON files in `www.chrisvogt.me/static/api/` served from the site root.
+  - Removed Instagram widget config (no backup available).
+  - Added `static/api/README.md` documenting expected filenames and response shape.
+
+- **Home nav filters by widget config**.
+  - Nav items are filtered by widget configuration: items are hidden when a widget exists for that slug but has no `widgetDataSource` (e.g. Instagram when unconfigured).
+  - Non-widget nav items (e.g. travel, photography) remain visible.
+
+### 🐛 Bug Fixes
+
+- Fixed Flickr backup filename typo: `flikr.json` → `flickr.json`.
+
+### 📦 Files Changed
+
+- `www.chrisvogt.me/gatsby-config.js` (widget URLs to `/api/*.json`; Instagram removed)
+- `www.chrisvogt.me/static/api/` (new directory with README)
+- `theme/src/components/home-navigation.js` (filter nav by widget config)
+- `theme/src/components/home-navigation.spec.js` (mock `useSiteMetadata`; test for widget-based filtering)
+
+---
+
+## 0.72.19
+
+### ✨ Improvements
+
+- **Discogs modal: fix layout shift and add loading skeleton for cover artwork**.
+  - **Layout shift**: Cover image container now reserves fixed dimensions (280×280px) so the modal no longer jumps when the image loads.
+  - **Loading state**: A `RectShape` skeleton (matching Steam, Instagram, Goodreads patterns) displays until the artwork finishes downloading.
+  - **Behavior**: `onLoad` tracks when the image has loaded; skeleton fades out and image fades in. State resets when selecting a different record.
+
+### 🧪 Tests
+
+- Added tests for Discogs modal: image `onLoad` handler, backdrop click, body scroll lock, and cover URL change reset.
+- Improved coverage for `discogs-modal.js` (100% statements, functions, lines; 97%+ branches).
+
+### 📦 Files Changed
+
+- `theme/package.json` (version 0.72.19)
+- `theme/src/components/widgets/discogs/discogs-modal.js` (skeleton, fixed dimensions, image load state)
+- `theme/src/components/widgets/discogs/discogs-modal.spec.js` (expanded coverage)
+
+---
+
+## 0.72.18
+
+### 🐛 Bug Fixes
+
+- **Article post body text font size now matches About page**.
+  - **Root cause**: MDXProvider only supplied custom components (Emoji, pre, YouTube, Table). Post and media templates render MDX as plain HTML (`<p>`, `<h1>`, etc.), so that content never received the theme’s typography (e.g. `styles.p` with `fontSize: [2, 3]`). The About page explicitly uses `<Themed.p>` / `<Themed.h1>`, so it looked correct while article body text appeared smaller.
+  - **Fix**: Spread `Themed` from `@theme-ui/mdx` into the MDXProvider `components` in `wrapRootElement.js` so MDX-rendered content uses Theme UI’s typography. Custom components (pre, Table, YouTube, Emoji) remain overrides after the spread.
+  - **Result**: Post and media article body text now uses the same font size as the About page.
+
+### 📦 Files Changed
+
+- `theme/package.json` (version 0.72.18)
+- `theme/wrapRootElement.js` (MDXProvider components include ...Themed)
+
+---
+
+## 0.72.17
+
+### ♻️ Refactor
+
+- **Use theme-generic keys for color mode so the theme scales for multiple sites**.
+  - **Context**: Theme switching works on www.chrisvogt.me; the same theme was broken on the chronogrove demo site (and would affect any future sites). Color-mode logic used `chronogrove-*` keys (style, custom event, debug), which don’t scale for a multitenant theme.
+  - **Change**: Renamed all color-mode identifiers to the same namespace as Theme UI: `theme-ui-color-mode-fallback` (head style key), `theme-ui-reconcile-color-mode` (route-reconcile event), `theme-ui-color-mode-debug` (URL param and localStorage), `__THEME_UI_COLOR_MODE_DEBUG__` (window flag). Console debug labels now use `[theme-ui]` / `[theme-ui color-mode]`.
+  - **Result**: Every site using the theme (chrisvogt.me, chronogrove demo, and future sites) uses the same keys; no site-specific overrides needed. Debug is still enabled via **`?theme-ui-color-mode-debug`** (replacing `?chronogrove-color-debug`).
+
+### 📦 Files Changed
+
+- `theme/package.json` (version 0.72.17)
+- `theme/gatsby-ssr.js` (style key and head order)
+- `theme/gatsby-browser.js` (reconcile event name)
+- `theme/src/components/root-wrapper.js` (reconcile event constant)
+- `theme/src/helpers/color-mode-debug.js` (debug keys, URL param, console labels)
+- `theme/gatsby-ssr.spec.js`, `theme/src/helpers/color-mode-debug.spec.js` (updated expectations)
+
+---
+
+## 0.72.16
+
+### 🐛 Bug Fixes
+
+- **Theme UI color mode: fix wrong theme on Blog/Music/Travel after navigation and fix toggle not updating text**.
+  - **Root cause**: On pages using `AnimatedPageBackground` (Home, Blog, Music, Travel), client-side navigation could leave Theme UI’s color mode context stale (e.g. `default` while the user had chosen `dark`). Syncing the DOM from localStorage in `RootWrapper` then caused the theme toggle to stop updating text (Theme UI updates context first and may write localStorage later, so we were overwriting the DOM with the old value). Calling `setColorMode` from `RootWrapper` to fix context caused an infinite toggle loop (strobe).
+  - **Fix**: (1) In `gatsby-browser.js`, `resolveThemeUiColorMode()` now prefers **localStorage over DOM** so route sync doesn’t perpetuate a wrong value. (2) **RootWrapper** syncs the DOM from **context only** so toggles update immediately. (3) On route change, `onRouteUpdate` dispatches a custom event; RootWrapper listens and calls `setColorMode(storedMode)` once to reconcile context with localStorage, fixing the wrong theme on Blog/Music/Travel/Home without affecting the toggle.
+  - **Result**: Theme toggle updates all text and UI immediately; color mode stays correct when navigating between Home, Blog, Music, Travel, About, and Now.
+
+### 🧪 Tests
+
+- **gatsby-browser.spec.js**: Updated Theme UI sync tests to reflect localStorage-as-source-of-truth (prefer localStorage over DOM, fallbacks when localStorage is empty).
+- **root-wrapper.spec.js**: Clear `theme-ui-color-mode` from localStorage in `beforeEach` to avoid cross-test leakage.
+
+### 📦 Files Changed
+
+- `theme/package.json` (version 0.72.16)
+- `theme/gatsby-browser.js` (resolveThemeUiColorMode prefers localStorage; onRouteUpdate dispatches reconcile event)
+- `theme/gatsby-browser.spec.js` (updated sync tests)
+- `theme/src/components/root-wrapper.js` (DOM from context; reconcile listener for route-only setColorMode)
+- `theme/src/components/root-wrapper.spec.js` (localStorage cleanup in beforeEach)
+
+---
+
+## 0.72.15
+
+### 🐛 Bug Fixes
+
+- **Reduce browser `[Violation]` warnings from non-passive touch listeners in the Discogs carousel**.
+  - **Root cause**: React touch handlers (`onTouchStart/onTouchMove/onTouchEnd`) can cause root-level non-passive touch listener warnings in Chrome when used on interactive swipe areas.
+  - **Fix**: Replaced touch handlers with pointer handlers (`onPointerDown/onPointerMove/onPointerUp/onPointerCancel`) for touch/pen input and added `touchAction: 'pan-y'` on the carousel surface.
+  - **Result**: Removes the touch-listener warning source while preserving horizontal swipe/drag behavior and vertical scrolling.
+
+### 🧪 Tests
+
+- Updated Discogs carousel interaction tests from touch events to pointer events (`pointerType: 'touch'`).
+- Updated affected Discogs snapshots after interaction/sx changes.
+- Verified Discogs widget test suite passes end-to-end.
+
+### 📦 Files Changed
+
+- `theme/package.json` (version 0.72.15)
+- `theme/src/components/widgets/discogs/vinyl-collection.js` (pointer events + `touchAction: 'pan-y'`)
+- `theme/src/components/widgets/discogs/vinyl-collection.spec.js` (pointer event tests)
+- `theme/src/components/widgets/discogs/__snapshots__/vinyl-collection.spec.js.snap` (updated snapshots)
+- `theme/src/components/widgets/discogs/__snapshots__/discogs-widget.spec.js.snap` (updated snapshots)
+
+---
+
+## 0.72.14
+
+### 🐛 Bug Fixes
+
+- **Harden Emotion style insertion against `<head>` mutations**: Removed the runtime `document.head.insertBefore` monkey patch and switched to a stable Emotion insertion-point strategy.
+  - **Root cause**: Third-party scripts mutating `<head>` could invalidate insertion references and trigger `insertBefore` `NotFoundError` crashes.
+  - **Fix**: Added a dedicated SSR insertion point (`<meta name="emotion-insertion-point" />`) and configured a browser Emotion cache to insert styles at that anchor.
+  - **Result**: Prevents this crash class without patching native DOM methods.
+- **Fix Theme UI color-mode desync after client navigation (especially in production/Netlify builds)**.
+  - **Root cause**: Color mode state could drift between `data-theme-ui-color-mode`, `theme-ui-*` classes, and localStorage during hydration and route transitions.
+  - **Fix**: Normalized `light -> default`, reconciled `theme-ui-*` classes + `data-theme-ui-color-mode` in SSR no-flash script, `onRouteUpdate`, and `RootWrapper`, and added a scheduled re-sync on route updates (`requestAnimationFrame` + timeout fallback).
+  - **Result**: Color mode remains consistent after toggling and navigating between pages repeatedly.
+- **Restore `rawColors` precedence for HTML background color in `RootWrapper`**.
+  - **Root cause**: A follow-up refactor accidentally flipped fallback order to prefer `theme.colors.background` before `theme.rawColors.background`.
+  - **Fix**: Switched `RootWrapper` back to `rawColors -> colors -> hardcoded fallback`, matching `animated-page-background` and the intent of using raw color values for transition flash prevention.
+  - **Result**: Avoids assigning CSS variable references where raw hex color is available and keeps behavior consistent across sibling components.
+
+### ♻️ Refactor
+
+- **Removed New Relic browser/APM integration from the personal site app** while this issue is being mitigated.
+  - Removed `gatsby-plugin-newrelic` plugin configuration and dependency.
+  - Removed New Relic environment variables from `.env.template`.
+  - Updated privacy policy copy to remove the New Relic section.
+
+### 🧪 Tests
+
+- Updated SSR tests to assert the Emotion insertion-point meta tag.
+- Expanded browser tests for Emotion cache reuse and Theme UI route-sync edge cases (DOM attribute/class precedence, stale class cleanup, localStorage fallback, RAF timeout fallback, documentElement guard).
+- Updated `RootWrapper` tests to assert class/attribute reconciliation and background updates.
+- Added a `RootWrapper` regression test to lock `rawColors` precedence when `colors.background` is a CSS variable.
+- Coverage for `theme/gatsby-browser.js` is 100% statements/branches/functions/lines in focused coverage run.
+
+### ✨ Enhancements
+
+- **Home Navigation: retro 3D panel and folding shadow**
+  - Sidebar nav (2-column breakpoints) now renders inside a **retro 1960s/70s-style panel** aligned with the theme palette: primary/secondary purple (light) and primary blue (dark) with glassmorphism and backdrop blur.
+  - **Resting vs active state:** Panel is muted and shallow by default; on hover or keyboard focus (TAB) it transitions to full vibrancy, deeper shadow, and an expanded **folding shadow** on the right (top and bottom "fold out," middle stays fixed). Exit transition is gentler (0.5s) than enter (0.3s).
+  - **3D shadow:** Curved "waist" shape built with CSS `clip-path` (polygon); dark grey gradient from theme palette (`gray[5]` / `gray[7]`, fallback `textMuted`) via `color-mix()` so it works with theme CSS variables. Shadow is flush with the panel edge and includes a soft blur.
+  - **Accessibility:** `:focus-within` on the container for keyboard users; `:focus-visible` ring on links; `prefers-reduced-motion` shows full panel with no transitions. Nav keeps `role="navigation"`, `aria-label`, and scroll-based active section.
+
+### ♻️ Refactor
+
+- **Home Navigation:** Memoized `links` (stable scroll listener), removed unused `navItemsRef`, added JSDoc. Shadow gradient uses theme palette only (no hardcoded hex).
+
+### 📦 Files Changed
+
+- `theme/package.json` (version 0.72.14)
+- `theme/gatsby-ssr.js` (removed `insertBefore` patch, added Emotion insertion point meta)
+- `theme/gatsby-ssr.spec.js` (updated SSR head assertions)
+- `theme/gatsby-browser.js` (Emotion cache + `CacheProvider`, Theme UI route-sync hardening)
+- `theme/gatsby-browser.spec.js` (Emotion + Theme UI route-sync coverage)
+- `theme/src/components/root-wrapper.js` (Theme UI class/attribute reconciliation on render/effect)
+- `theme/src/components/root-wrapper.spec.js` (RootWrapper color-mode synchronization assertions)
+- `theme/src/components/home-navigation.js` (retro panel, folding shadow, theme-driven gradient, focus-visible, useMemo, JSDoc)
+- `theme/src/components/home-navigation.spec.js` (snapshots updated)
+- `www.chrisvogt.me/gatsby-config.js` (removed `gatsby-plugin-newrelic`)
+- `www.chrisvogt.me/package.json` (removed `gatsby-plugin-newrelic` dependency)
+- `pnpm-lock.yaml` (removed `gatsby-plugin-newrelic` entries)
+- `.env.template` (removed New Relic env vars)
+- `www.chrisvogt.me/src/pages/privacy.js` (removed New Relic policy section)
+
+---
+
+## 0.72.13
+
+### 📦 Dependencies
+
+- **Gatsby**: Removed the local Yarn patch for `gatsby@5.16.0`. The theme now depends on upstream `^5.16.0`; the issue that required the patch has been fixed upstream, so consumers get the unpatched Gatsby version.
+
+### 📦 Files Changed
+
+- `theme/package.json` (version 0.72.13, gatsby dependency)
+- `www.chrisvogt.me/package.json` (gatsby dependency)
+- `www.chronogrove.com/package.json` (gatsby dependency)
+
+---
+
+## 0.72.12
+
+### ✨ Enhancements
+
+- **Goodreads Last Update**: Last Update card now shows the book cover when the update includes `cdnMediaURL`, using the same 3D book SVG and tilt interaction as the Recently Read grid. The card link uses `update.link` and opens in a new tab with `target="_blank"` and `rel="noopener noreferrer"`.
+
+### 🧪 Tests
+
+- **UserStatus**: Added tests for `cdnMediaURL` (imgix and non-imgix URLs, invalid URL passthrough), 3D tilt (mouse move/leave, zero-width container, ref-not-set early return), and update link attributes (`target="_blank"`, `rel="noopener noreferrer"`). Coverage: 100% lines and functions for `user-status.js`.
+
+### 📦 Files Changed
+
+- `theme/package.json` (version 0.72.12)
+- `theme/src/components/widgets/goodreads/user-status.js` (book cover + tilt, explicit update link, external link attributes)
+- `theme/src/components/widgets/goodreads/user-status.spec.js` (tests for cdnMediaURL, link, tilt, coverage)
+
+---
+
+## 0.72.11
+
+### 🐛 Bug Fixes
+
+- **Home navigation widget scrolls to correct section on first click**: Fixed issue where clicking navigation items (Latest Posts, GitHub, etc.) would jump to the top of the page on first click, requiring a second click to navigate to the target section
+  - **Root cause**: The `onRouteUpdate` function in `gatsby-browser.js` was calling `window.scrollTo(0, 0)` on every route update, including hash changes on the same page
+  - **Fix**: Added logic to detect hash navigation on the same page and skip the scroll-to-top behavior, allowing the browser's native anchor link handling to work correctly
+  - **Preserved behavior**: Page navigation (pathname changes) still scrolls to top and focuses main content for accessibility
+
+### 🧪 Tests
+
+- **gatsby-browser**: Added comprehensive test coverage for hash navigation scenarios, including same-page hash changes and cross-page navigation with hashes
+
+### 📦 Files Changed
+
+- `theme/package.json` (version 0.72.11)
+- `theme/gatsby-browser.js` (added hash navigation detection)
+- `theme/gatsby-browser.spec.js` (added hash navigation test cases)
+
+---
+
+## 0.72.10
+
+### ♻️ Refactor
+
+- **YouTube embeds now use Theme UI's Embed component**: Migrated all YouTube video embeds from custom iframe implementations to Theme UI's built-in `Embed` component for better consistency and maintainability
+  - **YouTube shortcode**: Refactored to use `@theme-ui/components` `Embed` wrapped in `Themed.div` with `VideoWrapper` variant; added `compact` prop to remove legacy `paddingTop: 25px` for tight layouts (card embeds)
+  - **Post cards**: Now import and use the YouTube shortcode component instead of inline Embed/iframe; wrapper div with `marginTop: 'auto'` for flex alignment; `compact` mode removes extra spacing
+  - **Music section grid**: Added `gridAutoRows: '1fr'` for equal-height cards so videos align at the bottom across cards with different headline lengths
+  - **Single source of truth**: All YouTube embeds (MDX, media template, post cards) now use the same component
+  - **Helpers preserved**: `getYouTubeVideoId()` and `buildYouTubeEmbedUrl()` utility functions remain in post-card for URL validation and query param injection
+
+### ✨ Enhancements
+
+- **Improved card spacing**: Fixed metadata row margin logic to only add `mb: 3` when excerpt is present and no media embed, improving visual balance for cards with YouTube/SoundCloud embeds
+
+### 🧪 Tests
+
+- **YouTube shortcode**: Added 3 new tests for `compact` mode, default mode, and custom `sx` styling
+- **Post card**: Added Jest mock for YouTube shortcode component to ensure existing tests work with the new import
+
+### 📦 Files Changed
+
+- `theme/package.json` (version 0.72.10)
+- `theme/src/shortcodes/youtube.js` (uses Embed from @theme-ui/components; added compact prop)
+- `theme/src/shortcodes/youtube.spec.js` (added compact, default, and sx tests)
+- `theme/src/components/widgets/recent-posts/post-card.js` (imports YouTube shortcode; compact mode; improved spacing)
+- `theme/src/components/widgets/recent-posts/post-card.spec.js` (added YouTube mock)
+- `theme/src/components/widgets/recent-posts/recent-posts-widget.js` (gridAutoRows: '1fr' for Music grid)
+
+---
+
+## 0.72.9
+
+### ♻️ Refactor
+
+- **Shared button styles and color utilities**: Extracted duplicated hex-to-RGB logic and primary button colors into a single source of truth for consistent pagination, CTAs, and skip-nav
+  - **`theme/src/utils/colors.js`**: New module with `hexToRgb`, `hexToRgba`, and `BUTTON_PRIMARY_COLORS` (light/dark)
+  - **Theme**: Added `primaryRgb` and aligned dark mode primary to `#4a9eff`; added `buttons.action` variant for ghost/outline buttons
+  - **Components**: ActionButton, PaginationButton, SkipNavLink, AnimatedPageBackground, PlayTimeChart, and AiSummary now use shared utils and/or theme colors
+  - **Tests**: New `utils/colors.spec.js`; theme fallback tests for SkipNavLink, PlayTimeChart, AiSummary; theme.spec coverage for `buttons.action` theme functions
+
+### 📦 Files Changed
+
+- `theme/package.json` (version 0.72.9)
+- `theme/src/utils/colors.js` (new)
+- `theme/src/utils/colors.spec.js` (new)
+- `theme/src/gatsby-plugin-theme-ui/theme.js` (primaryRgb, dark.primary, buttons.action)
+- `theme/src/components/action-button.js`
+- `theme/src/components/pagination-button.js`
+- `theme/src/components/skip-nav/SkipNavLink.js`
+- `theme/src/components/animated-page-background.js`
+- `theme/src/components/widgets/steam/play-time-chart.js`
+- `theme/src/components/widgets/steam/ai-summary.js`
+- `theme/src/gatsby-plugin-theme-ui/theme.spec.js`
+- `theme/src/components/skip-nav/SkipNavLink.spec.js`
+- `theme/src/components/action-button.spec.js`
+- `theme/src/components/pagination-button.spec.js`
+- `theme/src/components/widgets/steam/play-time-chart.spec.js`
+- `theme/src/components/widgets/steam/ai-summary.spec.js`
+
+---
+
+## 0.72.8
+
+### 🐛 Bug Fixes
+
+- **Spotify audio player stopping on page navigation**: Spotify playback no longer stops when navigating away from the Home page
+  - **Root cause**: The Spotify shortcode used oEmbed fetch + state and re-rendered a new iframe on navigation; the SoundCloud shortcode uses a simple iframe with a stable `src`, so React preserved it and playback continued
+  - **Fix**: Refactored Spotify shortcode to build the embed URL directly (like SoundCloud) and render a single iframe with no async state; added stable keys per track in the audio player (`key={spotifyURL}` / `key={soundcloudId}`) so React preserves the same embed instance across re-renders
+- **Spotify embed border**: Removed default iframe border on Spotify embeds via `border: none` in the shortcode and in the audio player’s shared iframe styles
+
+### 📦 Files Changed
+
+- `theme/package.json` (version 0.72.8)
+- `theme/src/components/audio-player.js` (stable keys for embeds; `border: none` on iframes)
+- `theme/src/shortcodes/spotify.js` (direct iframe URL, no oEmbed; `border: none`)
+- `theme/src/shortcodes/spotify.spec.js` (tests updated for direct-iframe implementation)
+
+---
+
+## 0.72.7
+
+### 📦 Dependencies
+
+- **react-intersection-observer**: Upgraded from ^9.15.1 to ^10.0.2
+  - v10 ignores the initial `inView === false` emission for `onChange`; existing usage (`useInView` with `ref`/`inView` and `triggerOnce`) is unchanged
+  - Used by theme LazyLoad and site components (CareerPathCurve, PhotoGallery)
+
+### 📦 Files Changed
+
+- `theme/package.json` (react-intersection-observer ^10.0.2)
+- `yarn.lock` (lockfile updated)
+
+---
+
+## 0.72.6
+
+### 🐛 Bug Fixes
+
+- **Navigation to About (and other pages) scrolling to bottom**: Fixed issue where clicking "About" from the Home page would land at the bottom of the About page instead of the top
+  - **Root cause**: `gatsby-react-router-scroll` restores scroll position from session storage; our `shouldUpdateScroll` return value was only used as a boolean. Returning `[0, 0]` did not set the scroll target—it still used the saved position, so a previously scrolled-to-bottom visit was restored
+  - **Fix**: `shouldUpdateScroll` now returns `false` on pathname change so the scroll handler does not restore saved position; `onRouteUpdate` explicitly calls `window.scrollTo(0, 0)` so every route change scrolls to top, then focuses skip-nav with `preventScroll: true`
+
+### 📦 Files Changed
+
+- `theme/gatsby-browser.js` (shouldUpdateScroll returns false; onRouteUpdate scrolls to top)
+- `theme/gatsby-browser.spec.js` (tests updated for new behavior and window.scrollTo mock)
+
+---
+
+## 0.72.5
+
+### ✨ Features
+
+- **Goodreads book link tilt interaction**: Book links in the Goodreads widget now respond with a subtle tilt effect on hover/focus for improved interactivity feedback
+
+### 📦 Files Changed
+
+- `theme/src/components/widgets/goodreads/book-link.js` (tilt response on book interactions)
+
+---
+
+## 0.72.4
+
+### 🐛 Bug Fixes
+
+- **Home navigation icon alignment in production**: Icons in the home left nav now vertically align with text in production (previously only in dev/preview)
+  - Moved `display: flex` and `alignItems: center` into the theme `homeNavigation` link variant so they are in critical CSS and apply from first paint; inline styles were overridden by the variant in prod
+
+### 📦 Files Changed
+
+- `theme/src/gatsby-plugin-theme-ui/theme.js` (homeNavigation variant: flex + alignItems)
+- `theme/src/components/home-navigation.js` (removed redundant inline style)
+
+---
+
+## 0.72.3
+
+### 🐛 Bug Fixes
+
+- **Home navigation icon vertical alignment**: Icons in the home left nav now align vertically with the link text
+  - Link uses inline `display: flex` and `alignItems: center` so icon and text are centered from first paint
+
+### 📦 Files Changed
+
+- `theme/src/components/home-navigation.js` (flex alignment on nav link)
+
+---
+
+## 0.72.2
+
+### 🐛 Bug Fixes
+
+- **Home navigation icon layout shift**: Fixed icons in the home left nav briefly rendering shifted up/left then snapping into place
+  - Icons now render in a fixed-size slot (18×18px) with inline styles so dimensions and spacing are correct on first paint
+  - Wrapper span uses `display: inline-flex`, `alignItems: center`, `justifyContent: center`, and explicit `marginRight` so layout doesn’t depend on Emotion/Theme UI hydration
+
+### 📦 Files Changed
+
+- `theme/src/components/home-navigation.js` (icon wrapper with stable dimensions; snapshots updated)
+
+---
+
+## 0.72.1
+
+### 🐛 Bug Fixes
+
+- **Header/nav font FOUC in production**: Fixed flash of unstyled content (FOUC) on hard reload where the header, skip link, and home left navigation briefly rendered as plain links before applying theme fonts
+  - **Root cause**: A custom Emotion cache in `wrapRootElement` was used for layout/header/nav styles, while `gatsby-plugin-emotion` extracts critical CSS using the default cache during SSR, so those styles were never inlined in the initial HTML
+  - **Fix**: Removed the custom `CacheProvider`/`createCache` so the app uses Emotion’s default cache; production builds now inline critical CSS for the header and nav correctly
+  - Only reproducible in production (e.g. after excluding `gatsby-theme-style-guide` in prod in 0.72.0); dev was unaffected
+
+### 📦 Files Changed
+
+- `theme/wrapRootElement.js` (removed custom Emotion cache)
+- `theme/wrapRootElement.spec.js` (removed CacheProvider test)
+
+---
+
+## 0.72.0
+
+### ✨ Features
+
+- **SoundCloud Embed Support in PostCard**: Music posts with `soundcloudId` frontmatter now display an embedded SoundCloud player in post cards
+  - Works on both the Music index page and the Home page widget
+  - Player displays full-width with waveform and play button
+  - Cards with SoundCloud embeds have linked titles instead of full-card links (consistent with YouTube behavior)
+
+- **Unified Index Page Container Widths**: Blog, Music, and Photography index pages now share consistent container breakpoints
+  - All three use `width: ['', '', 'max(95ch, 75vw)']` for responsive sizing
+  - Previously Blog used `maxWidth: 1400px` and Music used `max(95ch, 50vw)`
+  - Photography breakpoints were used as the reference standard
+
+- **Separated Recaps from Personal Posts on Blog Index**: Monthly recaps now appear in their own dedicated section
+  - New "Monthly Recaps" section with calendar icon (`faCalendarAlt`)
+  - Recaps display circular thumbnail images (matching Home page style)
+  - Personal posts appear in separate "Personal" section
+  - Section order: Recaps → Personal → Technology → Other
+
+- **Enhanced Music Index Page**: Music posts now display embedded players directly in the index view
+  - YouTube videos render as embedded players
+  - SoundCloud tracks render as embedded audio players
+  - Responsive 2-column grid layout on larger screens
+
+### 🐛 Bug Fixes
+
+- **Missing Thumbnails in Blog Index**: Added `thumbnails` to GraphQL query for blog posts
+  - Recap posts now display circular thumbnail images on the Blog index
+  - Consistent appearance with Home page recaps widget
+
+### 🎨 UI Improvements
+
+- **Consistent Grid Layouts**: Updated grid configurations across index pages
+  - Blog and Music index pages now use 2-column max at largest breakpoint (was 3)
+  - Removed `gridAutoRows: '1fr'` for pages with media embeds to allow natural card heights
+  - Grid gap patterns aligned with Photography index (`[3, 3, 4]`)
+
+### 📦 Dependencies
+
+- Added `soundcloudId` field to:
+  - `useCategorizedPosts` GraphQL query (theme hook)
+  - Music page GraphQL query (www.chrisvogt.me)
+- Added `isRecapPost` helper function to `categoryHelpers.js`
+
+### 🧪 Testing
+
+- Added 5 new tests for SoundCloud embed functionality in PostCard:
+  - Renders SoundCloud embed when soundcloudId is provided
+  - Does not wrap card in link when SoundCloud is present
+  - Does not render excerpt when SoundCloud is present
+  - Does not render banner when SoundCloud is present
+  - Handles case when both YouTube and SoundCloud are provided
+- Added tests for `isRecapPost` helper function
+- Updated `getCategoryGroup` tests to expect `'recaps'` for recap posts
+- All 1028 tests passing with comprehensive coverage
+
+### 📦 Files Changed
+
+- `theme/src/pages/blog.js` (container width, recaps section, thumbnails query)
+- `theme/src/helpers/categoryHelpers.js` (added `isRecapPost`, updated `getCategoryGroup`)
+- `theme/src/helpers/categoryHelpers.spec.js` (tests for recaps)
+- `theme/src/components/widgets/recent-posts/post-card.js` (SoundCloud embed support)
+- `theme/src/components/widgets/recent-posts/post-card.spec.js` (SoundCloud tests)
+- `theme/src/components/widgets/recent-posts/recent-posts-widget.js` (pass soundcloudId)
+- `theme/src/hooks/use-categorized-posts.js` (added soundcloudId to query)
+- `www.chrisvogt.me/src/pages/music.js` (container width, soundcloudId/youtubeSrc props, query)
+- `www.chrisvogt.me/content/blog/2025-06-30-june-2025-recap/` (added thumbnails)
+- `www.chrisvogt.me/content/blog/2025-07-31-july-2025-recap/` (added thumbnails)
+
+---
+
+## 0.71.3
+
+### 🐛 Bug Fixes
+
+- **Spotify Embed Warning**: Fixed browser warning "Allow attribute will take precedence over 'allowfullscreen'"
+  - **Root Cause**: Spotify's oEmbed API returns iframe HTML with both the deprecated `allowfullscreen` attribute and the modern `allow` attribute
+  - **Solution**: Sanitize the embed HTML to remove the deprecated `allowfullscreen` attribute before rendering
+  - **Impact**: Eliminates console warning when clicking Spotify items on the Home page
+
+- **lightGallery License Key on Blog Pages**: Fixed "license key is not valid for production use" error on blog photo galleries
+  - **Root Cause**: The `PhotoGallery` component in `www.chrisvogt.me/components/` was missing the `licenseKey` prop that home page widgets already use
+  - **Solution**: Added `licenseKey={process.env.GATSBY_LIGHT_GALLERY_LICENSE_KEY}` to the LightGallery component
+  - **Impact**: Blog photography posts no longer show license validation errors in production
+
+### 📦 Files Changed
+
+- `theme/src/shortcodes/spotify.js` (sanitize oEmbed HTML to remove deprecated attribute)
+- `www.chrisvogt.me/components/PhotoGallery.js` (add licenseKey prop)
+
+---
+
+## 0.71.2
+
+### 🚀 Performance Improvements
+
+- **Conditional Style Guide Plugin**: `gatsby-theme-style-guide` is now only included in development builds
+  - **Root Cause**: The style guide plugin was loading Google Fonts (Roboto) in production, triggering Lighthouse warnings about `font-display` not being set to `swap`
+  - **Solution**: Added conditional plugin inclusion based on `NODE_ENV` - plugin only loads when `NODE_ENV !== 'production'`
+  - **Impact**: Production builds no longer load unnecessary Google Fonts, improving Lighthouse performance scores and reducing network requests
+  - **Development**: Style guide remains available at `/___style-guide` during local development
+
+### 📦 Files Changed
+
+- `theme/gatsby-config.js` (added `isDevelopment` check, conditional plugin spread)
+
+---
+
+## 0.71.1
+
+### 🐛 Bug Fixes
+
+- **YouTube Embed Error 153 on Deployed Environments**: Fixed YouTube embeds showing "Error 153 - Video player configuration error" in production while working locally
+  - **Root Cause**: PostCard iframe was missing the `referrerPolicy` attribute required by YouTube's embed API
+  - **Solution**: Added `referrerPolicy='strict-origin-when-cross-origin'` to match the working YouTube shortcode used on blog post pages
+  - **Also Fixed**: Added `web-share` to iframe `allow` attribute for feature parity with YouTube shortcode
+  - **Bonus Fix**: Added `buildYouTubeEmbedUrl()` helper to properly handle YouTube URLs that already have query parameters (prevents malformed URLs with double `?`)
+
+### 🧪 Testing
+
+- Added 2 new tests for YouTube URL parameter handling
+  - Test for URLs with existing query parameters (uses `&` separator)
+  - Test for URLs without query parameters (uses `?` separator)
+- Updated snapshots to include new iframe attributes
+- All 21 PostCard tests passing
+
+### 📦 Files Changed
+
+- `theme/src/components/widgets/recent-posts/post-card.js` (added referrerPolicy, web-share, and URL helper)
+- `theme/src/components/widgets/recent-posts/post-card.spec.js` (added URL parameter tests, updated snapshots)
+
+---
+
+## 0.71.0
+
+### ✨ Features
+
+- **Recent Posts Widget Redesign**: Improved post card layout and content display
+  - **Condensed Metadata**: Category and date now display on a single line below the title with a bullet separator (`Personal • January 31, 2026`)
+  - **YouTube Embed Support**: Music posts with `youtubeSrc` frontmatter now display an embedded YouTube player instead of the description
+  - **Photography Cards Simplified**: Photography post cards no longer display the excerpt, showing only title, category/date, and photo thumbnails
+  - **Aligned YouTube Embeds**: Music cards with different title lengths now have aligned YouTube embeds using flexbox `margin-top: auto`
+
+- **New ThumbnailStrip Component**: Created a reusable vertical thumbnail strip component (available but not currently used)
+  - Compact overlapping vertical layout with zigzag offset
+  - Configurable size and max images
+  - Hover effects for individual thumbnails
+
+### 🐛 Bug Fixes
+
+- **Fixed Scroll-to-Top Navigation**: Pages now properly scroll to top when navigating between routes
+  - **Root Cause**: `shouldUpdateScroll` was incorrectly accessing `prevLocation` from `routerProps` instead of using `prevRouterProps` parameter
+  - **Solution**: Updated to use correct Gatsby API: `routerProps?.location?.pathname` and `prevRouterProps?.location?.pathname`
+  - Navigation from home page to blog posts (and other routes) now correctly scrolls to top
+
+### 🎨 UI Improvements
+
+- **Responsive Grid Breakpoints**: Improved 2-column grid layouts for better tablet experience
+  - Music, Photography, Posts, and Recaps sections now use single-column layout until 1024px
+  - Previously switched to 2 columns at 768px which was too cramped
+  - Better reading experience on tablet devices
+
+### 📦 Dependencies
+
+- Added `youtubeSrc` field to `useCategorizedPosts` GraphQL query for music posts
+
+### 🧪 Testing
+
+- Updated post-card tests with new YouTube embed scenarios (3 new tests)
+- Updated gatsby-browser tests for corrected scroll behavior
+- Updated thumbnail-strip component tests
+- All 41 recent-posts tests passing
+- All snapshot tests updated
+
+### 📦 Files Changed
+
+- `theme/src/components/widgets/recent-posts/post-card.js` (refactored with YouTube support)
+- `theme/src/components/widgets/recent-posts/post-card.spec.js` (new YouTube tests)
+- `theme/src/components/widgets/recent-posts/recent-posts-widget.js` (updated props, breakpoints)
+- `theme/src/components/widgets/recent-posts/thumbnail-strip.js` (new component)
+- `theme/src/components/widgets/recent-posts/thumbnail-strip.spec.js` (new tests)
+- `theme/src/hooks/use-categorized-posts.js` (added youtubeSrc to query)
+- `theme/gatsby-browser.js` (fixed shouldUpdateScroll API usage)
+- `theme/gatsby-browser.spec.js` (updated tests)
+
+---
+
+## 0.70.3
+
+### 🐛 Bug Fixes
+
+- **Fixed audio player portal not respecting dark mode in production**: The Spotify/SoundCloud audio preview container that renders at the bottom of the page now properly responds to color mode changes in production builds
+  - Portal content was rendering outside the Theme UI context, preventing color mode CSS from being applied
+  - CSS custom properties and `sx` prop styles can be cached and don't reliably update in portals during SSR/hydration
+  - Now passes `colorMode` as a prop from `RootWrapper` to ensure prop changes trigger re-renders
+  - Computes actual color values directly from the theme object using `useThemeUI` hook based on current color mode
+  - Uses inline `style` attribute for color-mode-dependent values (background, boxShadow, color)
+  - Added `key` prop based on color mode to force React to re-mount portal content when toggling themes
+  - Static layout styles remain in `sx` prop for Theme UI scale values (spacing, responsive breakpoints)
+
+### 📦 Files Changed
+
+- `theme/src/components/audio-player.js` (accept colorMode prop, use inline styles, key prop, compute theme colors)
+- `theme/src/components/audio-player.spec.js` (added useColorMode and useThemeUI mocks)
+- `theme/src/components/root-wrapper.js` (pass colorMode prop to AudioPlayer)
+
+---
+
+## 0.70.2
+
+### 🐛 Bug Fixes
+
+- **Fixed GraphQL schema error for thumbnails field**: Added explicit `thumbnails: [String]` type definition to `MdxFrontmatter` in `createSchemaCustomization`
+  - Fixes build failure in workspaces without posts containing thumbnails
+  - Field is now properly optional and won't cause "Cannot query field" errors
+
+### 📦 Files Changed
+
+- `theme/gatsby-node.js` (added thumbnails to MdxFrontmatter schema)
+
+---
+
+## 0.70.1
+
+### ✨ Features
+
+- **Thumbnail Previews for Recap and Photography Posts**: Replaced large banner images with small circular thumbnail previews on post cards
+  - New `ImageThumbnails` component displays up to 4 circular image previews
+  - Thumbnails have subtle stagger positioning for visual interest
+  - Recap posts (vertical layout) show thumbnails above text content
+  - Photography posts (horizontal layout) show thumbnails within the text area
+  - Posts without thumbnails gracefully fall back to banner display
+  - Added `thumbnails` frontmatter field support for posts
+
+### 📄 Content Updates
+
+- Added `thumbnails` field to photography and recap posts:
+  - October 2025 Recap
+  - September 2025 Recap
+  - Virgin Southern Caribbean cruise
+  - Virgin Caribbean cruise (Mayan Sol)
+  - Alaska & Victoria cruise
+  - Belize trip
+  - WorldPride NYC 2019
+  - Christmas 2019 in Los Angeles
+
+### 🧪 Testing
+
+- Added comprehensive test coverage for thumbnail feature
+  - 9 new tests for `ImageThumbnails` component
+  - 6 new tests for `PostCard` thumbnail handling
+  - 2 new tests for `RecentPostsWidget` thumbnail passing
+  - 1 new test for `useCategorizedPosts` thumbnails pass-through
+  - 100% code coverage for all recent-posts components
+
+### 📦 Files Changed
+
+- `theme/src/components/widgets/recent-posts/image-thumbnails.js` (new)
+- `theme/src/components/widgets/recent-posts/image-thumbnails.spec.js` (new)
+- `theme/src/components/widgets/recent-posts/post-card.js` (updated)
+- `theme/src/components/widgets/recent-posts/post-card.spec.js` (updated)
+- `theme/src/components/widgets/recent-posts/recent-posts-widget.js` (updated)
+- `theme/src/components/widgets/recent-posts/recent-posts-widget.spec.js` (updated)
+- `theme/src/hooks/use-categorized-posts.js` (added thumbnails to query)
+- `theme/src/hooks/use-categorized-posts.spec.js` (added thumbnails test)
+- `www.chrisvogt.me/src/pages/photography.js` (updated to use thumbnails)
+- Multiple MDX content files (added thumbnails frontmatter)
+
+---
+
+## 0.70.0
+
+### ✨ New Features
+
+- **Instagram Widget Ambient Rotation**: Added an "attention grabber" feature that automatically cycles through carousel images when the widget is in view
+  - **Smart Carousel Selection**: Uses Fisher-Yates shuffle algorithm to randomly select which carousel item to highlight without immediate repeats
+  - **Progressive Image Reveal**: Each selected carousel advances by one image, revealing gallery content progressively
+  - **Visibility-Aware**: Ambient rotation only runs when the Instagram widget is visible in the viewport (uses IntersectionObserver)
+  - **Gallery-Aware**: Rotation automatically pauses when the LightGallery modal is open and resumes when closed
+  - **Visual Indicator**: Subtle pulsing border animation highlights the currently rotating carousel item
+  - **Completion Tracking**: Tracks which carousels have shown all their images and resets when all complete
+
+- **LightGallery Full Carousel Support**: Instagram carousel posts now display all images in the lightbox
+  - **Flattened Gallery**: All images from carousel posts are expanded into individual slides
+  - **Position Indicator**: Shows "📷 2 / 15" badge with FontAwesome icon for carousel images
+  - **Smart Opening**: Clicking a carousel opens at the exact image currently displayed (respects ambient rotation position)
+  - **Album Boundary Styling**: CSS-based visual grouping of carousel thumbnails in the lightbox
+
+### 🔧 Technical Improvements
+
+- **Memoized LightGallery Props**: Prevented unnecessary LightGallery reinitialization by memoizing `dynamicEl`, `plugins`, and callback handlers
+- **Stable Callbacks**: Used `useCallback` for `handleLightGalleryInit`, `handleGalleryOpen`, `handleGalleryClose`, and `handleAfterAppendSlide`
+- **Index Mapping**: Created `itemIndexToSlideIndex` mapping for accurate carousel-to-slide navigation
+- **SSR Safe**: IntersectionObserver initialization is guarded for server-side rendering compatibility
+- **CSS Keyframe Animation**: Added `ambientPulseAnimation` for the attention-grabbing border effect
+
+### 🧪 Testing
+
+- **100% Line Coverage**: Instagram widget components achieve complete line coverage
+  - `instagram-widget.js`: 99.38% statements, 86.81% branches, 100% functions, **100% lines**
+  - `instagram-widget-item.js`: **100%** across all metrics
+- **75 Total Tests**: Comprehensive test suite covering all new functionality
+- **Mock IntersectionObserver**: Tests include proper mocking for IntersectionObserver API
+- **LightGallery Event Testing**: Tests cover `onAfterOpen`, `onAfterClose`, and `onAfterAppendSlide` callbacks
+- **DOM Manipulation Testing**: Tests verify thumbnail data attribute application for album boundaries
+
+### 📦 Files Changed
+
+- `theme/src/components/widgets/instagram/instagram-widget.js`
+- `theme/src/components/widgets/instagram/instagram-widget-item.js`
+- `theme/src/components/widgets/instagram/instagram-widget.spec.js`
+- `theme/src/components/widgets/instagram/instagram-widget-item.spec.js`
+- `theme/src/styles/global.css`
+
+---
+
+## 0.68.4
+
+### ♿ Accessibility
+
+- **Replaced deprecated `@reach/skip-nav`**: Created custom skip-nav components to replace the unmaintained dependency
+  - `SkipNavLink`: Visually hidden link that appears on focus, styled to match ActionButton design
+  - `SkipNavContent`: Target element for skip navigation with proper focus handling
+  - Positioned in upper-left corner when focused (standard WCAG 2.4.1 placement)
+  - First focusable element on page for proper keyboard navigation
+  - Supports dark/light mode theming
+
+### 🧹 Dependency Cleanup
+
+- **Removed `@reach/skip-nav`**: Eliminated deprecated dependency that had React 19 peer dependency warnings
+  - Package was unmaintained (last update 2022) and incompatible with React 19
+  - Custom implementation is ~80 lines vs external dependency
+  - No functionality loss - all features preserved
+
+### 🧪 Testing
+
+- Added comprehensive test coverage for skip-nav components
+  - 27 tests covering SkipNavLink and SkipNavContent
+  - 100% statement, branch, function, and line coverage
+  - Tests for ref forwarding, polymorphic `as` prop, dark mode, and accessibility attributes
+
+### 📦 Files Changed
+
+- `theme/src/components/skip-nav/SkipNavLink.js` (new)
+- `theme/src/components/skip-nav/SkipNavLink.spec.js` (new)
+- `theme/src/components/skip-nav/SkipNavContent.js` (new)
+- `theme/src/components/skip-nav/SkipNavContent.spec.js` (new)
+- `theme/src/components/skip-nav/index.js` (new)
+- `theme/src/components/layout.js` (updated import)
+- `theme/src/templates/home.js` (updated import)
+- `theme/gatsby-browser.js` (removed CSS import, updated selector)
+- `theme/gatsby-browser.spec.js` (updated tests)
+- `theme/package.json` (removed @reach/skip-nav)
+
+---
+
+## 0.68.3
+
+### 🔍 SEO Improvements
+
+- **Enhanced Structured Data for Google Sitelinks**: Added comprehensive Schema.org markup to improve search result appearance
+  - **WebSite Schema**: Added `@graph` structure to homepage combining `WebSite` and `Person` schemas with linked `@id` references
+  - **Publisher Relationship**: WebSite schema references Person as publisher for better entity recognition
+  - **Language Declaration**: Added `inLanguage: 'en-US'` to WebSite schema
+  - **Profile Image**: Added ImageObject schema for author avatar
+
+- **Breadcrumb Navigation Schema**: Added BreadcrumbList structured data to blog and media post templates
+  - **Blog Posts**: Home → Category → Post Title breadcrumb trail
+  - **Music Posts**: Home → Category → Post Title breadcrumb trail
+  - **Dynamic Categories**: Breadcrumb category name auto-capitalizes from URL slug
+  - Helps Google understand site hierarchy for potential sitelinks display
+
+### 🧪 Testing
+
+- Added comprehensive test coverage for new structured data
+  - Tests for `@graph` structure with WebSite and Person schemas
+  - Tests for WebSite schema properties (`@id`, `url`, `name`, `publisher`, `inLanguage`)
+  - Tests for Person schema with social profiles (including new BlueSky and Mastodon)
+  - Tests for breadcrumb structured data on post and media templates
+- Updated snapshots to include breadcrumb JSON-LD scripts
+- All 928 tests passing
+
+### 📦 Files Changed
+
+- `www.chrisvogt.me/src/gatsby-theme-chronogrove/templates/home-head.js`
+- `www.chrisvogt.me/src/gatsby-theme-chronogrove/templates/home-head.spec.js`
+- `theme/src/templates/post.js`
+- `theme/src/templates/post.spec.js`
+- `theme/src/templates/media.js`
+- `theme/src/templates/media.spec.js`
+
+---
+
+## 0.68.2
+
+### ✨ New Features
+
+- **Parallax Background Effect**: Added a subtle parallax effect to the animated page background
+  - Background moves slightly opposite to scroll direction, creating depth
+  - Effect scales dynamically based on page height — works smoothly on pages of any length
+  - Canvas extends beyond viewport only by the parallax offset amount (150px by default) for efficiency
+  - Uses GPU-accelerated `transform: translateY()` for smooth performance
+  - New configurable prop: `maxParallaxOffset` (default: 150px) controls total parallax movement
+
+### 🔧 Technical Improvements
+
+- **Dynamic Page Height Detection**: Background now tracks document height on mount and resize
+- **Scroll Progress Calculation**: Parallax offset is percentage-based, spreading evenly across any page length
+- **Performance Optimizations**: Added `willChange: 'transform'` hint for GPU compositing
+
+### 🧪 Testing
+
+- Added comprehensive test coverage for parallax functionality
+- Tests for resize event handling, scroll progress calculation, and edge cases
+- Tests for dynamic page height changes and maxParallaxOffset prop
+
+### 📦 Files Changed
+
+- `theme/src/components/animated-page-background.js`
+- `theme/src/components/animated-page-background.spec.js`
+
+---
+
+## 0.68.1
+
+### ♿ Accessibility
+
+- **Fixed Lighthouse contrast issue**: Resolved the only remaining accessibility failure in Lighthouse audit
+  - **Steam rank badge**: Changed from transparent white overlay to opaque dark background in dark mode (`rgba(20, 20, 31, 0.85)`) to ensure white text has sufficient contrast regardless of game image
+  - Lighthouse was unable to calculate backdrop-filter blur effects, so the badge now provides guaranteed contrast through its own background
+
+### 🎨 UI Improvements
+
+- **Dark mode loading placeholders**: Updated all loading placeholder colors to be mode-appropriate
+  - Light mode: `#efefef` (light gray)
+  - Dark mode: `#3a3a4a` (dark gray)
+  - Affected widgets: Steam, Goodreads, Discogs, Spotify, GitHub, Instagram, Flickr
+
+### 📦 Files Changed
+
+- `theme/src/components/widgets/steam/steam-game-card.js`
+- `theme/src/components/widgets/goodreads/book-link.js`
+- `theme/src/components/widgets/goodreads/recently-read-books.js`
+- `theme/src/components/widgets/discogs/vinyl-collection.js`
+- `theme/src/components/widgets/spotify/media-item-grid.js`
+- `theme/src/components/widgets/github/renderers/placeholder.js`
+- `theme/src/components/widgets/instagram/instagram-widget.js`
+- `theme/src/components/widgets/flickr/flickr-widget.js`
+
+---
+
+## 0.68.0
+
+### ✨ New Features
+
+- **TanStack Query Integration**: Migrated widget data fetching from Redux to TanStack Query (React Query) for improved caching, deduplication, and state management
+  - **New `useWidgetData` Hook**: Centralized data fetching logic with built-in loading states, error handling, and caching
+  - **Widget Migrations**: Updated all 7 widget components (GitHub, Spotify, Flickr, Instagram, Goodreads, Steam, Discogs) to use the new hook
+  - **QueryClientProvider**: Added TanStack Query provider to `wrapRootElement.js` with optimized default settings for Gatsby static sites
+  - **Improved DX**: Simplified widget component code by removing Redux boilerplate (`useDispatch`, `useSelector` for widget data)
+  - **Performance**: Built-in request deduplication, stale-while-revalidate caching, and configurable retry logic
+
+### 🔧 Technical Improvements
+
+- **Data Fetching Architecture**: Replaced manual `fetchDataSource` Redux action with declarative `useWidgetData` hook
+- **Caching Strategy**: 5-minute stale time, 30-minute garbage collection, disabled refetch on window focus/reconnect (optimized for static sites)
+- **Error Handling**: Consistent `hasFatalError` state across all widgets with graceful degradation
+- **Test Infrastructure**: Added `TestProviderWithQuery` utility for testing components with TanStack Query
+
+### 🐛 Bug Fixes
+
+- **Goodreads UserStatus**: Fixed runtime error when `status` prop is undefined during loading
+- **Goodreads Data Paths**: Corrected data extraction paths for books, status, and profile display name
+- **Discogs Metrics**: Fixed metrics transformation to convert object format to array format for `ProfileMetricsBadge`
+
+### 📦 Dependencies
+
+- Added `@tanstack/react-query` (^5.66.0) for modern data fetching
+
+### 🧪 Testing
+
+- Updated all 7 widget test files to mock `useWidgetData` hook
+- Added comprehensive test coverage for `useWidgetData` hook
+- Updated test utilities with `TestProviderWithQuery` wrapper
+- All 954 tests passing with updated snapshots
+
+### 📦 Files Changed
+
+- New: `theme/src/hooks/use-widget-data.js`
+- New: `theme/src/hooks/use-widget-data.spec.js`
+- Modified: `theme/wrapRootElement.js`
+- Modified: `theme/src/testUtils.js`
+- Modified: All widget components and their test files
+
+---
+
+## 0.67.1
+
+### 🐛 Bug Fixes
+
+- **Lighthouse Best Practices & SEO**: Fixed broken Lighthouse reports caused by Gatsby issue [gatsbyjs/gatsby#39415](https://github.com/gatsbyjs/gatsby/issues/39415)
+  - Applied patch from [gatsbyjs/gatsby#39417](https://github.com/gatsbyjs/gatsby/pull/39417) to resolve the issue
+  - Lighthouse Best Practices and SEO scores now report correctly
+
+### 📦 Dependencies
+
+- **Gatsby**: Updated to `5.16.0` with patch applied via Yarn patch protocol
+- Applied `.yarn/patches/gatsby-npm-5.16.0-79b028a7a8.patch` to fix Lighthouse reporting
+
+---
+
+## 0.67.0
+
+### ✨ New Features
+
+- **Instagram Carousel Ken Burns Effect**: Enhanced the Instagram widget with an animated slideshow experience for carousel posts
+  - Hovering or focusing on a carousel post now cycles through all images with a smooth Ken Burns zoom effect
+  - Images preload on hover to eliminate loading flashes between slides
+  - Carousel indicator dots show current position (max 5 dots with "+N" overflow)
+  - Separate hover and focus state tracking for proper accessibility support
+  - Focus keeps carousel running when mouse leaves (keyboard accessibility)
+  - Smooth crossfade transitions between images (300ms)
+  - GPU-accelerated animations using `translate3d` and `will-change: transform`
+  - Cinematic easing with fast start and gradual deceleration
+
+### 🐛 Bug Fixes
+
+- **Fixed white flash on hover**: Removed unnecessary React key change that caused image remounting
+- **Fixed orphaned timeouts**: Transition timeouts are now properly tracked and cleared
+- **Removed VanillaTilt**: Removed 3D tilt effect from Instagram widget for cleaner visuals
+- **Fixed CORS warning**: Changed `crossOrigin='anonymous'` to use `window.Image` for preloading
+
+### 🧪 Testing
+
+- Comprehensive test coverage for carousel rotation, focus/hover states, and edge cases
+- Tests for preloading, timeout cleanup on unmount, and accessibility scenarios
+- 98.41% branch coverage on `instagram-widget-item.js`
+- 40 tests passing across Instagram widget components
+
+### 📦 Files Changed
+
+- Modified: `theme/src/components/widgets/instagram/instagram-widget-item.js`
+- Modified: `theme/src/components/widgets/instagram/instagram-widget.js`
+- Modified: `theme/src/components/widgets/instagram/instagram-widget-item.spec.js`
+- Modified: `theme/src/components/widgets/instagram/instagram-widget.spec.js`
+
+## 0.66.0
+
+### 🚀 Performance Improvements
+
+- **Lazy Loading for Widget Images**: Implemented granular lazy loading for image-heavy widgets to significantly improve Lighthouse performance scores
+  - **Steam Widget**: Each game card image now lazy loads individually as it enters the viewport
+    - Added `LazyLoad` wrapper around game header images in `SteamGameCard` component
+    - Replaced spinner placeholders with animated skeleton loaders using `react-placeholder`
+    - Prevents 16-18 game images (~2-3MB) from loading until visible
+    - Tests updated with `LazyLoad` mocks for compatibility with `react-test-renderer`
+  - **Goodreads Widget**: Each book cover image now lazy loads individually
+    - Added `LazyLoad` wrapper around book SVG components in `BookLink` component
+    - Square aspect ratio skeleton placeholder maintains layout stability
+    - Prevents 12 book cover images from loading until visible
+    - Tests updated with `LazyLoad` mocks across all Goodreads test files
+  - **Benefits**:
+    - Reduces initial page load time and network congestion
+    - Improves Time to Interactive (TTI) and Core Web Vitals
+    - Better mobile experience on slower connections
+    - Progressive enhancement: grid structure visible immediately, images load on-demand
+
+- **Simplified Background Animation**: Removed light mode animation for better performance
+  - Deleted `PrismaticBurst` component and all related files (component, CSS, tests)
+  - Light mode now uses solid background color (no canvas animation overhead)
+  - Dark mode preserves existing `ColorBends` animation
+  - Removed `lightOpacity` prop from `AnimatedPageBackground` (no longer needed)
+  - Updated component documentation and tests to reflect solid light mode background
+  - Reduces JavaScript execution and improves light mode Lighthouse scores
+
+### 🧪 Testing
+
+- Added test for invalid URL handling in `BookLink` component (100% coverage)
+- Updated 3 test files with `LazyLoad` mocks: `steam-widget.spec.js`, `play-time-chart.spec.js`, `recently-read-books.spec.js`
+- Updated `AnimatedPageBackground` tests to verify solid light mode background
+- Test suite: 970 tests passing (18 fewer after removing PrismaticBurst tests)
+- Maintained 100% line coverage on modified files
+
+### 📦 Files Changed
+
+- Modified: `theme/src/components/widgets/steam/steam-game-card.js`
+- Modified: `theme/src/components/widgets/goodreads/book-link.js`
+- Modified: `theme/src/components/animated-page-background.js`
+- Modified: Test files for Steam, Goodreads, and AnimatedPageBackground components
+- Deleted: `theme/src/components/home-backgrounds/prismatic-burst.js`
+- Deleted: `theme/src/components/home-backgrounds/prismatic-burst.css`
+- Deleted: `theme/src/components/home-backgrounds/prismatic-burst.spec.js`
+
+## 0.65.4
+
+### 📦 Dependencies
+
+- Minor dependency updates across the project
+
+## 0.65.3
+
+### 📦 Dependencies
+
+- **Workspace-wide Dependency Updates**: Updated dependencies across all workspace packages to latest versions
+  - **Root Package**:
+    - ESLint ecosystem: `@eslint/compat` (^1.3.1 → ^2.0.0), `@eslint/js` (^9.30.1 → ^9.39.1), `eslint` (^9.30.1 → ^9.39.1)
+    - ESLint plugins: `eslint-config-prettier` (^10.1.5 → ^10.1.8), `eslint-plugin-jest` (^29.0.1 → ^29.1.0), `eslint-plugin-prettier` (^5.5.1 → ^5.5.4), `eslint-plugin-react-hooks` (^5.2.0 → ^7.0.1)
+    - Development tools: `lint-staged` (^16.1.2 → ^16.2.6)
+  - **Theme Package**:
+    - Gatsby core: `gatsby` (^5.14.5 → ^5.15.0) and all related plugins updated to ^5.15.0 or ^6.15.0 series
+    - Testing libraries: `@testing-library/dom` (^10.4.0 → ^10.4.1), `@testing-library/jest-dom` (^6.6.3 → ^6.9.1), `jest` (^30.0.4 → ^30.2.0), `jest-environment-jsdom` (^30.0.4 → ^30.2.0)
+    - React testing: `react-test-renderer` (^18.3.1 → ^19.2.0)
+    - Build tools: `babel-preset-gatsby` (^3.14.0 → ^3.15.0)
+    - MDX ecosystem: `@mdx-js/loader`, `@mdx-js/mdx`, `@mdx-js/react` (^3.1.0 → ^3.1.1)
+    - UI libraries: `@fortawesome/react-fontawesome` (^0.2.2 → ^0.2.6), `lightgallery` (^2.9.0-beta.1 → ^2.9.0)
+    - State management: `@reduxjs/toolkit` (^2.8.2 → ^2.10.1)
+    - Error handling: `react-error-boundary` (^4.0.13 → ^6.0.0) - **major version bump**
+    - Utilities: `html-react-parser` (^5.2.5 → ^5.2.10), `humanize-duration` (^3.33.0 → ^3.33.1)
+  - **www.chrisvogt.me Package**:
+    - Gatsby: `gatsby` (^5.14.5 → ^5.15.0)
+    - Gatsby plugins: `gatsby-plugin-google-analytics` (^5.14.0 → ^5.15.0), `gatsby-plugin-sitemap` (^6.14.0 → ^6.15.0)
+  - **www.chronogrove.com Package**:
+    - Gatsby: `gatsby` (^5.0.0 → ^5.15.0)
+    - React: `react` (^18.0.0 → ^18.3.1), `react-dom` (^18.0.0 → ^18.3.1)
+    - Babel: `@babel/core`, `@babel/preset-env`, `@babel/preset-react` (^7.0.0 → ^7.28.5)
+
+### ⚠️ Notable Changes
+
+- **react-error-boundary**: Major version update (4.x → 6.x) - now ESM-only, requires Jest transformation
+- **react-test-renderer**: Initially attempted upgrade to v19.2.0 but **downgraded back to ^18.3.1** for React 18 compatibility
+- **lightgallery**: Graduated from beta (2.9.0-beta.1 → 2.9.0 stable release)
+- **Gatsby 5.15.0**: Latest stable release with performance improvements and bug fixes
+
+### 🔧 Configuration Changes
+
+- **Jest Configuration**: Updated `transformIgnorePatterns` to include `react-error-boundary` for ESM transformation
+  - Required because v6.x is ESM-only and must be transformed by Babel in Jest environment
+  - Pattern: `node_modules/(?!(gatsby|@mdx-js/react|react-error-boundary)/)`
+
+### 🐛 Compatibility Fixes
+
+- **react-test-renderer**: Kept at v18.3.1 instead of v19.2.0
+  - React 19's test renderer is incompatible with React 18.x projects
+  - Error: `Cannot read properties of undefined (reading 'S')`
+  - Test renderer version must exactly match React version (18.x requires 18.x renderer)
+
+### 🧪 Testing
+
+- All dependency updates tested with development server (`yarn develop:https`)
+- Successfully completed Gatsby build process with all plugins
+- **All 107 test suites passing** (987 tests) with full compatibility
+- Development server running without errors or warnings
+- All existing functionality verified to work correctly with updated dependencies
+
+## 0.65.2
+
+### 🐛 Bug Fixes
+
+- **GitHub Pinned Items**: Fixed "Last updated" date showing repository metadata changes instead of actual code activity
+  - **Root Cause**: Component was using the `updatedAt` field from GitHub's GraphQL API, which tracks when repository settings or About section were modified, not when code was pushed or PRs were merged
+  - **Solution**: Updated component to use `pushedAt` field (last push to default branch) with fallback to `updatedAt` for backwards compatibility
+  - **Impact**: "Last updated" timestamps now accurately reflect the last time code was pushed to the repository's main branch, including merged pull requests
+  - **User Experience**: Kept user-friendly "Last updated" label while fixing underlying data source
+  - **Backend Note**: Metrics API should be updated to query `pushedAt` field in addition to `updatedAt`
+
+### 🧪 Testing
+
+- Updated test mocks to include `pushedAt` field
+- Added test case to verify fallback behavior when `pushedAt` is not available
+- Updated snapshots to reflect changes
+- All tests passing (10/10 test suites, 38/38 tests)
+
+## 0.65.1
+
+### 🐛 Bug Fixes
+
+- **Dark Mode Background Gradient**: Fixed light grey background appearing in dark mode during evening hours
+  - **Root Cause**: Two issues were causing the problem:
+    1. Component was attempting to access `theme.colors.modes.dark.background` which doesn't exist when dark mode is active (Theme UI resolves colors to `theme.colors.background`)
+    2. HTML element had a light background color (`#fdf8f5`) that was showing through the semi-transparent animation (`opacity: 0.12`)
+  - **Solution**:
+    1. Simplified color lookup to use `theme.colors.background` directly since Theme UI automatically resolves the correct color based on active mode
+    2. Added `useEffect` hook to set HTML element background color to match theme background (`#14141F` for dark mode, `#fdf8f5` for light mode)
+    3. Added SSR script in `gatsby-ssr.js` to set HTML background before React hydrates, preventing flash of incorrect background
+  - **Impact**: Dark mode now correctly displays dark background (`#14141F`) without light color bleeding through, fixing evening display issues when OS automatically switches to dark mode
+
+### 🎯 User Experience
+
+- **Consistent Dark Mode**: Animated background gradient now displays correctly in dark mode regardless of time of day or OS color scheme settings
+- **No Flash**: HTML background color is set before React hydrates, eliminating any flash of incorrect background color
+- **System Integration**: Properly respects OS-level dark mode settings with correct color resolution
+- **Theme Switching**: HTML background updates dynamically when users toggle between light and dark modes
+
+### 🔧 Technical Improvements
+
+- **SSR Enhancement**: Added inline script in `gatsby-ssr.js` to set HTML background color synchronously before React hydration
+  - Checks localStorage for saved color mode preference
+  - Falls back to system `prefers-color-scheme` media query
+  - Sets background to `#14141F` (dark) or `#fdf8f5` (light) based on detected mode
+- **Component Enhancement**: Added `useEffect` hook to maintain HTML background color after React hydration
+  - Updates HTML background when theme changes
+  - Cleans up inline style on component unmount
+  - Works in conjunction with SSR script for seamless experience
+
+### 🧪 Testing
+
+- **Improved Test Coverage**: Added 3 comprehensive tests for dark mode color resolution (23 tests total, up from 20)
+  - Test for `theme.colors.background` usage in dark mode (the bug scenario)
+  - Test for `rawColors.background` precedence when available
+  - Test for fallback to default dark mode color when theme colors are missing
+- **SSR Test Updates**: Updated `gatsby-ssr.spec.js` to verify both color mode and HTML background scripts are injected
+  - Tests verify both scripts are present and contain correct logic
+  - Validates color values (`#14141F` and `#fdf8f5`) are included in background script
+- **100% Branch Coverage**: All color lookup paths now have explicit test coverage
+- All tests pass with no regressions (107 test suites passing)
+
+## 0.65.0
+
+### ✨ Features
+
+- **Animated Page Backgrounds**: Added dynamic animated backgrounds that change based on color mode
+  - **Light Mode**: Prismatic Burst animation with theme accent colors
+  - **Dark Mode**: Color Bends animation with cosmic theme colors (purple, gold, blues)
+  - Fixed positioning - animations stay in viewport while page scrolls
+  - Subtle transparency (70% light, 12% dark) to avoid distraction
+  - Memoized animations prevent restarts except on color mode changes
+  - **Gradient overlay** with smooth fade-out on scroll (700px) protects header content
+  - Reusable `AnimatedPageBackground` component works on any page
+  - Enabled on **Home**, **Blog**, **Music**, and **Photography** pages
+
+### 🔧 Improvements
+
+- **Theme Colors**: Updated dark mode background to `#14141F` for deeper contrast
+- **Panel Backgrounds**: Increased opacity from `0.35` to `0.45` (light) and adjusted dark mode to `rgba(20, 20, 31, 0.45)`
+- **Layout Component**: Added `transparentBackground` prop to support animated backgrounds
+- **Performance**: Used `useMemo` hook to prevent animation re-renders on every state change
+- **Gradient Overlay**: Enhanced with 4-stop gradient (0%, 30%, 65%, 85%) for smoother transition
+  - Solid at top (30%) to protect headers
+  - Gradual fade (30-85%) with intermediate opacity steps
+  - Long tail (85-100%) for natural blend
+  - Fades out as user scrolls down for subtle, non-intrusive effect
+
+### 🧹 Code Cleanup
+
+- Removed unused background components (Aurora, Beams, Gradient Blinds)
+- Cleaned up home-backgrounds index exports to only include used components
+
+### 🔨 Technical
+
+- **Dependencies**: Added `ogl` for WebGL-based animations, `three` for 3D graphics
+- **Browser Globals**: Added `cancelAnimationFrame` and `ResizeObserver` to ESLint config
+- **New Component**: `theme/src/components/animated-page-background.js` with configurable props:
+  - `overlayHeight` - Gradient overlay height (default: `min(112.5vh, 1500px)` for home, `min(75vh, 1000px)` for others)
+  - `lightOpacity` / `darkOpacity` - Animation transparency
+  - `fadeDistance` - Scroll distance for overlay fade-out (default: 700px)
+- **Tests**: Comprehensive test coverage for all background components (949 tests passing)
+- **React Imports**: Fixed React imports in background components for proper JSX compilation
+
+## 0.64.0
+
+### ✨ Features
+
+- **Blog Page Redesign**: Complete modern redesign with category-based organization
+  - Posts grouped into sections: "Personal & Recaps", "Technology", and "All Posts"
+  - Featured post per section with horizontal layout on large screens (1.9:1 aspect ratio)
+  - Grid layout for remaining posts (responsive 1/2/3 columns based on screen size)
+  - Section headers with FontAwesome icons and post counts
+  - Filtered out Music and Photography posts (they have dedicated pages)
+  - Page header changed from "All Posts" to "Blog" with reduced margin
+
+- **"/now" Page Alias**: Created redirect page for latest monthly recap
+  - `/now` redirects to current recap (e.g., `/personal/october-2025`)
+  - Client-side navigation with clean browser history (`replace: true`)
+  - Easy to update for future recaps (single line change)
+
+### 🔧 Improvements
+
+- **Post Card Component**: Unified design across all uses (blog, home widgets, recaps)
+  - Fixed aspect ratio for banner images (1.9:1 for 1200×630 images)
+  - Modern spacing hierarchy: Category (16px) → Headline (8px) → Date (16px) → Excerpt
+  - Responsive font sizing with proper line heights
+  - Added `display: 'inline-block'` to Category component for proper margin rendering
+  - Removed `isRecap` prop - all cards now use consistent layout
+  - Excerpt display added to all post cards
+
+- **Category System Refactor**: Centralized category logic for reusability
+  - Created `src/helpers/categoryHelpers.js` with utilities:
+    - `getCategoryDisplayName()` - Format category names (e.g., "photography/travel" → "Travel Photography")
+    - `getCategoryGroup()` - Determine category grouping (personal, technology, music, photography, other)
+    - `getCategoryIcon()` - Get FontAwesome icon for categories
+    - `toTitleCase()` - Convert hyphenated/slash-separated strings to title case
+  - Refactored `Category` component to use centralized helpers
+  - Eliminated code duplication across blog page and category component
+
+- **Content Updates**:
+  - Added `category: personal` to October 2025 recap for proper categorization
+  - Changed October recap slug from `now` to `october-2025` for consistency
+  - Fixed excerpt formatting in multiple MDX files (proper punctuation, length under 200 chars)
+
+### 📊 Data Flow
+
+- **GraphQL Queries**: Added `excerpt` and `banner` fields to post queries
+  - Updated `use-recent-posts.js` to fetch `frontmatter.excerpt`
+  - Updated `use-categorized-posts.js` to include excerpt data
+  - Blog page now uses hand-written excerpts from frontmatter instead of auto-generated
+
+- **"Now" Posts Inclusion**: Removed filter that excluded posts with `slug: "now"`
+  - `getPosts()` now includes all posts for blog index
+  - "Now" posts properly appear in "Personal & Recaps" section
+
+### 🧪 Testing & Coverage
+
+- **100% Statement Coverage**: All modified files fully tested
+- **98.38% Branch Coverage**: Comprehensive edge case testing (+5.64% improvement)
+- **108 Tests Passing**: All tests passing with 15 snapshots
+- **New Test Files**:
+  - `theme/src/pages/now.spec.js` - Tests for /now redirect page
+  - `theme/src/testUtils.spec.js` - Tests for test utilities
+  - `theme/src/helpers/categoryHelpers.spec.js` - Tests for category helpers
+- **Enhanced Test Coverage**:
+  - 13+ new test cases for blog page edge cases
+  - Category helper edge cases (null, undefined, empty categories)
+  - Post card variations (with/without banners, single posts, empty states)
+  - Banner selection logic for featured posts
+  - Section header rendering with post counts
+
+### 🎨 Design & UX
+
+- **Visual Hierarchy**: Modern card design with varied spacing for better readability
+- **Consistent Styling**: All post cards (home, blog, featured) use identical spacing
+- **Responsive Design**: Grid layouts adapt from 1 to 3 columns based on screen size
+- **Professional Polish**: Tighter page header margins matching other pages (Music, Photography)
+
+### 🏗️ Architecture
+
+- **Single Source of Truth**: Category logic centralized in one module
+- **Component Reusability**: PostCard component serves all card layouts
+- **Maintainability**: Easy to add new categories or update category mappings
+- **Zero Duplication**: Eliminated redundant category mapping code
+- **GraphQL Schema**: Added explicit `MdxFrontmatter` type definition for optional `excerpt` field
+  - Ensures both sites (with and without excerpts) build successfully
+  - Follows Gatsby best practices for optional fields
+
+## 0.63.3
+
+### 🐛 Bug Fixes
+
+- **Navigation Scroll Position**: Fixed inconsistent scroll-to-top behavior when navigating from Recent Posts widget
+  - Removed manual `onClick` scroll handler from PostCard that conflicted with Gatsby's navigation timing
+  - Updated `shouldUpdateScroll` in gatsby-browser to explicitly return `[0, 0]` coordinates instead of `true`
+  - Added `preventScroll: true` to skip-nav focus to prevent scroll interference
+  - Changed global CSS `scroll-behavior` from `smooth` to `auto` to eliminate awkward animation after navigation
+  - Navigation now consistently scrolls to top instantly across all pages (home, blog index, etc.)
+
+### 🎯 User Experience
+
+- **Instant Navigation**: Page transitions are now snappy and immediate with no visible scroll animation
+- **Consistent Behavior**: Recent Posts widget cards now behave identically to Blog index cards
+- **Better Performance**: Eliminated timing conflicts between manual scroll handlers and Gatsby's built-in navigation
+
+### 🧪 Testing & Coverage
+
+- **100% Test Coverage**: All modified files maintain complete test coverage
+- **Updated Tests**: Modified 8 existing tests to verify new scroll behavior
+  - Updated `shouldUpdateScroll` tests to expect `[0, 0]` scroll coordinates
+  - Updated `onRouteUpdate` tests to verify `preventScroll: true` parameter
+  - Removed obsolete manual scroll test from PostCard
+- **879 Tests Passing**: Full test suite passes with no regressions
+
+## 0.63.2
+
+### 🐛 Bug Fixes
+
+- **Recent Posts Card Height**: Fixed inconsistent card heights in Recent Posts widget when posts have varying content lengths
+  - Added `display: 'flex'` to Link wrapper to enable flex layout for equal-height children
+  - Added `height: '100%'` to Card component to fill parent container completely
+  - Ensures all cards in the grid have uniform height regardless of title, excerpt, or metadata length
+  - Improves visual consistency and grid alignment across all breakpoints
+
+### 🎯 User Experience
+
+- **Visual Consistency**: Recent Posts cards now maintain equal heights in grid layouts
+- **Better Grid Layout**: Eliminates jagged rows caused by varying card heights
+- **Professional Appearance**: Creates cleaner, more polished widget presentation
+
+## 0.63.1
+
+### 🐛 Bug Fixes
+
+- **Contribution Graph width (large screens)**: Removed the 12px upper clamp on cell size so the grid expands to fill the container on wide screens.
+- **FOUC hardening**: Added inline style fallbacks (`overflow: hidden`, `minWidth: 0`, `maxWidth: 100%`) to wrappers and loading state to prevent pre‑hydration overflow/flash.
+- **Balanced spacing**: Adjusted left day‑label margin to match card padding, equalizing left/right spacing around the grid.
+- **Mobile Layout Shift**: Fixed CLS issue where contribution graph rendered wider than viewport on initial mobile render by applying critical overflow styles inline.
+
+### 🎯 Performance & Animation Enhancements
+
+- **Lazy Loading**: Wrapped ContributionGraph in LazyLoad component to defer rendering until visible in viewport
+- **React.memo Optimization**: Prevented unnecessary re-renders with custom comparison function checking `isLoading` and `contributionCalendar` props
+- **Development Tracking**: Added render count logging in dev mode for debugging re-render issues
+- **Scroll-Triggered Animations**: Implemented IntersectionObserver-based animations that trigger when graph enters viewport (with 50px rootMargin and 0.1 threshold)
+- **Staggered Fade-In Effects**: Added cascading animations for visual interest:
+  - **Grid cells**: Staggered by week (0.015s) and day (0.01s) with scale (0.8→1) + translateY (10px→0) transform
+  - **Month labels**: Sequential fade-in with 0.1s delays and translateY (-10px→0)
+  - **Day labels**: Sequential fade-in starting at 0.3s with translateX (-10px→0)
+  - **Legend**: Final elements animate at 1.8s+ with scale (0.6→1) + translate effects
+- **Pre-render Optimization**: Card wrapper, heading, and contribution count text pre-render immediately; only graph elements (cells, labels, legend) animate on scroll
+- **Progressive Enhancement**: Animation falls back gracefully when IntersectionObserver is unavailable (SSR/older browsers)
+
+### 🧪 Testing & Coverage
+
+- **98% Statement Coverage**: Added 12 new comprehensive test cases covering animation, memoization, and edge cases
+- **22 Total Tests**: All passing with complete coverage of new animation logic and performance optimizations
+- **New Test Coverage**:
+  - Animation classes and visibility state management
+  - Grid cells with contribution data rendering
+  - Empty weeks and missing data handling
+  - Total contributions count display
+  - Legend rendering with "Less" and "More" labels
+  - React.memo memoization behavior (prevents/allows re-renders based on prop changes)
+  - Loading state transitions
+  - Day labels (Mon, Wed, Fri) rendering
+  - IntersectionObserver setup, lifecycle, and visibility detection callback
+  - Development mode console.log tracking
+  - IntersectionObserver not called during loading state
+- **IntersectionObserver Mocking**: Proper test environment setup for browser API testing in JSDOM
+- **LazyLoad Component Mocking**: Updated GitHub widget tests to mock LazyLoad for compatibility with react-test-renderer
+- **Updated Snapshots**: All visual regression tests updated to reflect new inline styles and animation attributes
+- Added resize behavior tests to exercise the responsive sizing logic:
+  - Ensures resize runs on narrow and wide containers (min clamp honored; growth path executed)
+  - Updated snapshots for GitHub widget and Contribution Graph
+
+## 0.63.0
+
+### ✨ Features
+
+- **GitHub Contribution Graph widget**: Added a new contribution calendar with horizontal scroll on small screens and GitHub-accurate layout (weeks, days, month labels).
+  - Depends on updated metrics API providing `contributionCalendar` data
+  - Hides the final month label to match GitHub’s rendering behavior
+
+### 🐛 Bug Fixes
+
+- **Contribution Graph mobile overflow**: Fixed horizontal overflow on small screens by adding intrinsic size containment and proper shrink behavior.
+  - Added `minWidth: 0`, `overflow: 'hidden'`, and `contain: 'inline-size'` to wrappers/scroller
+  - Set grid `minWidth: 'max-content'` to keep width inside the horizontal scroller
+  - Ensures the card does not stretch wider than the viewport while preserving horizontal scroll for the grid
+- **Y‑axis labels**: Precisely aligned Mon/Wed/Fri with absolute positioning derived from dynamic cell size and row gap
+
+### 🎯 User Experience
+
+- **Widget order**: Moved Contribution Graph below “Last Pull Request” so it renders last within the GitHub widget.
+- **Consistent spacing**: Tuned top/bottom margins so the graph spacing matches other widgets.
+- **Heading size**: Matched the Contribution Graph heading size with “Last Pull Request” for visual consistency.
+
+### 🧪 Testing & Coverage
+
+- Added tests to verify:
+  - Omission of the last month label in the Contribution Graph
+  - Section order in the GitHub widget (Pinned Items → Last Pull Request → Contribution Graph)
+- Kept existing tests passing; lint is clean.
+
+## 0.62.3
+
+### 🗑️ Removals
+
+- **Removed Animated Background**: Removed the animated orb background component and all related code
+  - **Component Removal**: Deleted `animated-background.js` component and its test suite
+  - **Layout Cleanup**: Removed animated background from layout component
+  - **Positioning Fixes**: Removed positioning workarounds (`position: relative`) that were added to work around the animated background
+  - **Code Cleanup**: Removed all references to animated background from codebase and documentation
+  - **Impact**: Cleaner codebase with simpler layout structure and improved performance
+
+### 🎯 User Experience
+
+- **Improved Layout Structure**: Simplified layout without positioning hacks, resulting in cleaner CSS and better maintainability
+- **Performance**: Reduced overhead from canvas-based animation rendering
+
+## 0.62.2
+
+### 🐛 Bug Fixes
+
+- **PhotoGallery LightGallery Initialization**: Fixed race condition where LightGallery wasn't initialized when users clicked images
+  - **Root Cause**: LightGallery was lazy-loaded using `LazyLoad` component, which only triggered when galleries were scrolled into view, causing clicks to fail before initialization
+  - **Solution**: Changed to use `VisibilitySensor` with 300px offset to start loading LightGallery before galleries come into view
+  - **Result**: Lightbox functionality now works reliably when users click images, even when scrolling quickly to galleries
+
+### 🎯 User Experience
+
+- **Improved Photo Gallery Performance**: Photo galleries now load their lightbox functionality earlier, preventing user-facing errors and improving perceived performance
+
+## 0.62.1
+
+### 🔧 Modernization
+
+- **Modernized Error Boundary**: Converted the only class component to a functional component using `react-error-boundary`
+  - Replaced legacy `PlaylistsErrorBoundary` class component with modern functional component using the `react-error-boundary` library
+  - Eliminated the last class component from the theme codebase
+  - Maintained identical error handling behavior while adopting modern React patterns
+  - Improved code maintainability and consistency with the rest of the theme
+
+### 📦 Dependencies
+
+- Added `react-error-boundary` (v4.1.2) as a dependency for improved error boundary management
+
+### 🧪 Testing
+
+- All existing error boundary tests continue to pass with new implementation
+- No test changes required - functionality is fully backward compatible
+- All 37 Spotify widget tests passing
+
+## 0.62.0
+
+### ✨ Features
+
+- **Latest Posts Widget Redesign**: Completely redesigned the Latest Posts widget with categorized content sections
+  - **Categorized Display**: Posts now appear in organized sections (Recaps, Music, Photography, Posts) with dedicated icons
+  - **New PostCard Layouts**: Added support for horizontal layout and image-only recap display modes
+  - **Smart Post Categorization**: Implemented intelligent post categorization based on content type and metadata
+  - **Enhanced Visual Hierarchy**: Each section has distinct styling and appropriate icons for better content discovery
+
+### 🔧 Architecture Improvements
+
+- **New `useCategorizedPosts` Hook**: Replaced `useRecentPosts` with sophisticated categorization logic
+  - **Intelligent Filtering**: Automatically categorizes posts into recaps, music, photography, and other content types
+  - **Deduplication Logic**: Ensures no post appears in multiple sections while maintaining proper categorization
+  - **Flexible Data Structure**: Returns both categorized arrays and unified posts array for different use cases
+- **Enhanced PostCard Component**: Added new props for flexible display modes
+  - **Horizontal Layout**: `horizontal` prop enables side-by-side image and content layout
+  - **Recap Mode**: `isRecap` prop creates image-only display for recap posts
+  - **Scroll-to-Top**: Added automatic scroll-to-top functionality on navigation
+- **Simplified Category Component**: Streamlined category display with cleaner, more readable styling
+  - **Removed Complex Styling**: Eliminated heavy backdrop filters and gradients for better performance
+  - **Improved Typography**: Better font sizing and spacing for enhanced readability
+
+### 🎯 User Experience
+
+- **Better Content Organization**: Users can now easily find different types of content in dedicated sections
+- **Visual Section Headers**: Each content type has distinctive icons (calendar, music, camera, document)
+- **Responsive Design**: All new layouts work seamlessly across mobile, tablet, and desktop
+- **Improved Navigation**: Posts automatically scroll to top when clicked for better user experience
+
+### 🧪 Testing & Quality
+
+- **Comprehensive Test Coverage**: Added extensive test suite for all new functionality
+  - **New Test Files**: `use-categorized-posts.spec.js` (693 lines) with comprehensive categorization logic testing
+  - **Enhanced PostCard Tests**: Added tests for horizontal layout, recap mode, and scroll-to-top functionality
+  - **Updated Snapshots**: All visual regression tests updated to reflect new component structures
+  - **Edge Case Coverage**: Tests handle deduplication, empty data, and complex categorization scenarios
+- **100% Code Coverage**: Maintained complete test coverage across all modified components
+- **All Tests Passing**: 147+ tests continue to pass with new functionality
+
+### 📚 Technical Details
+
+- **Backward Compatibility**: All existing functionality preserved - no breaking changes
+- **Performance Optimized**: Efficient categorization logic with proper memoization
+- **Theme Integration**: New components follow established Theme UI patterns and styling
+- **Accessibility**: Maintained proper ARIA attributes and keyboard navigation support
+
+## 0.61.3
+
+### 🐛 Bug Fixes
+
+- **Instagram Widget Loading State Fix**: Fixed rendering issue where "0" character appeared below Instagram gallery during loading
+  - Changed `media?.length &&` to `media?.length > 0 &&` to prevent React from rendering falsy `0` value
+  - Ensures clean loading state without unwanted characters appearing below skeleton placeholders
+
+### 🧪 Testing & Quality
+
+- Added Instagram widget loading state tests to prevent regression of "0" character rendering issue
+- All 87 tests passing with clean linting
+
+## 0.61.2
+
+### 🐛 Bug Fixes
+
+- **Vinyl Collection Pagination Fix**: Fixed critical bug where vinyl records were hidden due to incorrect pagination logic
+  - Removed `adjustedTotalPages` calculation that was reducing page count when last page had fewer items than a complete row
+  - Now displays all vinyl records across pages, ensuring no items are hidden from users
+  - Maintains responsive behavior across all breakpoints (mobile, tablet, desktop)
+
+### 🧪 Testing & Quality
+
+- Added comprehensive pagination behavior tests covering edge cases and different breakpoints
+- Tests verify all items are displayed regardless of pagination configuration
+- All 85 tests passing with clean linting
+
+## 0.61.1
+
+### 🐛 Bug Fixes
+
+- **Discogs Widget Overflow Fix**: Fixed horizontal overflow issue on small screens (≤515px)
+  - Reduced grid spacing and card padding to prevent content from exceeding viewport boundaries
+  - Implemented responsive hover effects with reduced scale and translation on mobile devices
+  - Added smart responsive pagination system with progressive enhancement across breakpoints
+
+### 🎯 User Experience
+
+- **Mobile Optimization**: Page now resizes down to ~373px without overflow issues
+- **Progressive Enhancement**: Enhanced pagination context on larger screens while maintaining mobile efficiency
+- **Touch-Friendly**: Responsive button sizing and optimized spacing for mobile interactions
+
+### 🧪 Testing & Quality
+
+- All existing tests pass (779 tests)
+- Updated pagination tests to match new smart pagination behavior
+- Verified responsive behavior across all breakpoints
+
+## 0.61.0
+
+### ✨ Features
+
+- **Discogs Modal Enhancement**: Added comprehensive modal functionality to the Discogs vinyl collection widget
+  - **Detailed Record View**: Clicking on vinyl records now opens a modal with comprehensive release information
+  - **Rich Content Display**: Modal shows album artwork, track listings, release details, and external links
+  - **Accessibility Features**: Full keyboard navigation support with Escape key handling and focus management
+  - **Responsive Design**: Modal adapts seamlessly to different screen sizes with proper mobile optimization
+  - **Theme Integration**: Consistent styling with light/dark mode support using Theme UI components
+
+### 🎯 User Experience
+
+- **Enhanced Interaction**: Users can now explore vinyl records in detail without leaving the page
+- **Smooth Animations**: Modal includes fade-in/fade-out transitions and backdrop blur effects
+- **External Links**: Direct links to Discogs release pages and artist profiles for further exploration
+- **Mobile-Friendly**: Touch-optimized modal with proper gesture handling and responsive layout
+- **Keyboard Navigation**: Full accessibility support with proper focus management and ARIA attributes
+
+### 🔧 Technical Improvements
+
+- **New Component**: `DiscogsModal` component with comprehensive vinyl record detail display
+- **Portal Rendering**: Uses React Portal for proper modal rendering outside component tree
+- **State Management**: Integrated modal state with existing vinyl collection component
+- **Performance**: Efficient rendering with proper cleanup and memory management
+- **Body Scroll Prevention**: Prevents background scrolling when modal is open
+
+### 🧪 Testing & Quality
+
+- **100% Code Coverage**: Achieved complete test coverage for all new modal functionality
+- **Comprehensive Test Suite**: Added extensive tests for modal interactions, accessibility, and edge cases
+- **Visual Regression Testing**: Updated snapshots to include new modal interface
+- **Linter Compliance**: All code passes ESLint validation with no warnings or errors
+- **Component Integration**: Seamless integration with existing vinyl collection without breaking changes
+
+### 📚 Technical Details
+
+- **React Portal**: Modal renders in document body for proper z-index layering
+- **Focus Management**: Proper focus trapping and restoration for accessibility compliance
+- **Event Handling**: Comprehensive keyboard and mouse event management
+- **Theme UI Integration**: Consistent styling using theme colors and components
+- **Responsive Breakpoints**: Adaptive layout that works across all device sizes
+
 ## 0.60.4
 
 ### 🧪 Testing & Coverage Improvements
@@ -464,19 +3810,7 @@ None. This change is fully backward compatible - existing sites will automatical
 
 ## 0.45.1
 
-### Performance Improvements
-
-- **Fixed animated background freezing during window resize**: Resolved critical performance issue that caused page freezing and crashes when resizing the browser window or opening DevTools
-- **Optimized resize event handling**: Added 100ms debounce to prevent excessive resize event calls
-- **Reduced rendering overhead**: Decreased animated circle count from 80 to 40 for better performance
-- **Improved canvas sizing**: Replaced expensive `document.body.scrollHeight` calculations with faster `window.innerHeight`
-- **Enhanced memory management**: Added proper animation cleanup with `cancelAnimationFrame`
-
-### Technical Details
-
-- Implemented conditional canvas resizing (only when dimensions actually change)
-- Added circle repositioning logic to maintain bounds after resize
-- All existing functionality preserved with no breaking changes
+- Performance optimizations and bug fixes
 
 ## 0.45.0
 

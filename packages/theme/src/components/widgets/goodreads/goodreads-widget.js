@@ -1,0 +1,93 @@
+/** @jsx jsx */
+import { jsx } from 'theme-ui'
+import { faGoodreads } from '@fortawesome/free-brands-svg-icons'
+
+import { pickAiSummarySyncedAtRaw } from '../../../helpers/ai-summary-synced-at'
+import {
+  getGoodreadsProfilePageUrl,
+  getGoodreadsUsername,
+  getGoodreadsWidgetDataSource
+} from '../../../selectors/metadata'
+import useSiteMetadata from '../../../hooks/use-site-metadata'
+import useWidgetData from '../../../hooks/use-widget-data'
+
+import AiSummary from '../steam/ai-summary'
+import AiSummarySkeleton from '../steam/ai-summary-skeleton'
+import CallToAction from '../call-to-action'
+import RecentlyReadBooks from './recently-read-books'
+import UserStatus from './user-status'
+import Widget from '../widget'
+import WidgetHeader from '../widget-header'
+
+export default () => {
+  const metadata = useSiteMetadata()
+  const goodreadsUsername = getGoodreadsUsername(metadata)
+  const goodreadsDataSource = getGoodreadsWidgetDataSource(metadata)
+
+  const { data, isLoading, hasFatalError } = useWidgetData('goodreads', goodreadsDataSource)
+
+  // Extract data from the query result (matching API structure)
+  const aiSummary = data?.aiSummary
+  const aiSummarySyncedAt = pickAiSummarySyncedAtRaw(data)
+
+  // Books come from recentlyReadBooks, filtered to only those with thumbnails
+  const recentlyReadBooks = data?.collections?.recentlyReadBooks || []
+  const books = recentlyReadBooks.filter(({ thumbnail, cdnMediaURL }) => Boolean(cdnMediaURL || thumbnail))
+
+  // Build metrics from profile data
+  const metrics = []
+  if (data?.profile?.friendsCount) {
+    metrics.push({ displayName: 'Friends', id: 'friends-count', value: data.profile.friendsCount })
+  }
+  if (data?.profile?.readCount) {
+    metrics.push({ displayName: 'Books Read', id: 'read-count', value: data.profile.readCount })
+  }
+
+  // Profile display name (metrics API); name or displayName, else site metadata username
+  const profileDisplayName = data?.profile?.name || data?.profile?.displayName
+  const profileURL = getGoodreadsProfilePageUrl(data?.profile)
+  const ctaLabel = profileDisplayName || goodreadsUsername || 'Goodreads'
+
+  // Status comes from updates collection, finding first userstatus or review
+  const updates = data?.collections?.updates || []
+  const status = updates.find(({ type }) => type === 'userstatus' || type === 'review')
+
+  const callToAction = (
+    <CallToAction
+      title={`${ctaLabel} on Goodreads`}
+      url={
+        profileURL ??
+        (goodreadsUsername ? `https://www.goodreads.com/${goodreadsUsername}` : 'https://www.goodreads.com')
+      }
+      isLoading={isLoading}
+    >
+      Visit Profile <span className='read-more-icon'>&rarr;</span>
+    </CallToAction>
+  )
+
+  const goodreadsHeaderSx = { pb: 2, mb: 3 }
+  const goodreadsAiBlockSx = { mb: [2, 3] }
+
+  return (
+    <Widget id='goodreads' hasFatalError={hasFatalError}>
+      <WidgetHeader
+        aside={callToAction}
+        icon={faGoodreads}
+        metrics={metrics}
+        metricsLoading={isLoading}
+        sx={goodreadsHeaderSx}
+      >
+        Goodreads
+      </WidgetHeader>
+
+      {isLoading && !aiSummary ? <AiSummarySkeleton skeletonRows={5} sx={goodreadsAiBlockSx} /> : null}
+      {aiSummary ? (
+        <AiSummary aiSummary={aiSummary} aiSummarySyncedAt={aiSummarySyncedAt} sx={goodreadsAiBlockSx} />
+      ) : null}
+
+      <RecentlyReadBooks isLoading={isLoading} books={books} />
+
+      <UserStatus actorName={profileDisplayName} isLoading={isLoading} status={status} />
+    </Widget>
+  )
+}

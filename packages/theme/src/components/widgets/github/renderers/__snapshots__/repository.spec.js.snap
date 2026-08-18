@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`GitHub Repository Renderer falls back to updatedAt when pushedAt is not available 1`] = `
+<DocumentFragment>
+  <div
+    class="css-1kbinjp"
+  >
+    <h4
+      class="css-1u628qo"
+    >
+      themeuser/legacy-repo
+    </h4>
+    <span
+      class="css-1e5uqy3"
+    >
+      Legacy repository without pushedAt field.
+    </span>
+    <div
+      class="css-ymss9d"
+    >
+      <span>
+        Last updated 6 years ago
+      </span>
+      <span>
+        <svg
+          aria-hidden="true"
+          focusable="false"
+          height="0.75em"
+          viewBox="0 0 512 512"
+          width="0.75em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M432 320h-32a16 16 0 0 0-16 16v112H64V128h144a16 16 0 0 0 16-16V80a16 16 0 0 0-16-16H48a48 48 0 0 0-48 48v352a48 48 0 0 0 48 48h352a48 48 0 0 0 48-48V336a16 16 0 0 0-16-16zM488 0h-168c-13.3 0-24 10.7-24 24v8c0 13.3 10.7 24 24 24h69.2L207 279.6a24.06 24.06 0 0 0 0 34l10.2 10.2a24.06 24.06 0 0 0 34 0L425 128.8V200c0 13.3 10.7 24 24 24h8c13.3 0 24-10.7 24-24V56c0-30.9-25.1-56-56-56z"
+            fill="currentColor"
+          />
+        </svg>
+      </span>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`GitHub Repository Renderer matches the snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="css-1kbinjp"
+  >
+    <h4
+      class="css-1u628qo"
+    >
+      themeuser/gatsby-theme-chronogrove
+    </h4>
+    <span
+      class="css-1e5uqy3"
+    >
+      GatsbyJS blog theme with built-in social widgets for creatives and developers.
+    </span>
+    <div
+      class="css-ymss9d"
+    >
+      <span>
+        Last updated 2 years ago
+      </span>
+      <span>
+        <svg
+          aria-hidden="true"
+          focusable="false"
+          height="0.75em"
+          viewBox="0 0 512 512"
+          width="0.75em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M432 320h-32a16 16 0 0 0-16 16v112H64V128h144a16 16 0 0 0 16-16V80a16 16 0 0 0-16-16H48a48 48 0 0 0-48 48v352a48 48 0 0 0 48 48h352a48 48 0 0 0 48-48V336a16 16 0 0 0-16-16zM488 0h-168c-13.3 0-24 10.7-24 24v8c0 13.3 10.7 24 24 24h69.2L207 279.6a24.06 24.06 0 0 0 0 34l10.2 10.2a24.06 24.06 0 0 0 34 0L425 128.8V200c0 13.3 10.7 24 24 24h8c13.3 0 24-10.7 24-24V56c0-30.9-25.1-56-56-56z"
+            fill="currentColor"
+          />
+        </svg>
+      </span>
+    </div>
+  </div>
+</DocumentFragment>
+`;

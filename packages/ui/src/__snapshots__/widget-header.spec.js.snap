@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`WidgetHeader matches the snapshot 1`] = `
+<DocumentFragment>
+  <header
+    class="css-ubozo4"
+  >
+    <div
+      class="css-3vwaby"
+    >
+      <div
+        aria-hidden="true"
+        class="css-1muvmnm"
+      >
+        <span
+          aria-hidden="true"
+          data-icon="spotify"
+          data-testid="fa-icon"
+        />
+      </div>
+      <div
+        class="css-m8374l"
+      >
+        <h2
+          class="css-1tfs9qy"
+        >
+          Neat & Interesting Widget
+        </h2>
+        <div
+          class="sidebar-content"
+        >
+          Sidebar
+        </div>
+      </div>
+    </div>
+  </header>
+</DocumentFragment>
+`;

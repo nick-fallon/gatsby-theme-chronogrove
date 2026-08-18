@@ -1,0 +1,134 @@
+/** @jsx jsx */
+import { jsx, Box, useColorMode } from 'theme-ui'
+import { faSteam } from '@fortawesome/free-brands-svg-icons'
+import { Heading } from '@theme-ui/components'
+import { Themed } from '@theme-ui/mdx'
+import React from 'react'
+import { RectShape } from 'react-placeholder/lib/placeholders'
+import isDarkMode from '../../../helpers/isDarkMode'
+
+import 'react-placeholder/lib/reactPlaceholder.css'
+
+import CallToAction from '../call-to-action'
+import Widget from '../widget'
+import WidgetHeader from '../widget-header'
+import AiSummary from './ai-summary'
+import AiSummarySkeleton from './ai-summary-skeleton'
+import PlayTimeChart from './play-time-chart'
+import SteamGameCard from './steam-game-card'
+
+import { pickAiSummarySyncedAtRaw } from '../../../helpers/ai-summary-synced-at'
+import { getSteamWidgetDataSource } from '../../../selectors/metadata'
+import getTimeSpent from './get-time-spent'
+import useSiteMetadata from '../../../hooks/use-site-metadata'
+import useWidgetData from '../../../hooks/use-widget-data'
+
+const RECENTLY_PLAYED_PLACEHOLDER_COUNT = 6
+const STEAM_RECENT_GRID_PLACEHOLDER_KEYS = Array.from(
+  { length: RECENTLY_PLAYED_PLACEHOLDER_COUNT },
+  (_, i) => `steam-recent-sk-${String(i).padStart(2, '0')}`
+)
+
+const SteamWidget = React.memo(() => {
+  const [colorMode] = useColorMode()
+  const darkModeActive = isDarkMode(colorMode)
+  const metadata = useSiteMetadata()
+  const steamDataSource = getSteamWidgetDataSource(metadata)
+
+  const { data, isLoading, hasFatalError } = useWidgetData('steam', steamDataSource)
+
+  // Extract data from the query result
+  const aiSummary = data?.aiSummary
+  const aiSummarySyncedAt = pickAiSummarySyncedAtRaw(data)
+  const metrics = data?.metrics
+  const ownedGames = data?.collections?.ownedGames || []
+  const profileDisplayName = data?.profile?.displayName
+  const profileURL = data?.profile?.profileURL
+  const recentlyPlayedGames = data?.collections?.recentlyPlayedGames || []
+  const showRecentlyPlayedSection = isLoading || recentlyPlayedGames.length > 0
+
+  const callToAction = (
+    <CallToAction title={`${profileDisplayName} on Steam`} url={profileURL} isLoading={isLoading}>
+      Visit Profile <span className='read-more-icon'>&rarr;</span>
+    </CallToAction>
+  )
+
+  return (
+    <Widget id='steam' hasFatalError={hasFatalError}>
+      <WidgetHeader aside={callToAction} icon={faSteam} metrics={metrics} metricsLoading={isLoading}>
+        Steam
+      </WidgetHeader>
+
+      {isLoading && !aiSummary ? <AiSummarySkeleton skeletonRows={3} /> : null}
+      {aiSummary ? <AiSummary aiSummary={aiSummary} aiSummarySyncedAt={aiSummarySyncedAt} /> : null}
+
+      {showRecentlyPlayedSection ? (
+        <>
+          <Box sx={{ display: 'flex', flex: 1, alignItems: 'center', mb: 3 }}>
+            <Heading as='h3' sx={{ fontSize: [3, 4] }}>
+              Recently-Played Games
+            </Heading>
+          </Box>
+
+          <Themed.p sx={{ mb: 4 }}>Games I've played in the last two weeks.</Themed.p>
+
+          <Box
+            sx={{
+              display: 'grid',
+              gridGap: [3, 2, 2, 3],
+              gridTemplateColumns: [
+                'repeat(3, 1fr)',
+                'repeat(4, 1fr)',
+                'repeat(4, 1fr)',
+                'repeat(5, 1fr)',
+                'repeat(5, 1fr)'
+              ],
+              mb: 4
+            }}
+          >
+            {isLoading
+              ? STEAM_RECENT_GRID_PLACEHOLDER_KEYS.map(slotKey => (
+                  <Box
+                    key={slotKey}
+                    aria-hidden
+                    sx={{
+                      variant: 'styles.InstagramItem',
+                      borderRadius: '8px',
+                      boxShadow: 'md',
+                      overflow: 'hidden'
+                    }}
+                  >
+                    <div className='show-loading-animation' style={{ width: '100%', aspectRatio: '2.15 / 1' }}>
+                      <RectShape
+                        color={darkModeActive ? '#3a3a4a' : '#efefef'}
+                        style={{ width: '100%', height: '100%', borderRadius: '8px' }}
+                      />
+                    </div>
+                  </Box>
+                ))
+              : recentlyPlayedGames.map(game => (
+                  <SteamGameCard
+                    key={game.id}
+                    game={game}
+                    showRank={false}
+                    subtitle={getTimeSpent(game.playTime2Weeks * 60 * 1000)}
+                  />
+                ))}
+          </Box>
+        </>
+      ) : null}
+
+      <Box sx={{ display: 'flex', flex: 1, alignItems: 'center', mb: 3 }}>
+        <Heading as='h3' sx={{ fontSize: [3, 4] }}>
+          Leaderboard
+        </Heading>
+      </Box>
+
+      <Themed.p sx={{ mb: 4 }}>My top 10 most played games.</Themed.p>
+
+      <PlayTimeChart games={ownedGames} isLoading={isLoading} profileURL={profileURL} />
+    </Widget>
+  )
+})
+
+export default SteamWidget

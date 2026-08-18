@@ -1,0 +1,887 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`PostCard does not render excerpt when explicitly null 1`] = `
+<DocumentFragment>
+  <a
+    class="css-13uc2z5"
+    href="/blog/article"
+  >
+    <div
+      class="css-139dwiw"
+    >
+      <div
+        class="card-content css-oo4jri"
+      >
+        <div
+          class="card-media css-14iwub6"
+        >
+          <div
+            class="css-mxuynl"
+          />
+        </div>
+        <div
+          class="css-12mgl9k"
+        >
+          <h3
+            class="css-13fdzae"
+          >
+            My Blog Post
+          </h3>
+          <div
+            class="css-1dq94w2"
+          >
+            <div
+              class="css-hizx0c"
+            >
+              Personal
+            </div>
+            <span
+              class="css-1dmnekb"
+            >
+              •
+            </span>
+            <time
+              class="created css-neecgt"
+            >
+              1592202624
+            </time>
+          </div>
+        </div>
+      </div>
+    </div>
+  </a>
+</DocumentFragment>
+`;
+
+exports[`PostCard does not render excerpt when explicitly undefined 1`] = `
+<DocumentFragment>
+  <a
+    class="css-13uc2z5"
+    href="/blog/article"
+  >
+    <div
+      class="css-139dwiw"
+    >
+      <div
+        class="card-content css-oo4jri"
+      >
+        <div
+          class="card-media css-14iwub6"
+        >
+          <div
+            class="css-mxuynl"
+          />
+        </div>
+        <div
+          class="css-12mgl9k"
+        >
+          <h3
+            class="css-13fdzae"
+          >
+            My Blog Post
+          </h3>
+          <div
+            class="css-1dq94w2"
+          >
+            <div
+              class="css-hizx0c"
+            >
+              Personal
+            </div>
+            <span
+              class="css-1dmnekb"
+            >
+              •
+            </span>
+            <time
+              class="created css-neecgt"
+            >
+              1592202624
+            </time>
+          </div>
+        </div>
+      </div>
+    </div>
+  </a>
+</DocumentFragment>
+`;
+
+exports[`PostCard matches the snapshot without excerpt 1`] = `
+<DocumentFragment>
+  <a
+    class="css-13uc2z5"
+    href="/blog/article"
+  >
+    <div
+      class="css-139dwiw"
+    >
+      <div
+        class="card-content css-oo4jri"
+      >
+        <div
+          class="card-media css-14iwub6"
+        >
+          <div
+            class="css-mxuynl"
+          />
+        </div>
+        <div
+          class="css-12mgl9k"
+        >
+          <h3
+            class="css-13fdzae"
+          >
+            My Blog Post
+          </h3>
+          <div
+            class="css-1dq94w2"
+          >
+            <div
+              class="css-hizx0c"
+            >
+              Personal
+            </div>
+            <span
+              class="css-1dmnekb"
+            >
+              •
+            </span>
+            <time
+              class="created css-neecgt"
+            >
+              1592202624
+            </time>
+          </div>
+        </div>
+      </div>
+    </div>
+  </a>
+</DocumentFragment>
+`;
+
+exports[`PostCard renders SoundCloud embed when soundcloudId is provided 1`] = `
+<DocumentFragment>
+  <div
+    class="css-m0buio"
+  >
+    <div
+      class="css-11wrqrg"
+    >
+      <div
+        class="card-content css-oo4jri"
+      >
+        <div
+          class="css-12mgl9k"
+        >
+          <a
+            class="css-r3e7ui"
+            href="/music/a-house-is-not-a-home"
+          >
+            <h3
+              class="css-6c2j1y"
+            >
+              A House Is Not A Home
+            </h3>
+          </a>
+          <div
+            class="css-rh6fb4"
+          >
+            <div
+              class="css-hizx0c"
+            >
+              Music
+            </div>
+            <span
+              class="css-1dmnekb"
+            >
+              •
+            </span>
+            <time
+              class="created css-neecgt"
+            >
+              2024-05-12
+            </time>
+          </div>
+        </div>
+        <div
+          class="card-soundcloud css-pdxy6l"
+        >
+          <iframe
+            allow="autoplay"
+            class="css-1avfx13"
+            frameborder="no"
+            scrolling="no"
+            src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1820395353&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"
+            title="A House Is Not A Home"
+            width="100%"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`PostCard renders YouTube embed when youtubeSrc is provided 1`] = `
+<DocumentFragment>
+  <div
+    class="css-m0buio"
+  >
+    <div
+      class="css-11wrqrg"
+    >
+      <div
+        class="card-content css-oo4jri"
+      >
+        <div
+          class="css-12mgl9k"
+        >
+          <a
+            class="css-r3e7ui"
+            href="/music/here-and-now"
+          >
+            <h3
+              class="css-6c2j1y"
+            >
+              Here and Now
+            </h3>
+          </a>
+          <div
+            class="css-rh6fb4"
+          >
+            <div
+              class="css-hizx0c"
+            >
+              Music
+            </div>
+            <span
+              class="css-1dmnekb"
+            >
+              •
+            </span>
+            <time
+              class="created css-neecgt"
+            >
+              2025-06-19
+            </time>
+          </div>
+        </div>
+        <div
+          class="card-youtube css-1i0uxcs"
+        >
+          <div
+            class="youtube-mock"
+            data-compact="true"
+            data-title="Here and Now"
+            data-url="https://www.youtube.com/embed/OMiKQ2XHXYU?rel=0&modestbranding=1"
+          >
+            <iframe
+              src="https://www.youtube.com/embed/OMiKQ2XHXYU?rel=0&modestbranding=1"
+              title="Here and Now"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`PostCard renders YouTube embed with horizontal layout when both props are provided 1`] = `
+<DocumentFragment>
+  <div
+    class="css-m0buio"
+  >
+    <div
+      class="css-11wrqrg"
+    >
+      <div
+        class="card-content css-oo4jri"
+      >
+        <div
+          class="css-12mgl9k"
+        >
+          <a
+            class="css-r3e7ui"
+            href="/music/here-and-now"
+          >
+            <h3
+              class="css-1lycjq0"
+            >
+              Here and Now
+            </h3>
+          </a>
+          <div
+            class="css-rh6fb4"
+          >
+            <div
+              class="css-hizx0c"
+            >
+              Music
+            </div>
+            <span
+              class="css-1dmnekb"
+            >
+              •
+            </span>
+            <time
+              class="created css-neecgt"
+            >
+              2025-06-19
+            </time>
+          </div>
+        </div>
+        <div
+          class="card-youtube css-1i0uxcs"
+        >
+          <div
+            class="youtube-mock"
+            data-compact="true"
+            data-title="Here and Now"
+            data-url="https://www.youtube.com/embed/OMiKQ2XHXYU?rel=0&modestbranding=1"
+          >
+            <iframe
+              src="https://www.youtube.com/embed/OMiKQ2XHXYU?rel=0&modestbranding=1"
+              title="Here and Now"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`PostCard renders as image-only recap when isRecap prop is true 1`] = `
+<DocumentFragment>
+  <a
+    class="css-13uc2z5"
+    href="/blog/article"
+  >
+    <div
+      class="css-139dwiw"
+    >
+      <div
+        class="card-content css-oo4jri"
+      >
+        <div
+          class="card-media css-14iwub6"
+        >
+          <div
+            class="css-mxuynl"
+          />
+        </div>
+        <div
+          class="css-12mgl9k"
+        >
+          <h3
+            class="css-13fdzae"
+          >
+            My Blog Post
+          </h3>
+          <div
+            class="css-1dq94w2"
+          >
+            <div
+              class="css-hizx0c"
+            >
+              Personal
+            </div>
+            <span
+              class="css-1dmnekb"
+            >
+              •
+            </span>
+            <time
+              class="created css-neecgt"
+            >
+              1592202624
+            </time>
+          </div>
+        </div>
+      </div>
+    </div>
+  </a>
+</DocumentFragment>
+`;
+
+exports[`PostCard renders banner when thumbnails array is empty 1`] = `
+<DocumentFragment>
+  <a
+    class="css-13uc2z5"
+    href="/blog/article"
+  >
+    <div
+      class="css-139dwiw"
+    >
+      <div
+        class="card-content css-oo4jri"
+      >
+        <div
+          class="card-media css-14iwub6"
+        >
+          <div
+            class="css-mxuynl"
+          />
+        </div>
+        <div
+          class="css-12mgl9k"
+        >
+          <h3
+            class="css-13fdzae"
+          >
+            My Blog Post
+          </h3>
+          <div
+            class="css-1dq94w2"
+          >
+            <div
+              class="css-hizx0c"
+            >
+              Personal
+            </div>
+            <span
+              class="css-1dmnekb"
+            >
+              •
+            </span>
+            <time
+              class="created css-neecgt"
+            >
+              1592202624
+            </time>
+          </div>
+        </div>
+      </div>
+    </div>
+  </a>
+</DocumentFragment>
+`;
+
+exports[`PostCard renders banner when thumbnails is null 1`] = `
+<DocumentFragment>
+  <a
+    class="css-13uc2z5"
+    href="/blog/article"
+  >
+    <div
+      class="css-139dwiw"
+    >
+      <div
+        class="card-content css-oo4jri"
+      >
+        <div
+          class="card-media css-14iwub6"
+        >
+          <div
+            class="css-mxuynl"
+          />
+        </div>
+        <div
+          class="css-12mgl9k"
+        >
+          <h3
+            class="css-13fdzae"
+          >
+            My Blog Post
+          </h3>
+          <div
+            class="css-1dq94w2"
+          >
+            <div
+              class="css-hizx0c"
+            >
+              Personal
+            </div>
+            <span
+              class="css-1dmnekb"
+            >
+              •
+            </span>
+            <time
+              class="created css-neecgt"
+            >
+              1592202624
+            </time>
+          </div>
+        </div>
+      </div>
+    </div>
+  </a>
+</DocumentFragment>
+`;
+
+exports[`PostCard renders excerpt when provided 1`] = `
+<DocumentFragment>
+  <a
+    class="css-13uc2z5"
+    href="/blog/article"
+  >
+    <div
+      class="css-139dwiw"
+    >
+      <div
+        class="card-content css-oo4jri"
+      >
+        <div
+          class="card-media css-14iwub6"
+        >
+          <div
+            class="css-mxuynl"
+          />
+        </div>
+        <div
+          class="css-12mgl9k"
+        >
+          <h3
+            class="css-13fdzae"
+          >
+            My Blog Post
+          </h3>
+          <div
+            class="css-rh6fb4"
+          >
+            <div
+              class="css-hizx0c"
+            >
+              Personal
+            </div>
+            <span
+              class="css-1dmnekb"
+            >
+              •
+            </span>
+            <time
+              class="created css-neecgt"
+            >
+              1592202624
+            </time>
+          </div>
+          <p
+            class="description css-1dabzen"
+          >
+            This is a sample excerpt for the blog post.
+          </p>
+        </div>
+      </div>
+    </div>
+  </a>
+</DocumentFragment>
+`;
+
+exports[`PostCard renders in horizontal layout when horizontal prop is true 1`] = `
+<DocumentFragment>
+  <a
+    class="css-13uc2z5"
+    href="/blog/article"
+  >
+    <div
+      class="css-139dwiw"
+    >
+      <div
+        class="card-content css-oo4jri"
+      >
+        <div
+          class="css-10o3rp4"
+        >
+          <h3
+            class="css-dut502"
+          >
+            My Blog Post
+          </h3>
+          <div
+            aria-hidden="true"
+            class="card-headline-preview css-5q7tak"
+          />
+        </div>
+        <div
+          class="css-1dq94w2"
+        >
+          <div
+            class="css-hizx0c"
+          >
+            Personal
+          </div>
+          <span
+            class="css-1dmnekb"
+          >
+            •
+          </span>
+          <time
+            class="created css-neecgt"
+          >
+            1592202624
+          </time>
+        </div>
+      </div>
+    </div>
+  </a>
+</DocumentFragment>
+`;
+
+exports[`PostCard renders neither banner nor thumbnails when both are missing 1`] = `
+<DocumentFragment>
+  <a
+    class="css-13uc2z5"
+    href="/blog/article"
+  >
+    <div
+      class="css-139dwiw"
+    >
+      <div
+        class="card-content css-oo4jri"
+      >
+        <div
+          class="css-12mgl9k"
+        >
+          <h3
+            class="css-13fdzae"
+          >
+            My Blog Post
+          </h3>
+          <div
+            class="css-1dq94w2"
+          >
+            <div
+              class="css-hizx0c"
+            >
+              Personal
+            </div>
+            <span
+              class="css-1dmnekb"
+            >
+              •
+            </span>
+            <time
+              class="created css-neecgt"
+            >
+              1592202624
+            </time>
+          </div>
+        </div>
+      </div>
+    </div>
+  </a>
+</DocumentFragment>
+`;
+
+exports[`PostCard renders thumbnails instead of banner when thumbnails are provided (vertical mode) 1`] = `
+<DocumentFragment>
+  <a
+    class="css-13uc2z5"
+    href="/blog/article"
+  >
+    <div
+      class="css-139dwiw"
+    >
+      <div
+        class="card-content css-oo4jri"
+      >
+        <div
+          class="card-thumbnails css-14iwub6"
+        >
+          <div
+            class="css-1ud2rd2"
+          >
+            <div
+              class="css-1eni4u5"
+            >
+              <div
+                class="css-yos2ux"
+              />
+            </div>
+            <div
+              class="css-1qhq7wr"
+            >
+              <div
+                class="css-7kn563"
+              />
+            </div>
+            <div
+              class="css-1eni4u5"
+            >
+              <div
+                class="css-llry96"
+              />
+            </div>
+            <div
+              class="css-1qhq7wr"
+            >
+              <div
+                class="css-4c8dfn"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="css-12mgl9k"
+        >
+          <h3
+            class="css-13fdzae"
+          >
+            My Blog Post
+          </h3>
+          <div
+            class="css-1dq94w2"
+          >
+            <div
+              class="css-hizx0c"
+            >
+              Personal
+            </div>
+            <span
+              class="css-1dmnekb"
+            >
+              •
+            </span>
+            <time
+              class="created css-neecgt"
+            >
+              1592202624
+            </time>
+          </div>
+        </div>
+      </div>
+    </div>
+  </a>
+</DocumentFragment>
+`;
+
+exports[`PostCard renders without banner when not provided 1`] = `
+<DocumentFragment>
+  <a
+    class="css-13uc2z5"
+    href="/blog/article"
+  >
+    <div
+      class="css-139dwiw"
+    >
+      <div
+        class="card-content css-oo4jri"
+      >
+        <div
+          class="css-12mgl9k"
+        >
+          <h3
+            class="css-13fdzae"
+          >
+            My Blog Post
+          </h3>
+          <div
+            class="css-1dq94w2"
+          >
+            <div
+              class="css-hizx0c"
+            >
+              Personal
+            </div>
+            <span
+              class="css-1dmnekb"
+            >
+              •
+            </span>
+            <time
+              class="created css-neecgt"
+            >
+              1592202624
+            </time>
+          </div>
+        </div>
+      </div>
+    </div>
+  </a>
+</DocumentFragment>
+`;
+
+exports[`PostCard renders without category when not provided 1`] = `
+<DocumentFragment>
+  <a
+    class="css-13uc2z5"
+    href="/blog/article"
+  >
+    <div
+      class="css-139dwiw"
+    >
+      <div
+        class="card-content css-oo4jri"
+      >
+        <div
+          class="card-media css-14iwub6"
+        >
+          <div
+            class="css-mxuynl"
+          />
+        </div>
+        <div
+          class="css-12mgl9k"
+        >
+          <h3
+            class="css-13fdzae"
+          >
+            My Blog Post
+          </h3>
+          <div
+            class="css-1dq94w2"
+          >
+            <time
+              class="created css-neecgt"
+            >
+              1592202624
+            </time>
+          </div>
+        </div>
+      </div>
+    </div>
+  </a>
+</DocumentFragment>
+`;
+
+exports[`PostCard uses first thumbnail as left preview in horizontal mode (no thumbnail row) 1`] = `
+<DocumentFragment>
+  <a
+    class="css-13uc2z5"
+    href="/blog/article"
+  >
+    <div
+      class="css-139dwiw"
+    >
+      <div
+        class="card-content css-oo4jri"
+      >
+        <div
+          class="css-10o3rp4"
+        >
+          <h3
+            class="css-dut502"
+          >
+            My Blog Post
+          </h3>
+          <div
+            aria-hidden="true"
+            class="card-headline-preview css-13mmkmj"
+          />
+        </div>
+        <div
+          class="css-1dq94w2"
+        >
+          <div
+            class="css-hizx0c"
+          >
+            Personal
+          </div>
+          <span
+            class="css-1dmnekb"
+          >
+            •
+          </span>
+          <time
+            class="created css-neecgt"
+          >
+            1592202624
+          </time>
+        </div>
+      </div>
+    </div>
+  </a>
+</DocumentFragment>
+`;

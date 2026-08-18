@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`CardFooter matches the snapshot 1`] = `
-<div
-  className="css-1c6hy0j"
->
-  Test
-</div>
-`;

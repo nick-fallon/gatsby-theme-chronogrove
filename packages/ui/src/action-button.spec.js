@@ -1,0 +1,223 @@
+import { render, screen, fireEvent } from '@testing-library/react'
+import { ThemeUIProvider } from 'theme-ui'
+
+import ActionButton from './action-button.js'
+import { BUTTON_PRIMARY_COLORS } from './color-utils.js'
+
+const mockUseThemeUI = jest.fn(() => ({
+  colorMode: 'default',
+  theme: {
+    colors: {
+      primary: BUTTON_PRIMARY_COLORS.light,
+      primaryRgb: '66, 46, 163'
+    }
+  }
+}))
+
+jest.mock('theme-ui', () => ({
+  ...jest.requireActual('theme-ui'),
+  useThemeUI: () => mockUseThemeUI()
+}))
+
+const mockTheme = {
+  colors: {
+    primary: BUTTON_PRIMARY_COLORS.light,
+    primaryRgb: '66, 46, 163',
+    modes: {
+      dark: {
+        text: '#ffffff',
+        background: '#000000'
+      }
+    }
+  }
+}
+
+const renderWithProviders = (component, customTheme = null) => {
+  const themeToUse = customTheme ?? mockTheme
+  return render(<ThemeUIProvider theme={themeToUse}>{component}</ThemeUIProvider>)
+}
+
+describe('ActionButton', () => {
+  it('renders as a button by default', () => {
+    renderWithProviders(<ActionButton>Test Button</ActionButton>)
+
+    const button = screen.getByRole('button', { name: /test button/i })
+    expect(button).toBeInTheDocument()
+    expect(button.tagName).toBe('BUTTON')
+  })
+
+  it('renders as a link when href is provided', () => {
+    renderWithProviders(<ActionButton href='/test'>Test Link</ActionButton>)
+
+    const link = screen.getByRole('link')
+    expect(link).toBeInTheDocument()
+    expect(link.tagName).toBe('A')
+    expect(link).toHaveAttribute('href', '/test')
+  })
+
+  it('handles click events', () => {
+    const handleClick = jest.fn()
+    renderWithProviders(<ActionButton onClick={handleClick}>Click Me</ActionButton>)
+
+    const button = screen.getByRole('button', { name: /click me/i })
+    fireEvent.click(button)
+
+    expect(handleClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('applies primary variant styles by default', () => {
+    renderWithProviders(<ActionButton>Primary Button</ActionButton>)
+
+    const button = screen.getByRole('button', { name: /primary button/i })
+    expect(button).toHaveStyle({ fontWeight: 'medium' })
+    expect(button).toBeInTheDocument()
+  })
+
+  it('applies secondary variant styles', () => {
+    renderWithProviders(<ActionButton variant='secondary'>Secondary Button</ActionButton>)
+
+    const button = screen.getByRole('button', { name: /secondary button/i })
+    expect(button).toHaveStyle({
+      color: '#666'
+    })
+  })
+
+  it('uses dark secondary palette when color mode is dark', () => {
+    mockUseThemeUI.mockReturnValueOnce({
+      colorMode: 'dark',
+      theme: {
+        colors: {
+          primary: BUTTON_PRIMARY_COLORS.light,
+          primaryRgb: '66, 46, 163'
+        }
+      }
+    })
+    renderWithProviders(<ActionButton variant='secondary'>Secondary Dark</ActionButton>)
+    expect(screen.getByRole('button', { name: /secondary dark/i })).toHaveStyle({ color: '#888' })
+  })
+
+  it('applies small size styles', () => {
+    renderWithProviders(<ActionButton size='small'>Small Button</ActionButton>)
+
+    const button = screen.getByRole('button', { name: /small button/i })
+    expect(button).toHaveStyle({
+      fontSize: '11px',
+      padding: '6px 10px'
+    })
+  })
+
+  it('applies large size styles', () => {
+    renderWithProviders(<ActionButton size='large'>Large Button</ActionButton>)
+
+    const button = screen.getByRole('button', { name: /large button/i })
+    expect(button).toHaveStyle({
+      fontSize: '13px',
+      padding: '10px 16px'
+    })
+  })
+
+  it('applies xlarge size styles', () => {
+    renderWithProviders(<ActionButton size='xlarge'>XLarge Button</ActionButton>)
+
+    const button = screen.getByRole('button', { name: /xlarge button/i })
+    expect(button).toHaveStyle({
+      fontSize: '14px',
+      padding: '12px 20px'
+    })
+  })
+
+  it('renders with icon', () => {
+    const TestIcon = () => <span data-testid='test-icon'>→</span>
+    renderWithProviders(<ActionButton icon={<TestIcon />}>Button with Icon</ActionButton>)
+
+    expect(screen.getByTestId('test-icon')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /button with icon/i })).toBeInTheDocument()
+  })
+
+  it('passes through additional props', () => {
+    renderWithProviders(
+      <ActionButton data-testid='custom-button' aria-label='Custom label'>
+        Custom Button
+      </ActionButton>
+    )
+
+    const button = screen.getByTestId('custom-button')
+    expect(button).toHaveAttribute('aria-label', 'Custom label')
+  })
+
+  it('has proper accessibility attributes', () => {
+    renderWithProviders(<ActionButton>Accessible Button</ActionButton>)
+
+    const button = screen.getByRole('button', { name: /accessible button/i })
+    expect(button).toHaveAttribute('type', 'button')
+  })
+
+  it('falls back to primary variant when invalid variant is provided', () => {
+    renderWithProviders(<ActionButton variant='invalid'>Invalid Variant</ActionButton>)
+
+    const button = screen.getByRole('button', { name: /invalid variant/i })
+    expect(button).toBeInTheDocument()
+    expect(button).toHaveStyle({ fontWeight: 'medium' })
+  })
+
+  it('falls back to medium size when invalid size is provided', () => {
+    renderWithProviders(<ActionButton size='invalid'>Invalid Size</ActionButton>)
+
+    const button = screen.getByRole('button', { name: /invalid size/i })
+    expect(button).toHaveStyle({
+      fontSize: '12px',
+      padding: '8px 12px'
+    })
+  })
+
+  describe('theme fallbacks', () => {
+    beforeEach(() => {
+      mockUseThemeUI.mockReturnValue({
+        colorMode: 'default',
+        theme: {
+          colors: {
+            primary: BUTTON_PRIMARY_COLORS.light,
+            primaryRgb: '66, 46, 163'
+          }
+        }
+      })
+    })
+
+    it('uses fallback primary color when theme.colors.primary is undefined', () => {
+      mockUseThemeUI.mockReturnValueOnce({
+        colorMode: 'default',
+        theme: { colors: {} }
+      })
+
+      renderWithProviders(<ActionButton>Fallback Test</ActionButton>)
+
+      const button = screen.getByRole('button', { name: /fallback test/i })
+      expect(button).toBeInTheDocument()
+      expect(button).toHaveStyle({ fontWeight: 'medium' })
+    })
+
+    it('uses fallback primaryRgb when theme.colors.primaryRgb is undefined', () => {
+      mockUseThemeUI.mockReturnValueOnce({
+        colorMode: 'default',
+        theme: { colors: { primary: '#422EA3' } }
+      })
+
+      renderWithProviders(<ActionButton>Fallback RGB Test</ActionButton>)
+
+      const button = screen.getByRole('button', { name: /fallback rgb test/i })
+      expect(button).toBeInTheDocument()
+    })
+
+    it('uses fallback when theme itself is undefined', () => {
+      mockUseThemeUI.mockReturnValueOnce({
+        colorMode: 'default',
+        theme: undefined
+      })
+
+      renderWithProviders(<ActionButton>Undefined Theme Test</ActionButton>)
+
+      const button = screen.getByRole('button', { name: /undefined theme test/i })
+      expect(button).toBeInTheDocument()
+    })
+  })
+})

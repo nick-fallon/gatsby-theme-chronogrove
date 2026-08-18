@@ -1,0 +1,154 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`TopTracks Component handles tracks without a 300px image gracefully 1`] = `
+<DocumentFragment>
+  <div
+    class="css-lnnjou"
+  >
+    <div
+      class="css-epkbn4"
+    >
+      <h3
+        class="css-9nh3l5"
+      >
+        Top Tracks
+      </h3>
+    </div>
+    <p
+      class="css-1qwovgy"
+    >
+      Tracks I've played most over the last four weeks.
+    </p>
+    <div
+      class="css-4kg5kc"
+    >
+      <div
+        class="css-vgd83x"
+        data-testid="spotify-top-tracks-carousel"
+      >
+        <div
+          aria-hidden="false"
+          class="css-1s44svb"
+          data-testid="spotify-top-tracks-page-1"
+        >
+          <div
+            data-testid="media-item-grid"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`TopTracks Component renders correctly when loading 1`] = `
+<DocumentFragment>
+  <div
+    class="css-lnnjou"
+  >
+    <div
+      class="css-epkbn4"
+    >
+      <h3
+        class="css-9nh3l5"
+      >
+        Top Tracks
+      </h3>
+    </div>
+    <p
+      class="css-1qwovgy"
+    >
+      Tracks I've played most over the last four weeks.
+    </p>
+    <div
+      class="css-4kg5kc"
+    >
+      <div
+        data-testid="media-item-grid"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`TopTracks Component renders correctly with no tracks 1`] = `
+<DocumentFragment>
+  <div
+    class="css-lnnjou"
+  >
+    <div
+      class="css-epkbn4"
+    >
+      <h3
+        class="css-9nh3l5"
+      >
+        Top Tracks
+      </h3>
+    </div>
+    <p
+      class="css-1qwovgy"
+    >
+      Tracks I've played most over the last four weeks.
+    </p>
+    <div
+      class="css-4kg5kc"
+    >
+      <div
+        class="css-vgd83x"
+        data-testid="spotify-top-tracks-carousel"
+      >
+        <div
+          aria-hidden="false"
+          class="css-1s44svb"
+          data-testid="spotify-top-tracks-page-1"
+        >
+          <div
+            data-testid="media-item-grid"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`TopTracks Component renders correctly with tracks 1`] = `
+<DocumentFragment>
+  <div
+    class="css-lnnjou"
+  >
+    <div
+      class="css-epkbn4"
+    >
+      <h3
+        class="css-9nh3l5"
+      >
+        Top Tracks
+      </h3>
+    </div>
+    <p
+      class="css-1qwovgy"
+    >
+      Tracks I've played most over the last four weeks.
+    </p>
+    <div
+      class="css-4kg5kc"
+    >
+      <div
+        class="css-vgd83x"
+        data-testid="spotify-top-tracks-carousel"
+      >
+        <div
+          aria-hidden="false"
+          class="css-1s44svb"
+          data-testid="spotify-top-tracks-page-1"
+        >
+          <div
+            data-testid="media-item-grid"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

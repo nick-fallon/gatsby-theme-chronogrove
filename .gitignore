@@ -3,21 +3,20 @@
 .log
 .vscode
 coverage
+junit.xml
 launch.json
 node_modules
 public
-yarn-error.log
+# Turborepo local cache (do not commit)
+.turbo
+**/.turbo
+
 www.chrisvogt.me/certs/*
 !www.chrisvogt.me/certs/empty
 *.pem
 .env*
 !.env.template
-
-# Yarn v4
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions
 .pnp.*
+
+# Removed from repo — do not re-add (local/editor copies stay untracked)
+.cursor/rules/www-content-voice.mdc

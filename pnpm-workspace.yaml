@@ -1,0 +1,76 @@
+packages:
+  - packages/*
+  - examples/*
+  - websites/*
+
+overrides:
+  lodash: ^4.18.1
+  '@mdx-js/react': ^3.1.1
+  multer: ^2.1.1
+  serialize-javascript: '>=7.0.3'
+  flatted: ^3.4.2
+  socket.io-parser: ^4.2.6
+  immutable: ^3.8.3
+  svgo: ^2.8.1
+  gatsby-plugin-google-analytics>minimatch: ^3.1.4
+  gatsby-plugin-sitemap>minimatch: ^3.1.4
+  path-to-regexp: '>=0.1.13 <0.2.0'
+
+publicHoistPattern:
+  - '*'
+
+onlyBuiltDependencies:
+  - '@parcel/watcher'
+  - core-js
+  - core-js-pure
+  - gatsby
+  - gatsby-cli
+  - lmdb
+  - sharp
+
+allowBuilds:
+  '@parcel/watcher': true
+  core-js: true
+  core-js-pure: true
+  es5-ext: false
+  gatsby: true
+  gatsby-cli: true
+  lmdb: true
+  msgpackr-extract: true
+  sharp: true
+  unrs-resolver: true
+
+# Shared dependency versions for workspace packages. Use "catalog:" in package.json deps.
+catalog:
+  '@emotion/cache': ^11.14.0
+  '@emotion/react': ^11.14.0
+  '@mdx-js/react': ^3.1.1
+  '@theme-toggles/react': ^4.1.0
+  '@theme-ui/color': ^0.17.4
+  '@theme-ui/components': ^0.17.4
+  '@theme-ui/css': ^0.17.4
+  '@theme-ui/mdx': ^0.17.4
+  '@theme-ui/presets': ^0.17.4
+  '@theme-ui/prism': ^0.17.4
+  boxen: ^8.0.1
+  # All Gatsby sites and theme tooling resolve this; bump here when upgrading Gatsby.
+  gatsby: ^5.16.1
+  gatsby-plugin-google-gtag: ^5.16.0
+  gatsby-plugin-robots-txt: ^1.8.0
+  gatsby-plugin-sitemap: ^6.16.0
+  lightgallery: ^2.9.0
+  next: ^16.2.6
+  prettier: ^3.9.6
+  prop-types: ^15.8.1
+  react: ^19.2.6
+  react-dom: ^19.2.6
+  react-intersection-observer: ^10.0.3
+  react-photo-gallery: ^8.0.0
+  theme-ui: ^0.17.4
+  three: ^0.184.0
+
+# Default minimumReleaseAge (24h) blocks freshly-published packages as a
+# supply-chain safeguard. Excluded here because it's our own first-party
+# package published moments before this dependency bump was committed.
+minimumReleaseAgeExclude:
+  - '@chrisvogt/lottie-react-web'

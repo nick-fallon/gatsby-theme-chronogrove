@@ -1,0 +1,176 @@
+/** @jsx jsx */
+import { jsx, useThemeUI } from 'theme-ui'
+
+import { Box, Grid } from '@theme-ui/components'
+import { RectShape } from 'react-placeholder/lib/placeholders'
+import { useState, useEffect, useCallback, useRef } from 'react'
+import isDarkMode from '../../../helpers/isDarkMode'
+import ReactPlaceholder from 'react-placeholder'
+import VanillaTilt from 'vanilla-tilt'
+import lgAutoplay from 'lightgallery/plugins/autoplay'
+import lgThumbnail from 'lightgallery/plugins/thumbnail'
+import lgVideo from 'lightgallery/plugins/video'
+import lgZoom from 'lightgallery/plugins/zoom'
+import LightGallery from 'lightgallery/react'
+
+import 'lightgallery/css/lightgallery.css'
+import 'lightgallery/css/lg-thumbnail.css'
+import 'lightgallery/css/lg-zoom.css'
+import 'lightgallery/css/lg-video.css'
+import 'lightgallery/css/lg-autoplay.css'
+
+import { getFlickrUsername, getFlickrWidgetDataSource } from '../../../selectors/metadata'
+import useLightboxScrollLock from '../../../hooks/use-lightbox-scroll-lock'
+import useSiteMetadata from '../../../hooks/use-site-metadata'
+import useWidgetData from '../../../hooks/use-widget-data'
+
+import ActionButton from '../../action-button'
+import CallToAction from '../call-to-action'
+import Widget from '../widget'
+import WidgetHeader from '../widget-header'
+import { faFlickr } from '@fortawesome/free-brands-svg-icons'
+
+import FlickrWidgetItem from './flickr-widget-item'
+
+const MAX_IMAGES = {
+  default: 8,
+  showMore: 16
+}
+
+export default () => {
+  const { colorMode } = useThemeUI()
+  const darkModeActive = isDarkMode(colorMode)
+  const lightGalleryRef = useRef(null)
+  const { lockScroll, unlockScroll } = useLightboxScrollLock()
+
+  const metadata = useSiteMetadata()
+  const flickrUsername = getFlickrUsername(metadata)
+  const flickrDataSource = getFlickrWidgetDataSource(metadata)
+
+  const { data, isLoading, hasFatalError } = useWidgetData('flickr', flickrDataSource)
+
+  // Extract data from the query result
+  const photos = data?.collections?.photos
+  const metrics = data?.metrics
+  const profileDisplayName = data?.profile?.displayName
+  const profileURL = data?.profile?.profileURL
+  const ctaLabel = profileDisplayName || flickrUsername || 'Flickr'
+  const ctaUrl = profileURL ?? (flickrUsername ? `https://www.flickr.com/photos/${flickrUsername}` : undefined)
+
+  const [isShowingMore, setIsShowingMore] = useState(false)
+
+  const openLightbox = useCallback(
+    index => {
+      const instance = lightGalleryRef.current
+      if (instance) {
+        instance.openGallery(index)
+      } else {
+        console.error('LightGallery instance is not initialized')
+      }
+    },
+    [lightGalleryRef]
+  )
+
+  useEffect(() => {
+    if (isShowingMore || !isLoading) {
+      VanillaTilt.init(document.querySelectorAll('.flickr-item-button'), {
+        perspective: 1500,
+        reverse: true,
+        scale: 1.05,
+        speed: 200
+      })
+    }
+  }, [isLoading, isShowingMore])
+
+  const callToAction = (
+    <CallToAction title={`${ctaLabel} on Flickr`} url={ctaUrl} isLoading={isLoading}>
+      Visit Profile <span className='read-more-icon'>&rarr;</span>
+    </CallToAction>
+  )
+
+  const countItemsToRender = isShowingMore ? MAX_IMAGES.showMore : MAX_IMAGES.default
+
+  return (
+    <Widget id='flickr' hasFatalError={hasFatalError}>
+      <WidgetHeader aside={callToAction} icon={faFlickr} metrics={metrics} metricsLoading={isLoading}>
+        Flickr
+      </WidgetHeader>
+
+      <div className='gallery'>
+        <Grid
+          sx={{
+            gridGap: [3, 3, 3, 4],
+            gridTemplateColumns: ['repeat(2, 1fr)', 'repeat(3, 1fr)', '', 'repeat(4, 1fr)']
+          }}
+        >
+          {(isLoading ? Array(countItemsToRender).fill({}) : photos || [])
+            .slice(0, countItemsToRender)
+            .map((photo, idx) => (
+              <ReactPlaceholder
+                customPlaceholder={
+                  <div className='image-placeholder'>
+                    <RectShape
+                      color={darkModeActive ? '#3a3a4a' : '#efefef'}
+                      sx={{
+                        borderRadius: '8px',
+                        boxShadow: 'md',
+                        width: '100%',
+                        paddingBottom: '100%'
+                      }}
+                      showLoadingAnimation
+                    />
+                  </div>
+                }
+                key={photo.id || idx}
+                ready={!isLoading}
+              >
+                <FlickrWidgetItem photo={photo} index={idx} handleClick={() => openLightbox(idx)} />
+              </ReactPlaceholder>
+            ))}
+        </Grid>
+      </div>
+
+      {/* Reserve space for Show More when loading; show button when loaded */}
+      {isLoading ? (
+        <Box sx={{ my: 4, textAlign: 'center' }} aria-hidden>
+          <Box
+            sx={{
+              display: 'inline-block',
+              height: '44px',
+              minWidth: '140px',
+              borderRadius: '8px',
+              bg: darkModeActive ? 'gray.8' : 'gray.2',
+              opacity: 0.5
+            }}
+          />
+        </Box>
+      ) : (
+        <Box sx={{ my: 4, textAlign: 'center' }}>
+          <ActionButton size='large' onClick={() => setIsShowingMore(!isShowingMore)}>
+            {isShowingMore ? 'Show Less' : 'Show More'}
+          </ActionButton>
+        </Box>
+      )}
+
+      {photos?.length && (
+        <LightGallery
+          onInit={ref => {
+            lightGalleryRef.current = ref.instance
+          }}
+          onBeforeOpen={lockScroll}
+          onAfterClose={unlockScroll}
+          plugins={[lgThumbnail, lgZoom, lgVideo, lgAutoplay]}
+          licenseKey={process.env.GATSBY_LIGHT_GALLERY_LICENSE_KEY}
+          download={false}
+          dynamic
+          dynamicEl={photos.map(photo => ({
+            thumb: photo.thumbnailUrl,
+            subHtml: photo.title || '',
+            src: photo.largeUrl
+          }))}
+          speed={500}
+        />
+      )}
+    </Widget>
+  )
+}

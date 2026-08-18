@@ -1,0 +1,196 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`YouTube Shortcode accepts custom sx styles 1`] = `
+<DocumentFragment>
+  <div
+    class="css-e2ajp9"
+  >
+    <button
+      aria-label="Play video: Styled Video"
+      class="css-1bb0edu"
+      type="button"
+    >
+      <img
+        alt=""
+        class="css-tvmj9j"
+        loading="lazy"
+        src="https://i.ytimg.com/vi/XJashBvI17A/hqdefault.jpg"
+      />
+      <div
+        aria-hidden="true"
+        class="youtube-facade-play-badge css-xaoln6"
+      >
+        <svg
+          aria-hidden="true"
+          class="svg-inline--fa fa-play css-1hofhgy"
+          data-icon="play"
+          data-prefix="fas"
+          role="img"
+          viewBox="0 0 448 512"
+        >
+          <path
+            d="M91.2 36.9c-12.4-6.8-27.4-6.5-39.6 .7S32 57.9 32 72l0 368c0 14.1 7.5 27.2 19.6 34.4s27.2 7.5 39.6 .7l336-184c12.8-7 20.8-20.5 20.8-35.1s-8-28.1-20.8-35.1l-336-184z"
+            fill="currentColor"
+          />
+        </svg>
+      </div>
+    </button>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`YouTube Shortcode matches the snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="css-zezy6m"
+  >
+    <button
+      aria-label="Play video: Here, There And Everywhere (Piano Cover) by Theme User"
+      class="css-1bb0edu"
+      type="button"
+    >
+      <img
+        alt=""
+        class="css-tvmj9j"
+        loading="lazy"
+        src="https://i.ytimg.com/vi/XJashBvI17A/hqdefault.jpg"
+      />
+      <div
+        aria-hidden="true"
+        class="youtube-facade-play-badge css-xaoln6"
+      >
+        <svg
+          aria-hidden="true"
+          class="svg-inline--fa fa-play css-1hofhgy"
+          data-icon="play"
+          data-prefix="fas"
+          role="img"
+          viewBox="0 0 448 512"
+        >
+          <path
+            d="M91.2 36.9c-12.4-6.8-27.4-6.5-39.6 .7S32 57.9 32 72l0 368c0 14.1 7.5 27.2 19.6 34.4s27.2 7.5 39.6 .7l336-184c12.8-7 20.8-20.5 20.8-35.1s-8-28.1-20.8-35.1l-336-184z"
+            fill="currentColor"
+          />
+        </svg>
+      </div>
+    </button>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`YouTube Shortcode renders with compact mode when compact prop is true 1`] = `
+<DocumentFragment>
+  <div
+    class="css-1youo7t"
+  >
+    <button
+      aria-label="Play video: Compact Video"
+      class="css-1bb0edu"
+      type="button"
+    >
+      <img
+        alt=""
+        class="css-tvmj9j"
+        loading="lazy"
+        src="https://i.ytimg.com/vi/XJashBvI17A/hqdefault.jpg"
+      />
+      <div
+        aria-hidden="true"
+        class="youtube-facade-play-badge css-xaoln6"
+      >
+        <svg
+          aria-hidden="true"
+          class="svg-inline--fa fa-play css-1hofhgy"
+          data-icon="play"
+          data-prefix="fas"
+          role="img"
+          viewBox="0 0 448 512"
+        >
+          <path
+            d="M91.2 36.9c-12.4-6.8-27.4-6.5-39.6 .7S32 57.9 32 72l0 368c0 14.1 7.5 27.2 19.6 34.4s27.2 7.5 39.6 .7l336-184c12.8-7 20.8-20.5 20.8-35.1s-8-28.1-20.8-35.1l-336-184z"
+            fill="currentColor"
+          />
+        </svg>
+      </div>
+    </button>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`YouTube Shortcode renders with default mode when compact prop is false or omitted 1`] = `
+<DocumentFragment>
+  <div
+    class="css-zezy6m"
+  >
+    <button
+      aria-label="Play video: Normal Video"
+      class="css-1bb0edu"
+      type="button"
+    >
+      <img
+        alt=""
+        class="css-tvmj9j"
+        loading="lazy"
+        src="https://i.ytimg.com/vi/XJashBvI17A/hqdefault.jpg"
+      />
+      <div
+        aria-hidden="true"
+        class="youtube-facade-play-badge css-xaoln6"
+      >
+        <svg
+          aria-hidden="true"
+          class="svg-inline--fa fa-play css-1hofhgy"
+          data-icon="play"
+          data-prefix="fas"
+          role="img"
+          viewBox="0 0 448 512"
+        >
+          <path
+            d="M91.2 36.9c-12.4-6.8-27.4-6.5-39.6 .7S32 57.9 32 72l0 368c0 14.1 7.5 27.2 19.6 34.4s27.2 7.5 39.6 .7l336-184c12.8-7 20.8-20.5 20.8-35.1s-8-28.1-20.8-35.1l-336-184z"
+            fill="currentColor"
+          />
+        </svg>
+      </div>
+    </button>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`YouTube Shortcode renders with default mode when compact prop is false or omitted 2`] = `
+<DocumentFragment>
+  <div
+    class="css-zezy6m"
+  >
+    <button
+      aria-label="Play video: Normal Video"
+      class="css-1bb0edu"
+      type="button"
+    >
+      <img
+        alt=""
+        class="css-tvmj9j"
+        loading="lazy"
+        src="https://i.ytimg.com/vi/XJashBvI17A/hqdefault.jpg"
+      />
+      <div
+        aria-hidden="true"
+        class="youtube-facade-play-badge css-xaoln6"
+      >
+        <svg
+          aria-hidden="true"
+          class="svg-inline--fa fa-play css-1hofhgy"
+          data-icon="play"
+          data-prefix="fas"
+          role="img"
+          viewBox="0 0 448 512"
+        >
+          <path
+            d="M91.2 36.9c-12.4-6.8-27.4-6.5-39.6 .7S32 57.9 32 72l0 368c0 14.1 7.5 27.2 19.6 34.4s27.2 7.5 39.6 .7l336-184c12.8-7 20.8-20.5 20.8-35.1s-8-28.1-20.8-35.1l-336-184z"
+            fill="currentColor"
+          />
+        </svg>
+      </div>
+    </button>
+  </div>
+</DocumentFragment>
+`;

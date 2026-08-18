@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`ThumbnailStrip matches snapshot with custom maxImages and size 1`] = `
+<DocumentFragment>
+  <div
+    class="css-dpp4jp"
+  >
+    <div
+      class="css-1p4ud4e"
+    >
+      <div
+        class="css-m0n9e0"
+      />
+    </div>
+    <div
+      class="css-zlkqv4"
+    >
+      <div
+        class="css-1yk8ryr"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`ThumbnailStrip matches snapshot with default props 1`] = `
+<DocumentFragment>
+  <div
+    class="css-1httq4l"
+  >
+    <div
+      class="css-1jl8pr3"
+    >
+      <div
+        class="css-m0n9e0"
+      />
+    </div>
+    <div
+      class="css-f02gwb"
+    >
+      <div
+        class="css-1yk8ryr"
+      />
+    </div>
+    <div
+      class="css-44fsif"
+    >
+      <div
+        class="css-1udw8eu"
+      />
+    </div>
+    <div
+      class="css-ladzy1"
+    >
+      <div
+        class="css-dvh21o"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;

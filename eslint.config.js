@@ -6,21 +6,43 @@ const globals = require('globals')
 
 const browserGlobals = Object.fromEntries(Object.entries(globals.browser).filter(([key]) => key.trim() === key))
 
+/** Monorepo root has no `react` dependency, so `detect` prints a warning; align with `pnpm-workspace.yaml` catalog. */
+const REACT_VERSION_FOR_ESLINT = '19.2'
+
 module.exports = [
   {
     ignores: [
       '**/*.json',
       '**/node_modules/**',
-      '**/theme/public/**',
-      '**/www.chrisvogt.me/public/**',
-      '**/www.chronogrove.com/public/**',
+      '**/packages/theme/public/**',
+      '**/websites/www.chrisvogt.me/public/**',
+      '**/websites/www.chronogrove.com/public/**',
+      '**/examples/**/.next/**',
       '**/.cache/**'
     ]
   },
   {
-    files: ['theme/**/*.js', 'www.chrisvogt.me/**/*.js']
+    files: ['eslint.config.js'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'commonjs',
+      globals: {
+        ...globals.node
+      }
+    }
   },
   {
+    files: ['packages/theme/scripts/**/*.mjs'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      globals: {
+        ...globals.node
+      }
+    }
+  },
+  {
+    files: ['packages/**/*.js', 'websites/**/*.js', 'examples/**/*.js', 'examples/**/*.jsx'],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'module',
@@ -35,6 +57,8 @@ module.exports = [
         sessionStorage: 'readonly',
         fetch: 'readonly',
         requestAnimationFrame: 'readonly',
+        cancelAnimationFrame: 'readonly',
+        ResizeObserver: 'readonly',
         // Node.js globals
         ...globals.node
       }
@@ -42,6 +66,7 @@ module.exports = [
   },
   js.configs.recommended,
   {
+    files: ['packages/**/*.js', 'websites/**/*.js', 'examples/**/*.js', 'examples/**/*.jsx'],
     plugins: {
       react,
       'jsx-a11y': jsxA11Y,
@@ -70,7 +95,7 @@ module.exports = [
     },
     settings: {
       react: {
-        version: 'detect'
+        version: REACT_VERSION_FOR_ESLINT
       }
     },
     languageOptions: {
@@ -80,6 +105,47 @@ module.exports = [
         ecmaFeatures: {
           jsx: true
         }
+      }
+    }
+  },
+  /** PropTypes in theme `src/` (avoids mocks, tests). */
+  {
+    files: ['packages/theme/src/**/*.js'],
+    ignores: ['packages/theme/src/**/*.spec.js', 'packages/theme/src/testUtils.js'],
+    plugins: { react },
+    rules: {
+      'react/prop-types': 'warn'
+    },
+    settings: {
+      react: {
+        version: REACT_VERSION_FOR_ESLINT
+      }
+    }
+  },
+  /** PropTypes in @chronogrove/ui `src/` (portable components; same incremental typing story as the theme). */
+  {
+    files: ['packages/ui/src/**/*.js'],
+    ignores: ['packages/ui/src/**/*.spec.js'],
+    plugins: { react },
+    rules: {
+      'react/prop-types': 'warn'
+    },
+    settings: {
+      react: {
+        version: REACT_VERSION_FOR_ESLINT
+      }
+    }
+  },
+  /** PropTypes in Chronogrove Next.js reference app (`examples/chronogrove-next/app`, `.jsx`). */
+  {
+    files: ['examples/chronogrove-next/app/**/*.jsx'],
+    plugins: { react },
+    rules: {
+      'react/prop-types': 'warn'
+    },
+    settings: {
+      react: {
+        version: REACT_VERSION_FOR_ESLINT
       }
     }
   },
@@ -93,7 +159,7 @@ module.exports = [
     }
   },
   {
-    files: ['**/*.spec.js', 'theme/jest-shim.js'], // Target Jest spec files
+    files: ['**/*.spec.js', 'packages/theme/jest-shim.js'], // Target Jest spec files
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',

@@ -1,0 +1,1459 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`PlayTimeChart Dark Mode Coverage matches snapshot for a game card in dark mode 1`] = `
+<DocumentFragment>
+  <div
+    class="css-lnnjou"
+  >
+    <div
+      class="css-munl51"
+    >
+      <button
+        aria-label="View Cities: Skylines on Steam"
+        class="css-1hu4gjp"
+        type="button"
+      >
+        <div
+          class="css-1btx6pw"
+        >
+          <img
+            alt="Cities: Skylines header"
+            class="css-6bb7n6"
+            src="https://example.com/cities-header.jpg"
+          />
+          <div
+            class="css-18c3nn9"
+          >
+            1
+          </div>
+          <div
+            class="steam-game-card_hover-overlay css-134i6es"
+          >
+            Open in Steam
+            <span>
+              ViewExternal
+            </span>
+          </div>
+        </div>
+        <div
+          class="steam-game-card_caption css-7snenl"
+        >
+          <div
+            class="css-3gb3jr"
+          >
+            Cities: Skylines
+          </div>
+          <div
+            class="css-1l30cyv"
+          >
+            757.4 hrs total • 2h recently
+          </div>
+        </div>
+      </button>
+      <button
+        aria-label="View ARK: Survival Evolved on Steam"
+        class="css-1hu4gjp"
+        type="button"
+      >
+        <div
+          class="css-1btx6pw"
+        >
+          <img
+            alt="ARK: Survival Evolved header"
+            class="css-6bb7n6"
+            src="https://example.com/ark-header.jpg"
+          />
+          <div
+            class="css-18c3nn9"
+          >
+            2
+          </div>
+          <div
+            class="steam-game-card_hover-overlay css-134i6es"
+          >
+            Open in Steam
+            <span>
+              ViewExternal
+            </span>
+          </div>
+        </div>
+        <div
+          class="steam-game-card_caption css-7snenl"
+        >
+          <div
+            class="css-3gb3jr"
+          >
+            ARK: Survival Evolved
+          </div>
+          <div
+            class="css-1l30cyv"
+          >
+            277.8 hrs total
+          </div>
+        </div>
+      </button>
+      <button
+        aria-label="View PUBG: BATTLEGROUNDS on Steam"
+        class="css-1hu4gjp"
+        type="button"
+      >
+        <div
+          class="css-1btx6pw"
+        >
+          <img
+            alt="PUBG: BATTLEGROUNDS header"
+            class="css-6bb7n6"
+            src="https://example.com/pubg-header.jpg"
+          />
+          <div
+            class="css-18c3nn9"
+          >
+            3
+          </div>
+          <div
+            class="steam-game-card_hover-overlay css-134i6es"
+          >
+            Open in Steam
+            <span>
+              ViewExternal
+            </span>
+          </div>
+        </div>
+        <div
+          class="steam-game-card_caption css-7snenl"
+        >
+          <div
+            class="css-3gb3jr"
+          >
+            PUBG: BATTLEGROUNDS
+          </div>
+          <div
+            class="css-1l30cyv"
+          >
+            200.0 hrs total • 1h recently
+          </div>
+        </div>
+      </button>
+    </div>
+    <div
+      class="css-1jvjqv3"
+    >
+      <div
+        class="css-12f4tqr"
+      >
+        Total Hours: 
+        <span
+          class="css-13epqkc"
+        >
+          1,235.2 hrs
+        </span>
+      </div>
+      <div
+        class="css-12f4tqr"
+      >
+        Average: 
+        <span
+          class="css-13epqkc"
+        >
+          411.7 hrs per game
+        </span>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`PlayTimeChart Dark Mode Coverage matches snapshot for a hovered game card in dark mode 1`] = `
+<DocumentFragment>
+  <div
+    class="css-lnnjou"
+  >
+    <div
+      class="css-munl51"
+    >
+      <button
+        aria-label="View Cities: Skylines on Steam"
+        class="css-1hu4gjp"
+        type="button"
+      >
+        <div
+          class="css-1btx6pw"
+        >
+          <img
+            alt="Cities: Skylines header"
+            class="css-6bb7n6"
+            src="https://example.com/cities-header.jpg"
+          />
+          <div
+            class="css-18c3nn9"
+          >
+            1
+          </div>
+          <div
+            class="steam-game-card_hover-overlay css-134i6es"
+          >
+            Open in Steam
+            <span>
+              ViewExternal
+            </span>
+          </div>
+        </div>
+        <div
+          class="steam-game-card_caption css-7snenl"
+        >
+          <div
+            class="css-3gb3jr"
+          >
+            Cities: Skylines
+          </div>
+          <div
+            class="css-1l30cyv"
+          >
+            757.4 hrs total • 2h recently
+          </div>
+        </div>
+      </button>
+      <button
+        aria-label="View ARK: Survival Evolved on Steam"
+        class="css-1hu4gjp"
+        type="button"
+      >
+        <div
+          class="css-1btx6pw"
+        >
+          <img
+            alt="ARK: Survival Evolved header"
+            class="css-6bb7n6"
+            src="https://example.com/ark-header.jpg"
+          />
+          <div
+            class="css-18c3nn9"
+          >
+            2
+          </div>
+          <div
+            class="steam-game-card_hover-overlay css-134i6es"
+          >
+            Open in Steam
+            <span>
+              ViewExternal
+            </span>
+          </div>
+        </div>
+        <div
+          class="steam-game-card_caption css-7snenl"
+        >
+          <div
+            class="css-3gb3jr"
+          >
+            ARK: Survival Evolved
+          </div>
+          <div
+            class="css-1l30cyv"
+          >
+            277.8 hrs total
+          </div>
+        </div>
+      </button>
+      <button
+        aria-label="View PUBG: BATTLEGROUNDS on Steam"
+        class="css-1hu4gjp"
+        type="button"
+      >
+        <div
+          class="css-1btx6pw"
+        >
+          <img
+            alt="PUBG: BATTLEGROUNDS header"
+            class="css-6bb7n6"
+            src="https://example.com/pubg-header.jpg"
+          />
+          <div
+            class="css-18c3nn9"
+          >
+            3
+          </div>
+          <div
+            class="steam-game-card_hover-overlay css-134i6es"
+          >
+            Open in Steam
+            <span>
+              ViewExternal
+            </span>
+          </div>
+        </div>
+        <div
+          class="steam-game-card_caption css-7snenl"
+        >
+          <div
+            class="css-3gb3jr"
+          >
+            PUBG: BATTLEGROUNDS
+          </div>
+          <div
+            class="css-1l30cyv"
+          >
+            200.0 hrs total • 1h recently
+          </div>
+        </div>
+      </button>
+    </div>
+    <div
+      class="css-1jvjqv3"
+    >
+      <div
+        class="css-12f4tqr"
+      >
+        Total Hours: 
+        <span
+          class="css-13epqkc"
+        >
+          1,235.2 hrs
+        </span>
+      </div>
+      <div
+        class="css-12f4tqr"
+      >
+        Average: 
+        <span
+          class="css-13epqkc"
+        >
+          411.7 hrs per game
+        </span>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`PlayTimeChart Data Processing filters out games with zero playtime 1`] = `
+<DocumentFragment>
+  <div
+    class="css-lnnjou"
+  >
+    <div
+      class="css-munl51"
+    >
+      <button
+        aria-label="View Cities: Skylines on Steam"
+        class="css-1hu4gjp"
+        type="button"
+      >
+        <div
+          class="css-1btx6pw"
+        >
+          <img
+            alt="Cities: Skylines header"
+            class="css-6bb7n6"
+            src="https://example.com/cities-header.jpg"
+          />
+          <div
+            class="css-18c3nn9"
+          >
+            1
+          </div>
+          <div
+            class="steam-game-card_hover-overlay css-134i6es"
+          >
+            Open in Steam
+            <span>
+              ViewExternal
+            </span>
+          </div>
+        </div>
+        <div
+          class="steam-game-card_caption css-7snenl"
+        >
+          <div
+            class="css-3gb3jr"
+          >
+            Cities: Skylines
+          </div>
+          <div
+            class="css-1l30cyv"
+          >
+            757.4 hrs total • 2h recently
+          </div>
+        </div>
+      </button>
+      <button
+        aria-label="View ARK: Survival Evolved on Steam"
+        class="css-1hu4gjp"
+        type="button"
+      >
+        <div
+          class="css-1btx6pw"
+        >
+          <img
+            alt="ARK: Survival Evolved header"
+            class="css-6bb7n6"
+            src="https://example.com/ark-header.jpg"
+          />
+          <div
+            class="css-18c3nn9"
+          >
+            2
+          </div>
+          <div
+            class="steam-game-card_hover-overlay css-134i6es"
+          >
+            Open in Steam
+            <span>
+              ViewExternal
+            </span>
+          </div>
+        </div>
+        <div
+          class="steam-game-card_caption css-7snenl"
+        >
+          <div
+            class="css-3gb3jr"
+          >
+            ARK: Survival Evolved
+          </div>
+          <div
+            class="css-1l30cyv"
+          >
+            277.8 hrs total
+          </div>
+        </div>
+      </button>
+      <button
+        aria-label="View PUBG: BATTLEGROUNDS on Steam"
+        class="css-1hu4gjp"
+        type="button"
+      >
+        <div
+          class="css-1btx6pw"
+        >
+          <img
+            alt="PUBG: BATTLEGROUNDS header"
+            class="css-6bb7n6"
+            src="https://example.com/pubg-header.jpg"
+          />
+          <div
+            class="css-18c3nn9"
+          >
+            3
+          </div>
+          <div
+            class="steam-game-card_hover-overlay css-134i6es"
+          >
+            Open in Steam
+            <span>
+              ViewExternal
+            </span>
+          </div>
+        </div>
+        <div
+          class="steam-game-card_caption css-7snenl"
+        >
+          <div
+            class="css-3gb3jr"
+          >
+            PUBG: BATTLEGROUNDS
+          </div>
+          <div
+            class="css-1l30cyv"
+          >
+            200.0 hrs total • 1h recently
+          </div>
+        </div>
+      </button>
+    </div>
+    <div
+      class="css-1jvjqv3"
+    >
+      <div
+        class="css-12f4tqr"
+      >
+        Total Hours: 
+        <span
+          class="css-13epqkc"
+        >
+          1,235.2 hrs
+        </span>
+      </div>
+      <div
+        class="css-12f4tqr"
+      >
+        Average: 
+        <span
+          class="css-13epqkc"
+        >
+          411.7 hrs per game
+        </span>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`PlayTimeChart Data Processing renders correctly with sample data 1`] = `
+<DocumentFragment>
+  <div
+    class="css-lnnjou"
+  >
+    <div
+      class="css-munl51"
+    >
+      <button
+        aria-label="View Cities: Skylines on Steam"
+        class="css-1hu4gjp"
+        type="button"
+      >
+        <div
+          class="css-1btx6pw"
+        >
+          <img
+            alt="Cities: Skylines header"
+            class="css-6bb7n6"
+            src="https://example.com/cities-header.jpg"
+          />
+          <div
+            class="css-18c3nn9"
+          >
+            1
+          </div>
+          <div
+            class="steam-game-card_hover-overlay css-134i6es"
+          >
+            Open in Steam
+            <span>
+              ViewExternal
+            </span>
+          </div>
+        </div>
+        <div
+          class="steam-game-card_caption css-7snenl"
+        >
+          <div
+            class="css-3gb3jr"
+          >
+            Cities: Skylines
+          </div>
+          <div
+            class="css-1l30cyv"
+          >
+            757.4 hrs total • 2h recently
+          </div>
+        </div>
+      </button>
+      <button
+        aria-label="View ARK: Survival Evolved on Steam"
+        class="css-1hu4gjp"
+        type="button"
+      >
+        <div
+          class="css-1btx6pw"
+        >
+          <img
+            alt="ARK: Survival Evolved header"
+            class="css-6bb7n6"
+            src="https://example.com/ark-header.jpg"
+          />
+          <div
+            class="css-18c3nn9"
+          >
+            2
+          </div>
+          <div
+            class="steam-game-card_hover-overlay css-134i6es"
+          >
+            Open in Steam
+            <span>
+              ViewExternal
+            </span>
+          </div>
+        </div>
+        <div
+          class="steam-game-card_caption css-7snenl"
+        >
+          <div
+            class="css-3gb3jr"
+          >
+            ARK: Survival Evolved
+          </div>
+          <div
+            class="css-1l30cyv"
+          >
+            277.8 hrs total
+          </div>
+        </div>
+      </button>
+      <button
+        aria-label="View PUBG: BATTLEGROUNDS on Steam"
+        class="css-1hu4gjp"
+        type="button"
+      >
+        <div
+          class="css-1btx6pw"
+        >
+          <img
+            alt="PUBG: BATTLEGROUNDS header"
+            class="css-6bb7n6"
+            src="https://example.com/pubg-header.jpg"
+          />
+          <div
+            class="css-18c3nn9"
+          >
+            3
+          </div>
+          <div
+            class="steam-game-card_hover-overlay css-134i6es"
+          >
+            Open in Steam
+            <span>
+              ViewExternal
+            </span>
+          </div>
+        </div>
+        <div
+          class="steam-game-card_caption css-7snenl"
+        >
+          <div
+            class="css-3gb3jr"
+          >
+            PUBG: BATTLEGROUNDS
+          </div>
+          <div
+            class="css-1l30cyv"
+          >
+            200.0 hrs total • 1h recently
+          </div>
+        </div>
+      </button>
+    </div>
+    <div
+      class="css-1jvjqv3"
+    >
+      <div
+        class="css-12f4tqr"
+      >
+        Total Hours: 
+        <span
+          class="css-13epqkc"
+        >
+          1,235.2 hrs
+        </span>
+      </div>
+      <div
+        class="css-12f4tqr"
+      >
+        Average: 
+        <span
+          class="css-13epqkc"
+        >
+          411.7 hrs per game
+        </span>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`PlayTimeChart Edge Cases handles single game scenario 1`] = `
+<DocumentFragment>
+  <div
+    class="css-lnnjou"
+  >
+    <div
+      class="css-munl51"
+    >
+      <button
+        aria-label="View Cities: Skylines on Steam"
+        class="css-1hu4gjp"
+        type="button"
+      >
+        <div
+          class="css-1btx6pw"
+        >
+          <img
+            alt="Cities: Skylines header"
+            class="css-6bb7n6"
+            src="https://example.com/cities-header.jpg"
+          />
+          <div
+            class="css-18c3nn9"
+          >
+            1
+          </div>
+          <div
+            class="steam-game-card_hover-overlay css-134i6es"
+          >
+            Open in Steam
+            <span>
+              ViewExternal
+            </span>
+          </div>
+        </div>
+        <div
+          class="steam-game-card_caption css-7snenl"
+        >
+          <div
+            class="css-3gb3jr"
+          >
+            Cities: Skylines
+          </div>
+          <div
+            class="css-1l30cyv"
+          >
+            757.4 hrs total • 2h recently
+          </div>
+        </div>
+      </button>
+    </div>
+    <div
+      class="css-1jvjqv3"
+    >
+      <div
+        class="css-12f4tqr"
+      >
+        Total Hours: 
+        <span
+          class="css-13epqkc"
+        >
+          757.4 hrs
+        </span>
+      </div>
+      <div
+        class="css-12f4tqr"
+      >
+        Average: 
+        <span
+          class="css-13epqkc"
+        >
+          757.4 hrs per game
+        </span>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`PlayTimeChart Empty States renders empty state when games is null 1`] = `
+<DocumentFragment>
+  <div
+    class="css-lnnjou"
+  >
+    <div
+      class="css-et6zal"
+    >
+      <p
+        class="css-13s56l1"
+      >
+        No gaming data available for library.
+      </p>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`PlayTimeChart Empty States renders empty state when games is undefined 1`] = `
+<DocumentFragment>
+  <div
+    class="css-lnnjou"
+  >
+    <div
+      class="css-et6zal"
+    >
+      <p
+        class="css-13s56l1"
+      >
+        No gaming data available for library.
+      </p>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`PlayTimeChart Empty States renders empty state when no games provided 1`] = `
+<DocumentFragment>
+  <div
+    class="css-lnnjou"
+  >
+    <div
+      class="css-et6zal"
+    >
+      <p
+        class="css-13s56l1"
+      >
+        No gaming data available for library.
+      </p>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`PlayTimeChart Light Mode Coverage matches snapshot for a game card in light mode 1`] = `
+<DocumentFragment>
+  <div
+    class="css-lnnjou"
+  >
+    <div
+      class="css-munl51"
+    >
+      <button
+        aria-label="View Cities: Skylines on Steam"
+        class="css-1hu4gjp"
+        type="button"
+      >
+        <div
+          class="css-1btx6pw"
+        >
+          <img
+            alt="Cities: Skylines header"
+            class="css-6bb7n6"
+            src="https://example.com/cities-header.jpg"
+          />
+          <div
+            class="css-18c3nn9"
+          >
+            1
+          </div>
+          <div
+            class="steam-game-card_hover-overlay css-134i6es"
+          >
+            Open in Steam
+            <span>
+              ViewExternal
+            </span>
+          </div>
+        </div>
+        <div
+          class="steam-game-card_caption css-7snenl"
+        >
+          <div
+            class="css-3gb3jr"
+          >
+            Cities: Skylines
+          </div>
+          <div
+            class="css-1l30cyv"
+          >
+            757.4 hrs total • 2h recently
+          </div>
+        </div>
+      </button>
+      <button
+        aria-label="View ARK: Survival Evolved on Steam"
+        class="css-1hu4gjp"
+        type="button"
+      >
+        <div
+          class="css-1btx6pw"
+        >
+          <img
+            alt="ARK: Survival Evolved header"
+            class="css-6bb7n6"
+            src="https://example.com/ark-header.jpg"
+          />
+          <div
+            class="css-18c3nn9"
+          >
+            2
+          </div>
+          <div
+            class="steam-game-card_hover-overlay css-134i6es"
+          >
+            Open in Steam
+            <span>
+              ViewExternal
+            </span>
+          </div>
+        </div>
+        <div
+          class="steam-game-card_caption css-7snenl"
+        >
+          <div
+            class="css-3gb3jr"
+          >
+            ARK: Survival Evolved
+          </div>
+          <div
+            class="css-1l30cyv"
+          >
+            277.8 hrs total
+          </div>
+        </div>
+      </button>
+      <button
+        aria-label="View PUBG: BATTLEGROUNDS on Steam"
+        class="css-1hu4gjp"
+        type="button"
+      >
+        <div
+          class="css-1btx6pw"
+        >
+          <img
+            alt="PUBG: BATTLEGROUNDS header"
+            class="css-6bb7n6"
+            src="https://example.com/pubg-header.jpg"
+          />
+          <div
+            class="css-18c3nn9"
+          >
+            3
+          </div>
+          <div
+            class="steam-game-card_hover-overlay css-134i6es"
+          >
+            Open in Steam
+            <span>
+              ViewExternal
+            </span>
+          </div>
+        </div>
+        <div
+          class="steam-game-card_caption css-7snenl"
+        >
+          <div
+            class="css-3gb3jr"
+          >
+            PUBG: BATTLEGROUNDS
+          </div>
+          <div
+            class="css-1l30cyv"
+          >
+            200.0 hrs total • 1h recently
+          </div>
+        </div>
+      </button>
+    </div>
+    <div
+      class="css-1jvjqv3"
+    >
+      <div
+        class="css-12f4tqr"
+      >
+        Total Hours: 
+        <span
+          class="css-13epqkc"
+        >
+          1,235.2 hrs
+        </span>
+      </div>
+      <div
+        class="css-12f4tqr"
+      >
+        Average: 
+        <span
+          class="css-13epqkc"
+        >
+          411.7 hrs per game
+        </span>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`PlayTimeChart Light Mode Coverage matches snapshot for a hovered game card in light mode 1`] = `
+<DocumentFragment>
+  <div
+    class="css-lnnjou"
+  >
+    <div
+      class="css-munl51"
+    >
+      <button
+        aria-label="View Cities: Skylines on Steam"
+        class="css-1hu4gjp"
+        type="button"
+      >
+        <div
+          class="css-1btx6pw"
+        >
+          <img
+            alt="Cities: Skylines header"
+            class="css-6bb7n6"
+            src="https://example.com/cities-header.jpg"
+          />
+          <div
+            class="css-18c3nn9"
+          >
+            1
+          </div>
+          <div
+            class="steam-game-card_hover-overlay css-134i6es"
+          >
+            Open in Steam
+            <span>
+              ViewExternal
+            </span>
+          </div>
+        </div>
+        <div
+          class="steam-game-card_caption css-7snenl"
+        >
+          <div
+            class="css-3gb3jr"
+          >
+            Cities: Skylines
+          </div>
+          <div
+            class="css-1l30cyv"
+          >
+            757.4 hrs total • 2h recently
+          </div>
+        </div>
+      </button>
+      <button
+        aria-label="View ARK: Survival Evolved on Steam"
+        class="css-1hu4gjp"
+        type="button"
+      >
+        <div
+          class="css-1btx6pw"
+        >
+          <img
+            alt="ARK: Survival Evolved header"
+            class="css-6bb7n6"
+            src="https://example.com/ark-header.jpg"
+          />
+          <div
+            class="css-18c3nn9"
+          >
+            2
+          </div>
+          <div
+            class="steam-game-card_hover-overlay css-134i6es"
+          >
+            Open in Steam
+            <span>
+              ViewExternal
+            </span>
+          </div>
+        </div>
+        <div
+          class="steam-game-card_caption css-7snenl"
+        >
+          <div
+            class="css-3gb3jr"
+          >
+            ARK: Survival Evolved
+          </div>
+          <div
+            class="css-1l30cyv"
+          >
+            277.8 hrs total
+          </div>
+        </div>
+      </button>
+      <button
+        aria-label="View PUBG: BATTLEGROUNDS on Steam"
+        class="css-1hu4gjp"
+        type="button"
+      >
+        <div
+          class="css-1btx6pw"
+        >
+          <img
+            alt="PUBG: BATTLEGROUNDS header"
+            class="css-6bb7n6"
+            src="https://example.com/pubg-header.jpg"
+          />
+          <div
+            class="css-18c3nn9"
+          >
+            3
+          </div>
+          <div
+            class="steam-game-card_hover-overlay css-134i6es"
+          >
+            Open in Steam
+            <span>
+              ViewExternal
+            </span>
+          </div>
+        </div>
+        <div
+          class="steam-game-card_caption css-7snenl"
+        >
+          <div
+            class="css-3gb3jr"
+          >
+            PUBG: BATTLEGROUNDS
+          </div>
+          <div
+            class="css-1l30cyv"
+          >
+            200.0 hrs total • 1h recently
+          </div>
+        </div>
+      </button>
+    </div>
+    <div
+      class="css-1jvjqv3"
+    >
+      <div
+        class="css-12f4tqr"
+      >
+        Total Hours: 
+        <span
+          class="css-13epqkc"
+        >
+          1,235.2 hrs
+        </span>
+      </div>
+      <div
+        class="css-12f4tqr"
+      >
+        Average: 
+        <span
+          class="css-13epqkc"
+        >
+          411.7 hrs per game
+        </span>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`PlayTimeChart Loading State renders loading state correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="css-lnnjou"
+  >
+    <div
+      class="css-1g612vj"
+    >
+      <div
+        class="css-3wu3l6"
+      />
+      <p
+        class="css-gej412"
+      >
+        Loading Gaming Library...
+      </p>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`PlayTimeChart Theme Integration adapts to dark mode styling 1`] = `
+<DocumentFragment>
+  <div
+    class="css-lnnjou"
+  >
+    <div
+      class="css-munl51"
+    >
+      <button
+        aria-label="View Cities: Skylines on Steam"
+        class="css-1hu4gjp"
+        type="button"
+      >
+        <div
+          class="css-1btx6pw"
+        >
+          <img
+            alt="Cities: Skylines header"
+            class="css-6bb7n6"
+            src="https://example.com/cities-header.jpg"
+          />
+          <div
+            class="css-18c3nn9"
+          >
+            1
+          </div>
+          <div
+            class="steam-game-card_hover-overlay css-134i6es"
+          >
+            Open in Steam
+            <span>
+              ViewExternal
+            </span>
+          </div>
+        </div>
+        <div
+          class="steam-game-card_caption css-7snenl"
+        >
+          <div
+            class="css-3gb3jr"
+          >
+            Cities: Skylines
+          </div>
+          <div
+            class="css-1l30cyv"
+          >
+            757.4 hrs total • 2h recently
+          </div>
+        </div>
+      </button>
+      <button
+        aria-label="View ARK: Survival Evolved on Steam"
+        class="css-1hu4gjp"
+        type="button"
+      >
+        <div
+          class="css-1btx6pw"
+        >
+          <img
+            alt="ARK: Survival Evolved header"
+            class="css-6bb7n6"
+            src="https://example.com/ark-header.jpg"
+          />
+          <div
+            class="css-18c3nn9"
+          >
+            2
+          </div>
+          <div
+            class="steam-game-card_hover-overlay css-134i6es"
+          >
+            Open in Steam
+            <span>
+              ViewExternal
+            </span>
+          </div>
+        </div>
+        <div
+          class="steam-game-card_caption css-7snenl"
+        >
+          <div
+            class="css-3gb3jr"
+          >
+            ARK: Survival Evolved
+          </div>
+          <div
+            class="css-1l30cyv"
+          >
+            277.8 hrs total
+          </div>
+        </div>
+      </button>
+      <button
+        aria-label="View PUBG: BATTLEGROUNDS on Steam"
+        class="css-1hu4gjp"
+        type="button"
+      >
+        <div
+          class="css-1btx6pw"
+        >
+          <img
+            alt="PUBG: BATTLEGROUNDS header"
+            class="css-6bb7n6"
+            src="https://example.com/pubg-header.jpg"
+          />
+          <div
+            class="css-18c3nn9"
+          >
+            3
+          </div>
+          <div
+            class="steam-game-card_hover-overlay css-134i6es"
+          >
+            Open in Steam
+            <span>
+              ViewExternal
+            </span>
+          </div>
+        </div>
+        <div
+          class="steam-game-card_caption css-7snenl"
+        >
+          <div
+            class="css-3gb3jr"
+          >
+            PUBG: BATTLEGROUNDS
+          </div>
+          <div
+            class="css-1l30cyv"
+          >
+            200.0 hrs total • 1h recently
+          </div>
+        </div>
+      </button>
+    </div>
+    <div
+      class="css-1jvjqv3"
+    >
+      <div
+        class="css-12f4tqr"
+      >
+        Total Hours: 
+        <span
+          class="css-13epqkc"
+        >
+          1,235.2 hrs
+        </span>
+      </div>
+      <div
+        class="css-12f4tqr"
+      >
+        Average: 
+        <span
+          class="css-13epqkc"
+        >
+          411.7 hrs per game
+        </span>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`PlayTimeChart Theme Integration renders correctly in light mode 1`] = `
+<DocumentFragment>
+  <div
+    class="css-lnnjou"
+  >
+    <div
+      class="css-munl51"
+    >
+      <button
+        aria-label="View Cities: Skylines on Steam"
+        class="css-1hu4gjp"
+        type="button"
+      >
+        <div
+          class="css-1btx6pw"
+        >
+          <img
+            alt="Cities: Skylines header"
+            class="css-6bb7n6"
+            src="https://example.com/cities-header.jpg"
+          />
+          <div
+            class="css-18c3nn9"
+          >
+            1
+          </div>
+          <div
+            class="steam-game-card_hover-overlay css-134i6es"
+          >
+            Open in Steam
+            <span>
+              ViewExternal
+            </span>
+          </div>
+        </div>
+        <div
+          class="steam-game-card_caption css-7snenl"
+        >
+          <div
+            class="css-3gb3jr"
+          >
+            Cities: Skylines
+          </div>
+          <div
+            class="css-1l30cyv"
+          >
+            757.4 hrs total • 2h recently
+          </div>
+        </div>
+      </button>
+      <button
+        aria-label="View ARK: Survival Evolved on Steam"
+        class="css-1hu4gjp"
+        type="button"
+      >
+        <div
+          class="css-1btx6pw"
+        >
+          <img
+            alt="ARK: Survival Evolved header"
+            class="css-6bb7n6"
+            src="https://example.com/ark-header.jpg"
+          />
+          <div
+            class="css-18c3nn9"
+          >
+            2
+          </div>
+          <div
+            class="steam-game-card_hover-overlay css-134i6es"
+          >
+            Open in Steam
+            <span>
+              ViewExternal
+            </span>
+          </div>
+        </div>
+        <div
+          class="steam-game-card_caption css-7snenl"
+        >
+          <div
+            class="css-3gb3jr"
+          >
+            ARK: Survival Evolved
+          </div>
+          <div
+            class="css-1l30cyv"
+          >
+            277.8 hrs total
+          </div>
+        </div>
+      </button>
+      <button
+        aria-label="View PUBG: BATTLEGROUNDS on Steam"
+        class="css-1hu4gjp"
+        type="button"
+      >
+        <div
+          class="css-1btx6pw"
+        >
+          <img
+            alt="PUBG: BATTLEGROUNDS header"
+            class="css-6bb7n6"
+            src="https://example.com/pubg-header.jpg"
+          />
+          <div
+            class="css-18c3nn9"
+          >
+            3
+          </div>
+          <div
+            class="steam-game-card_hover-overlay css-134i6es"
+          >
+            Open in Steam
+            <span>
+              ViewExternal
+            </span>
+          </div>
+        </div>
+        <div
+          class="steam-game-card_caption css-7snenl"
+        >
+          <div
+            class="css-3gb3jr"
+          >
+            PUBG: BATTLEGROUNDS
+          </div>
+          <div
+            class="css-1l30cyv"
+          >
+            200.0 hrs total • 1h recently
+          </div>
+        </div>
+      </button>
+    </div>
+    <div
+      class="css-1jvjqv3"
+    >
+      <div
+        class="css-12f4tqr"
+      >
+        Total Hours: 
+        <span
+          class="css-13epqkc"
+        >
+          1,235.2 hrs
+        </span>
+      </div>
+      <div
+        class="css-12f4tqr"
+      >
+        Average: 
+        <span
+          class="css-13epqkc"
+        >
+          411.7 hrs per game
+        </span>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

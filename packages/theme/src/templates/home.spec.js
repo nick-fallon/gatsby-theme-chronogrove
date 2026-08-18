@@ -1,0 +1,108 @@
+import React from 'react'
+import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom'
+import HomeTemplate, { Head } from './home'
+import { useStaticQuery } from 'gatsby'
+import { ThemeUIProvider } from 'theme-ui'
+
+// Mock components
+jest.mock('../components/animated-page-background', () => () => <div data-testid='animated-background'>Background</div>)
+jest.mock('../components/footer', () => () => <footer>Footer</footer>)
+jest.mock('../components/home-navigation', () => () => <nav>HomeNavigation</nav>)
+jest.mock('../components/home-widgets', () => () => <div data-testid='home-widgets'>HomeWidgets</div>)
+
+// Mock the Layout component, which encapsulates the useNavigationData logic
+jest.mock('../components/layout', () => ({ children }) => <div className='layoutMock'>{children}</div>)
+
+// Mock the data returned by the GraphQL query
+const mockData = {
+  site: {
+    siteMetadata: {
+      avatarURL: 'https://example.com/avatar.jpg',
+      description: 'Test Description',
+      headline: 'Test Headline',
+      subhead: 'Test Subhead',
+      title: 'Test Title',
+      titleTemplate: '%s · Test Site'
+    }
+  }
+}
+
+// Mock the useStaticQuery hook
+beforeEach(() => {
+  useStaticQuery.mockReturnValue(mockData)
+})
+
+jest.mock('gatsby', () => ({
+  ...jest.requireActual('gatsby'),
+  graphql: jest.fn(),
+  useStaticQuery: jest.fn()
+}))
+
+jest.mock('@gatsbyjs/reach-router', () => ({
+  ...jest.requireActual('@gatsbyjs/reach-router'),
+  useLocation: jest.fn(() => ({ pathname: '/', hash: '', search: '' }))
+}))
+
+// Mock Theme
+const mockTheme = {
+  colors: {
+    'panel-background': '#f0f0f0'
+  }
+}
+
+// Helper function to render with theme
+const renderWithTheme = component => render(<ThemeUIProvider theme={mockTheme}>{component}</ThemeUIProvider>)
+
+describe('HomeTemplate', () => {
+  it('renders correctly with given data', () => {
+    renderWithTheme(<HomeTemplate data={mockData} />)
+    expect(screen.getByRole('navigation')).toBeInTheDocument()
+  })
+
+  it('renders HomeNavigation component', () => {
+    renderWithTheme(<HomeTemplate data={mockData} />)
+    expect(screen.getByRole('navigation')).toBeInTheDocument()
+  })
+
+  it('renders HomeWidgets component', () => {
+    renderWithTheme(<HomeTemplate data={mockData} />)
+    expect(screen.getByTestId('home-widgets')).toBeInTheDocument()
+  })
+
+  it('renders the Footer component', () => {
+    renderWithTheme(<HomeTemplate data={mockData} />)
+    expect(screen.getByText('Footer')).toBeInTheDocument()
+  })
+
+  it('passes hideFooter and disableMainWrapper props to Layout', () => {
+    // Check if hideFooter and disableMainWrapper props are passed to the Layout mock
+    const { container } = renderWithTheme(<HomeTemplate data={mockData} />)
+    const layoutDiv = container.querySelector('.layoutMock') // Assuming layout has this class
+    expect(layoutDiv).toBeInTheDocument()
+  })
+
+  it('marks the hero section as an in-page focus target for skip / HomeNavigation hashes', () => {
+    const { container } = renderWithTheme(<HomeTemplate data={mockData} />)
+    const top = container.querySelector('section#top')
+    expect(top).toBeInTheDocument()
+    expect(top).toHaveAttribute('tabindex', '-1')
+  })
+})
+
+// Test for the Head (SEO) component
+// Note: In React 19, meta tags are hoisted to document head,
+// so we test the component renders without error
+describe('Head', () => {
+  it('renders SEO component without error', () => {
+    // Head component relies on Gatsby Head API which renders to document.head
+    // In tests, we just verify it renders without throwing
+    expect(() => renderWithTheme(<Head />)).not.toThrow()
+  })
+
+  it('renders without crashing when site metadata is available', () => {
+    const { container } = renderWithTheme(<Head />)
+    // The component should render something
+    expect(container).toBeInTheDocument()
+  })
+})

@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`CallToAction matches the snapshot 1`] = `
+<DocumentFragment>
+  <a
+    class="css-7f1epe"
+    title="Example Widget Title"
+  >
+    Test
+  </a>
+</DocumentFragment>
+`;

@@ -1,0 +1,134 @@
+import React from 'react'
+import { render } from '@testing-library/react'
+import '@testing-library/jest-dom'
+import { ThemeUIProvider } from 'theme-ui'
+import { useStaticQuery } from 'gatsby'
+
+import Media, { Head } from './media'
+import * as useSiteMetadataModule from '../hooks/use-site-metadata'
+import { resetAudioPlayerStore } from '../stores/audio-player-store'
+
+// Mocked Data
+const data = {
+  mdx: {
+    id: 'mock-media-id',
+    fields: {
+      category: 'Mock Category',
+      path: '/music/mock-media'
+    },
+    frontmatter: {
+      title: 'A Mock Blog Post',
+      date: 'Mon, 17 Jun 2024 03:30:26 GMT',
+      soundcloudId: null,
+      youtubeSrc: null,
+      banner: 'mock-banner.jpg',
+      description: 'Mock Description',
+      keywords: ['mock', 'test', 'music']
+    }
+  }
+}
+
+// Mock theme object
+const mockTheme = {
+  colors: {
+    'panel-background': '#f0f0f0'
+  }
+}
+
+jest.mock('gatsby')
+jest.mock('../components/layout', () => {
+  return ({ children }) => <div className='layoutMock'>{children}</div>
+})
+
+jest.mock('../components/seo', () => {
+  return ({ children }) => <div className='seoMock'>{children}</div>
+})
+
+jest.mock('../shortcodes/soundcloud', () => {
+  return ({ soundcloudId }) => <div className='soundcloudMock'>{soundcloudId}</div>
+})
+
+jest.mock('../shortcodes/youtube', () => {
+  return ({ url }) => <div className='youtubeMock'>{url}</div>
+})
+
+const MediaPostContent = <div>Lorum ipsum dolor sit amet.</div>
+
+describe('Media Post', () => {
+  beforeEach(() => {
+    resetAudioPlayerStore()
+    useStaticQuery.mockImplementation(() => data)
+    jest
+      .spyOn(useSiteMetadataModule, 'default')
+      .mockReturnValue({ siteUrl: 'https://example.com', baseURL: 'https://example.com' })
+  })
+
+  afterEach(() => {
+    jest.clearAllMocks()
+    jest.restoreAllMocks()
+  })
+
+  const renderWithTheme = component => render(<ThemeUIProvider theme={mockTheme}>{component}</ThemeUIProvider>)
+
+  // Test with no media sources
+  it('renders correctly with no media sources', () => {
+    const { asFragment } = renderWithTheme(<Media data={data} children={MediaPostContent} />)
+    expect(asFragment()).toMatchSnapshot()
+  })
+
+  // Test with YouTube source
+  it('renders correctly with a YouTube source', () => {
+    const youtubeData = {
+      ...data,
+      mdx: {
+        ...data.mdx,
+        frontmatter: { ...data.mdx.frontmatter, youtubeSrc: 'mockYoutubeSrc' }
+      }
+    }
+    const { asFragment } = renderWithTheme(<Media data={youtubeData} children={MediaPostContent} />)
+    expect(asFragment()).toMatchSnapshot()
+  })
+
+  // Test with SoundCloud source
+  it('renders correctly with a SoundCloud source', () => {
+    const soundcloudData = {
+      ...data,
+      mdx: {
+        ...data.mdx,
+        frontmatter: { ...data.mdx.frontmatter, soundcloudId: 'mockSoundCloudId' }
+      }
+    }
+    const { asFragment } = renderWithTheme(<Media data={soundcloudData} children={MediaPostContent} />)
+    expect(asFragment()).toMatchSnapshot()
+  })
+
+  // Test the SEO Head component
+  it('renders the Head component with SEO data', () => {
+    const { asFragment } = renderWithTheme(<Head data={data} />)
+    expect(asFragment()).toMatchSnapshot()
+  })
+
+  it('renders breadcrumb structured data', () => {
+    const { container } = renderWithTheme(<Head data={data} />)
+    const script = container.querySelector('script[type="application/ld+json"]')
+
+    expect(script).toBeInTheDocument()
+    const breadcrumbData = JSON.parse(script.textContent)
+
+    expect(breadcrumbData['@context']).toBe('https://schema.org')
+    expect(breadcrumbData['@type']).toBe('BreadcrumbList')
+    expect(breadcrumbData.itemListElement).toHaveLength(3)
+
+    // Check Home breadcrumb
+    expect(breadcrumbData.itemListElement[0].name).toBe('Home')
+    expect(breadcrumbData.itemListElement[0].position).toBe(1)
+
+    // Check Category breadcrumb
+    expect(breadcrumbData.itemListElement[1].name).toBe('Mock Category')
+    expect(breadcrumbData.itemListElement[1].position).toBe(2)
+
+    // Check Media title breadcrumb
+    expect(breadcrumbData.itemListElement[2].name).toBe('A Mock Blog Post')
+    expect(breadcrumbData.itemListElement[2].position).toBe(3)
+  })
+})

@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`UserStatus matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="css-1yz7e9k"
+  >
+    <h3
+      class="css-1o5y6wy"
+    >
+      Last Update
+    </h3>
+    <a
+      class="css-1ovdgfi"
+      href="https://goodreads.com/review/123"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <div
+        class="css-1owkqzm"
+      >
+        <div
+          class="css-1x1ow3y"
+        >
+          <div
+            class="css-1f6b630"
+          >
+            <span>
+              Snapshot User rated The Great Gatsby 4 out of 5 stars: ★★★★☆.
+            </span>
+            <div
+              class="css-ymss9d"
+            >
+              <span>
+                Posted 4 years ago
+              </span>
+              <span>
+                <svg
+                  aria-hidden="true"
+                  focusable="false"
+                  height="0.75em"
+                  viewBox="0 0 512 512"
+                  width="0.75em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M432 320h-32a16 16 0 0 0-16 16v112H64V128h144a16 16 0 0 0 16-16V80a16 16 0 0 0-16-16H48a48 48 0 0 0-48 48v352a48 48 0 0 0 48 48h352a48 48 0 0 0 48-48V336a16 16 0 0 0-16-16zM488 0h-168c-13.3 0-24 10.7-24 24v8c0 13.3 10.7 24 24 24h69.2L207 279.6a24.06 24.06 0 0 0 0 34l10.2 10.2a24.06 24.06 0 0 0 34 0L425 128.8V200c0 13.3 10.7 24 24 24h8c13.3 0 24-10.7 24-24V56c0-30.9-25.1-56-56-56z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+</DocumentFragment>
+`;

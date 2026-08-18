@@ -1,0 +1,117 @@
+/** @jsx jsx */
+import { jsx, Container, Link as ThemedLink } from 'theme-ui'
+import { Link } from 'gatsby'
+import { useLocation } from '@gatsbyjs/reach-router'
+import { Themed } from '@theme-ui/mdx'
+
+import ColorToggle from '../components/color-toggle'
+import { getHeaderLeftItems, shouldUseNativeNavigationLink } from '../selectors/navigation'
+import { getTitle } from '../selectors/metadata'
+import useNavigationData from '../hooks/use-navigation-data'
+import useSiteMetadata from '../hooks/use-site-metadata'
+
+/**
+ * Header Navigation
+ *
+ * Top navigation component for the page.
+ */
+const TopNavigation = () => {
+  const location = useLocation()
+  const metadata = useSiteMetadata()
+
+  const navigation = useNavigationData()
+  const menuItems = getHeaderLeftItems(navigation)
+  const title = getTitle(metadata)
+
+  const handleBrandClick = () => {
+    if (location.pathname === '/' && typeof window !== 'undefined') {
+      window.scrollTo(0, 0)
+    }
+  }
+
+  return (
+    <Themed.div
+      sx={{
+        variant: 'styles.TopNavigation',
+        minHeight: '64px',
+        color: 'text'
+      }}
+    >
+      <Container
+        sx={{
+          display: 'flex',
+          flexDirection: ['column', '', 'row'],
+          alignItems: ['flex-start', '', 'center'],
+          justifyContent: 'space-between',
+          py: 3
+        }}
+      >
+        {/* Left side: Brand link and color toggle */}
+        <Themed.div
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            mb: [2, '', 0],
+            width: ['100%', '', 'auto']
+          }}
+        >
+          <Link
+            to='/'
+            onClick={handleBrandClick}
+            sx={{
+              variant: 'styles.a',
+              color: 'text',
+              display: 'inline',
+              fontFamily: 'heading',
+              fontSize: [2, 3],
+              fontWeight: 'bold',
+              letterSpacing: '1.1px',
+              marginRight: 2,
+              textDecoration: 'none'
+            }}
+          >
+            {title}
+          </Link>
+
+          <Themed.div sx={{ display: 'flex', alignItems: 'center' }}>
+            <ColorToggle />
+          </Themed.div>
+        </Themed.div>
+
+        {/* Right side: Menu items */}
+        <Themed.div
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: ['flex-start', '', 'flex-end'],
+            width: ['100%', '', 'auto']
+          }}
+        >
+          <nav role='navigation'>
+            {menuItems.map(item => {
+              const { slug, path, title, text } = item
+              const linkSx = {
+                fontSize: 2,
+                variant: 'styles.a',
+                color: 'text',
+                mr: 3,
+                mb: [1, '', 0]
+              }
+              return shouldUseNativeNavigationLink(path, item) ? (
+                <ThemedLink key={slug} href={path} title={title} sx={linkSx}>
+                  {text}
+                </ThemedLink>
+              ) : (
+                <Link key={slug} sx={linkSx} title={title} to={path}>
+                  {text}
+                </Link>
+              )
+            })}
+          </nav>
+        </Themed.div>
+      </Container>
+    </Themed.div>
+  )
+}
+
+export default TopNavigation
